@@ -83,4 +83,6 @@ openssl rand -hex 64
 # Authors
 
 - Ravan Asadov: [Github](https://github.com/ravanasad)
-- Javid : [Github](https://github.com/)
+- Javid Jalilov: [Github](https://github.com/pxmpkeen)
+- Dadash Huseynzade: [Github](https://github.com/dadashussein)
+- Yashar Heydarov: [Github](https://github.com/heydarov93)
