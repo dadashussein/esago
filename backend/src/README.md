@@ -75,7 +75,7 @@ or
 ```bash 
 openssl rand -hex 64 
 ```
-- EMAIL_USERNAME and EMAIL_FROM = your gmail it does not matter what is it.
+- EMAIL_USERNAME and EMAIL_FROM = your gmail.
 - EMAIL_PASSWORD=[you can find how can you create app password in google in this link](https://support.google.com/mail/answer/185833?hl=en)
 ---
 *Update the values in the .env file according to your configuration.*
