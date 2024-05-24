@@ -35,19 +35,7 @@ Start PostgreSQL service using Docker Compose:
 docker-compose up
 ```
 
-## 4. Perform Migrations
-Generate and apply database migrations using Alembic:
-```bash
-alembic revision --autogenerate -m "Initial migration"
-alembic upgrade head
-```
-## 5. Start the Application
-Run the application using Uvicorn:
-
-```bash
-uvicorn main:app --reload
-```
-## 6. Create .env File
+## 4. Create .env File
 Create a .env file for your project. Here's an example .env file:
 
 ```env
@@ -79,6 +67,21 @@ openssl rand -hex 64
 - EMAIL_PASSWORD=[you can find how can you create app password in google in this link](https://support.google.com/mail/answer/185833?hl=en)
 ---
 *Update the values in the .env file according to your configuration.*
+
+## 5. Perform Migrations
+Generate and apply database migrations using Alembic:
+```bash
+alembic revision --autogenerate -m "Initial migration"
+alembic upgrade head
+```
+
+## 6. Start the Application
+Run the application using Uvicorn:
+
+```bash
+uvicorn main:app --reload
+```
+
 
 # Authors
 
