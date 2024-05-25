@@ -6,7 +6,8 @@ const Header = () => {
     <div className="header">
       <div className="logo">esago</div>
       <Navbar />
-      <button>Build your CV</button>
+      <button>Log Out</button>
+
     </div>
   );
 };

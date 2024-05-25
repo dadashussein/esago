@@ -1,0 +1,23 @@
+.signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40rem auto;
+  form {
+    display: flex;
+    width: 20rem;
+    flex-direction: column;
+    input {
+      border: none;
+      outline: none;
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      border-radius: 12px;
+
+    }
+  }
+}

@@ -1,22 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html {
-	font-family: "Lexend", sans-serif;
+  font-family: "Lexend", sans-serif;
 }
-
 
 /* reset css */
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-	background-color: #f5f5f5;
+  background-color: #f5f5f5;
 }
 
 ul,
 li {
-	list-style: none;
+  list-style: none;
 }
