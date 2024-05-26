@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/home";
 import Inner from "../pages/inner";
-import SignIn from "../components/SignIn/SignIn";
+import ActivationPage from "../components/ActivationPage";
 
 const routes = createBrowserRouter([
   {
@@ -13,9 +13,9 @@ const routes = createBrowserRouter([
     element: <Inner />,
   },
   {
-    path: "/login",
-    element: <SignIn />,
-  }
+    path: "/activation",
+    element: <ActivationPage />,
+  },
 ]);
 
 export default routes;

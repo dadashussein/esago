@@ -1,56 +1,140 @@
-import axios from "axios";
-import SignIn from "../../components/SignIn/SignIn";
-import SignUp from "../../components/Signup/SignUp";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, register } from "../../store/features/auth/authSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
-
+import { Oval } from "react-loader-spinner";
 
 const Home = () => {
-
-  const [user, setUser] = useState('')
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoading = useSelector((state) => state.auth.isLoading);
 
-
-  console.log(user);
+  const [errorSign, setErrorSign] = useState(null);
+  const [errorReg, setErrorReg] = useState(null);
 
   const handleRegister = async (e) => {
-    e.preventDefault()
-    const formData = new FormData(e.target)
-    const { username, email, password, full_name } = Object.fromEntries(formData);
-    const newUser = { username, email, password, full_name }
-    setUser(newUser)
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/users/register', newUser)
-      console.log(response);
-      setLoading(false)
-      navigate('/app')
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const { username, email, password, full_name } =
+      Object.fromEntries(formData);
 
-    } catch (error) {
-      toast.error(error.response.data.detail)
-      console.log(error.response.data.detail);
-    } finally {
-      setLoading(false)
+    if (!username || !email || !password || !full_name) {
+      setErrorReg("All fields are required");
+      return;
     }
 
-  }
+    const newUser = { username, email, password, full_name };
+    try {
+      const action = await dispatch(register(newUser));
+      const resultAction = unwrapResult(action);
 
+      navigate("/activation");
+    } catch (err) {
+      setErrorReg(err);
+    }
+  };
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const { username_or_email, password } = Object.fromEntries(formData);
+
+    if (!username_or_email || !password) {
+      setErrorSign("Both fields are required");
+      return;
+    }
+
+    const newUser = { username_or_email, password };
+    try {
+      const action = await dispatch(login(newUser));
+      const resultAction = unwrapResult(action);
+      localStorage.setItem("accessToken", resultAction.token);
+      navigate("/app");
+    } catch (err) {
+      setErrorSign(err);
+    }
+  };
   return (
     <div className="h-full   dark:bg-gray-900">
       <div className="mx-auto">
         <div className="flex justify-center px-6 py-12">
           <div className="w-full xl:w-3/4 lg:w-11/12 flex">
-            <div
-              className="w-full h-auto bg-gray-400 dark:bg-gray-800 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
-              style={{ backgroundImage: "url('https://source.unsplash.com/Mv9hjnEUHR4/600x800')" }}
-            ></div>
+            <div className="w-full  bg-gray-400 dark:bg-gray-800  lg:block lg:w-5/12 bg-cover rounded-l-lg">
+              <div className="w-full h-full border-r bg-white dark:bg-gray-700 p-5">
+                <h3 className="py-4 text-2xl text-center text-gray-800 dark:text-white">
+                  Sing in
+                </h3>
+                <form
+                  onSubmit={handleSignIn}
+                  className="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded"
+                >
+                  <div className="mb-4 md:flex md:justify-between"></div>
+                  <div className="mb-4">
+                    <label
+                      className="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                      htmlFor="username_or_email"
+                    >
+                      Email
+                    </label>
+                    <input
+                      className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      id="username_or_email"
+                      type="email"
+                      name="username_or_email"
+                      placeholder="Email"
+                    />
+                  </div>
+                  <div className="mb-4 md:flex md:justify-between">
+                    <div className="mb-4 md:mr-2 md:mb-0">
+                      <label
+                        className="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                        htmlFor="password"
+                      >
+                        Password
+                      </label>
+                      <input
+                        className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        id="password"
+                        type="password"
+                        name="password"
+                        placeholder="******************"
+                      />
+                      <p className="text-xs italic text-red-500">
+                        {errorSign && errorSign}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mb-6 text-center">
+                    <button
+                      className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
+                      type="submit"
+                    >
+                      {isLoading ? (
+                        <Oval color="#fff" height={20} width={20} />
+                      ) : (
+                        "Sign In"
+                      )}
+                    </button>
+                  </div>
+                  <hr className="mb-6 border-t" />
+                </form>
+              </div>
+            </div>
             <div className="w-full lg:w-7/12 bg-white dark:bg-gray-700 p-5 rounded-lg lg:rounded-l-none">
-              <h3 className="py-4 text-2xl text-center text-gray-800 dark:text-white">Create an Account!</h3>
-              <form onSubmit={handleRegister} className="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded">
+              <h3 className="py-4 text-2xl text-center text-gray-800 dark:text-white">
+                Create an Account!
+              </h3>
+              <form
+                onSubmit={handleRegister}
+                className="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded"
+              >
                 <div className="mb-4 md:flex md:justify-between">
                   <div className="mb-4 md:mr-2 md:mb-0">
-                    <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white" htmlFor="username">
+                    <label
+                      className="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                      htmlFor="username"
+                    >
                       Username
                     </label>
                     <input
@@ -59,11 +143,13 @@ const Home = () => {
                       name="username"
                       type="text"
                       placeholder="Username"
-
                     />
                   </div>
                   <div className="md:ml-2">
-                    <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white" htmlFor="fullName">
+                    <label
+                      className="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                      htmlFor="fullName"
+                    >
                       Full Name
                     </label>
                     <input
@@ -76,7 +162,10 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="mb-4">
-                  <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white" htmlFor="email">
+                  <label
+                    className="block mb-2 text-sm font-bold text-gray-700"
+                    htmlFor="email"
+                  >
                     Email
                   </label>
                   <input
@@ -89,28 +178,22 @@ const Home = () => {
                 </div>
                 <div className="mb-4 md:flex md:justify-between">
                   <div className="mb-4 md:mr-2 md:mb-0">
-                    <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white" htmlFor="password">
+                    <label
+                      className="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                      htmlFor="password"
+                    >
                       Password
                     </label>
                     <input
-                      className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                      className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                       id="password"
                       type="password"
                       name="password"
                       placeholder="******************"
                     />
-                    <p className="text-xs italic text-red-500">Please choose a password.</p>
-                  </div>
-                  <div className="md:ml-2">
-                    <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white" htmlFor="c_password">
-                      Confirm Password
-                    </label>
-                    <input
-                      className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 dark:text-white border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                      id="c_password"
-                      type="password"
-                      placeholder="******************"
-                    />
+                    <p className="text-xs italic text-red-500">
+                      {errorReg && errorReg}
+                    </p>
                   </div>
                 </div>
                 <div className="mb-6 text-center">
@@ -122,16 +205,8 @@ const Home = () => {
                   </button>
                 </div>
                 <hr className="mb-6 border-t" />
-                <div className="text-center">
-                  <a className="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800" href="#">
-                    Forgot Password?
-                  </a>
-                </div>
-                <div className="text-center">
-                  <Link to={'/login'} className="inline-block text-sm text-blue-500 dark:text-blue-500 align-baseline hover:text-blue-800" href="./index.html">
-                    Already have an account? Login!
-                  </Link>
-                </div>
+
+                <div className="text-center"></div>
               </form>
             </div>
           </div>
