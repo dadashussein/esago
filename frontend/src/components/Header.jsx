@@ -1,9 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import { TiPlus } from "react-icons/ti";
-import { useState } from "react";
-import Login from "./Login";
 
 const Header = ({ login, setLogin }) => {
   const dispatch = useDispatch();

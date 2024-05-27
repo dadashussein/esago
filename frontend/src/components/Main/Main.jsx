@@ -1,5 +1,6 @@
+import Rightside from "../Rightside";
 import Leftside from "./Leftside/Leftside";
-import Rightside from "./Rightside/Rightside";
+
 
 const Main = () => {
   return (

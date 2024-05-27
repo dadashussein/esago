@@ -63,6 +63,7 @@ const Template2 = ({
                 <h5 className="mb-1 font-bold">
                   {edu.degree}, {edu.school}, {edu.eduLocation}
                 </h5>
+                <p className="text-indigo-600">{edu.field}</p>
                 <p className="leading-relaxed">{edu.eduDesc}</p>
               </div>
             ))}
