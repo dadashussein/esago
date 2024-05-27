@@ -72,4 +72,6 @@ async def get_current_user(token: str = Depends(JWTBearer())):
     payload = decode_jwt(token)
     if not payload:
         raise HTTPException(status_code=401, detail="Could not validate credentials")
+    if payload['exp'] < int(round(datetime.utcnow().timestamp())):
+        raise HTTPException(status_code=401, detail="Token has expired")
     return payload

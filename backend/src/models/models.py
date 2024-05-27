@@ -13,6 +13,9 @@ class User(Base):
     password = Column(sqlalchemy.String)
     full_name = Column(sqlalchemy.String)
     is_active = Column(sqlalchemy.Boolean, default=False)
+
+    profile_picture = Column(sqlalchemy.String, nullable=True, default=None)
+
     activation_token = Column(sqlalchemy.String, nullable=True, default=None)
     activation_expire = Column(sqlalchemy.DateTime, nullable=True, default=None)
     resumes = sqlalchemy.orm.relationship('Resume', back_populates='user')

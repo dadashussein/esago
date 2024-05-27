@@ -16,7 +16,8 @@ class Configs(BaseSettings):
     ENV: str = os.getenv("ENV", "dev")
     API: str = "/api"
     PROJECT_NAME: str = "esago"
-    UPLOAD_DIR: Path = Path("wwwroot/resumes")
+    UPLOAD_RESUME_DIR: Path = Path("wwwroot/resumes")
+    UPLOAD_PROFILE_DIR: Path = Path("wwwroot/profiles")
     PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     # auth

@@ -1,6 +1,7 @@
 import uuid
 from datetime import timedelta, datetime
 from fastapi import Depends, HTTPException, status, BackgroundTasks
+from services.FileService import FileService
 from config.config import configs
 from models.models import User
 from repositories.UserRepository import UserRepository
@@ -72,6 +73,23 @@ class UserService:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
         return user
 
+    def get_me(self, userId: uuid.UUID):
+        user = self.userRepo.get(userId)
+        if not user:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        delattr(user, "password")
+        delattr(user, "activation_token")
+        delattr(user, "activation_expire")
+        delattr(user, "is_active")
+        return user
+
     def get_all_resumes_user(self, userId: uuid.UUID):
         user = self.userRepo.get(userId)
         return user.resumes
+
+    async def change_profile_picture(self, userId: uuid.UUID, file):
+        user = self.userRepo.get(userId)
+        filename = await FileService.upload(file, configs.UPLOAD_PROFILE_DIR)
+        updated_user = self.userRepo.update(user.id, {"profile_picture": filename})
+        delattr(updated_user, "password")
+        return updated_user
