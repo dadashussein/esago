@@ -13,60 +13,80 @@ const Personal = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="personal-container">
-      <h1>Personal Details</h1>
-      <span>
+    <div className="border-gray-900/10 p-6">
+      <h2 className="text-base font-semibold leading-7 text-gray-900">
+        Personal Details
+      </h2>
+      <p className="text-sm leading-6 text-gray-600">
         Get started with the basics: your name and contact information.
-      </span>
-      <form>
-        <label htmlFor="firstname">First Name</label>
+      </p>
+
+      <div className="mt-4">
+        <label htmlFor="firstname" className="label-primary">
+          First Name
+        </label>
         <input
+          className="input-primary"
           onChange={(e) => dispatch(setName(e.target.value))}
           type="text"
           name="firstname"
         />
-        <label htmlFor="lastname">Last Name</label>
+        <label className="label-primary" htmlFor="lastname">
+          Last Name
+        </label>
         <input
+          className="input-primary"
           onChange={(e) => dispatch(setLastname(e.target.value))}
           type="text"
           name="lastname"
         />
-        <label htmlFor="jobtitle">Job Title</label>
+        <label className="label-primary" htmlFor="jobtitle">
+          Job Title
+        </label>
         <input
+          className="input-primary"
           onChange={(e) => dispatch(setJobtitle(e.target.value))}
           type="text"
           name="jobtitle"
         />
-        <label htmlFor="adress">Address</label>
+        <label className="label-primary" htmlFor="adress">
+          Address
+        </label>
         <input
+          className="input-primary"
           onChange={(e) => dispatch(setAdress(e.target.value))}
           type="text"
           name="adress"
         />
-        <label htmlFor="phone">Phone</label>
+        <label className="label-primary" htmlFor="phone">
+          Phone
+        </label>
         <input
+          className="input-primary"
           onChange={(e) => dispatch(setPhone(e.target.value))}
           type="text"
           name="phone"
         />
-        <label htmlFor="email">Email</label>
+        <label className="label-primary" htmlFor="email">
+          Email
+        </label>
         <input
+          className="input-primary"
           onChange={(e) => dispatch(setEmail(e.target.value))}
           type="email"
           name="email"
         />
-        <label htmlFor="bio">Bio</label>
+        <label className="label-primary" htmlFor="bio">
+          Bio
+        </label>
         <textarea
+          className="input-primary"
           onChange={(e) => dispatch(setBio(e.target.value))}
           name="bio"
           id="bio"
           placeholder="Write down your bio"
         />
-        {/* Uncomment the Link when you have a next page */}
-        {/* <Link to="/next-page">
-                    <button type="button">Next</button>
-                </Link> */}
-      </form>
+      </div>
     </div>
   );
 };

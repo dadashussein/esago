@@ -1,50 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
-	school: 'School Name',
-	degree: 'Degree',
-	eduLocation: 'Location',
-	field: 'Field of Study',
-	eduStart: 'Start Date',
-	eduEnd: 'End Date',
-	eduDesc: 'Description',
+	education: [
+		{
+			school: '',
+			degree: '',
+			eduLocation: '',
+			field: '',
+			eduStart: '',
+			eduEnd: '',
+			eduDesc: ''
+		}
+	]
 };
 
 const educationSlice = createSlice({
 	name: 'education',
 	initialState,
 	reducers: {
-		setSchool: (state, action) => {
-			state.school = action.payload;
+		addEducation: (state) => {
+			state.education.push({
+				school: '',
+				degree: '',
+				eduLocation: '',
+				field: '',
+				eduStart: '',
+				eduEnd: '',
+				eduDesc: ''
+			});
+
 		},
-		setDegree: (state, action) => {
-			state.degree = action.payload;
+		setEducationField: (state, action) => {
+			const { index, field, value } = action.payload;
+			state.education[index][field] = value;
 		},
-		setEduLocation: (state, action) => {
-			state.eduLocation = action.payload;
-		},
-		setField: (state, action) => {
-			state.field = action.payload;
-		},
-		setEduStart: (state, action) => {
-			state.eduStart = action.payload;
-		},
-		setEduEnd: (state, action) => {
-			state.eduEnd = action.payload;
-		},
-		setEduDesc: (state, action) => {
-			state.eduDesc = action.payload;
-		},
-	},
+		removeEducation: (state, action) => {
+			if (state.education.length > 1) {
+				state.education.splice(action.payload, 1);
+			}
+		}
+	}
 });
 
-export const {
-	setSchool,
-	setDegree,
-	setEduLocation,
-	setField,
-	setEduStart,
-	setEduEnd,
-	setEduDesc,
-} = educationSlice.actions;
+export const { addEducation, setEducationField, removeEducation } = educationSlice.actions;
 
 export default educationSlice.reducer;

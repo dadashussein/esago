@@ -5,8 +5,7 @@ const Rightside = () => {
   const { name, lastname, jobtitle, adress, phone, email, bio } = useSelector(
     (state) => state.personal
   );
-  const { school, degree, eduLocation, field, eduStart, eduEnd, eduDesc } =
-    useSelector((state) => state.education);
+  const education = useSelector((state) => state.education.education);
   return (
     <div className="rightside">
       <Template2
@@ -17,13 +16,7 @@ const Rightside = () => {
         phone={phone}
         email={email}
         bio={bio}
-        school={school}
-        degree={degree}
-        eduLocation={eduLocation}
-        field={field}
-        eduStart={eduStart}
-        eduEnd={eduEnd}
-        eduDesc={eduDesc}
+        education={education}
       />
     </div>
   );

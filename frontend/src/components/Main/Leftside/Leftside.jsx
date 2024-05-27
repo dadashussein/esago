@@ -1,9 +1,10 @@
 import { useState } from "react";
-import "./leftside.css";
 import Personal from "./Sections/Personal";
 
 import Education from "./Sections/Education";
 import Experience from "./Sections/Experience";
+import { GrNext } from "react-icons/gr";
+import { GrPrevious } from "react-icons/gr";
 
 const Leftside = () => {
   const [currentSection, setCurrentSection] = useState(0);
@@ -21,22 +22,20 @@ const Leftside = () => {
   };
 
   return (
-    <div className="leftside">
+    <div>
       {sections[currentSection]}
-      <div className="navigation-buttons">
+      <div className="flex justify-between px-10">
         {currentSection > 0 && (
-          <button
-            className="border p-2 bg-blue-500 rounded-lg text-white"
-            onClick={handlePrevious}
-          >
-            Previous Section
+          <button className="btn-primary" onClick={handlePrevious}>
+            <GrPrevious size="1rem" />
           </button>
         )}
-        <button
-          className="border p-2 bg-blue-500 rounded-lg text-white"
-          onClick={handleNext}
-        >
-          {currentSection === sections.length - 1 ? "Restart" : "Next Section"}
+        <button className="btn-primary" onClick={handleNext}>
+          {currentSection === sections.length - 1 ? (
+            "Restart"
+          ) : (
+            <GrNext size="1rem" />
+          )}
         </button>
       </div>
     </div>

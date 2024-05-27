@@ -1,16 +1,29 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "../pages/home";
 import Inner from "../pages/inner";
 import ActivationPage from "../components/ActivationPage";
+import ProtectedRoute from "../components/ProtectedRoute";
+
+import HomePage from "../pages/home/HomePage";
+import Register from "../components/Register";
 
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <HomePage />,
+  },
+
+  {
+    path: "/signup",
+    element: <Register />,
   },
   {
     path: "/app",
-    element: <Inner />,
+    element: (
+      // <ProtectedRoute>
+
+      // </ProtectedRoute>
+      <Inner />
+    ),
   },
   {
     path: "/activation",

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const initialState = {
-	currenUser: undefined,
+	currentUser: undefined,
 	isLoading: false,
 };
 export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
@@ -22,8 +22,17 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 })
 export const getCurrentUser = createAsyncThunk('auth/getCurrentUser', async (_, thunkAPI) => {
 	try {
-		const token = localStorage.getItem('accessToken') ?? ''
-		return token
+		const accessToken = localStorage.getItem('accessToken')
+		if (!accessToken) {
+			return thunkAPI.rejectWithValue('No access token')
+		}
+		const response = await axios.get('http://127.0.0.1:8000/users/me', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		})
+		return response.data
+
 	} catch (err) {
 		return thunkAPI.rejectWithValue(err.response.data.detail)
 	}
@@ -41,7 +50,7 @@ const authSlice = createSlice({
 		});
 		builder.addCase(register.fulfilled, (state, action) => {
 			state.isLoading = false
-			state.currenUser = action.payload
+			state.currentUser = action.payload
 		})
 		builder.addCase(register.rejected, state => {
 			state.isLoading = false
@@ -51,7 +60,7 @@ const authSlice = createSlice({
 		});
 		builder.addCase(login.fulfilled, (state, action) => {
 			state.isLoading = false
-			state.currenUser = action.payload
+			state.currentUser = action.payload
 		})
 		builder.addCase(login.rejected, state => {
 			state.isLoading = false
@@ -61,15 +70,15 @@ const authSlice = createSlice({
 		});
 		builder.addCase(getCurrentUser.fulfilled, (state, action) => {
 			state.isLoading = false
-			state.currenUser = action.payload
+			state.currentUser = action.payload
 		})
 		builder.addCase(getCurrentUser.rejected, state => {
 			state.isLoading = false
-			state.currenUser = null
+			state.currentUser = null
 		})
 		builder.addCase(logout.fulfilled, state => {
 			state.isLoading = false
-			state.currenUser = null
+			state.currentUser = null
 		})
 	}
 });
