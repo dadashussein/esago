@@ -28,7 +28,7 @@ async def activate_user(user_id: str, token: str, user_service: UserService = De
     return user_service.activate_user(user_id, token)
 
 
-@router.patch("/changepicture")
+@router.patch("/changepicture", dependencies=[Depends(JWTBearer())])
 async def change_picture(file: UploadFile = File(...), current_user: User = Depends(get_current_user), user_service: UserService = Depends()):
     user_id = current_user['id']
     if not isinstance(user_id, uuid.UUID):
