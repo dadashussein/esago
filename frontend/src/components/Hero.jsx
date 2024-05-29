@@ -3,10 +3,14 @@ import { CiFileOn } from "react-icons/ci";
 import { GiSeahorse } from "react-icons/gi";
 import Login from "./Login";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
 
-const Hero = ({ login }) => {
+const Hero = () => {
+  const [login, setLogin] = useState(false);
+
   return (
-    <section className="bg-white dark:bg-gray-900">
+    <section className="bg-white h-screen flex flex-col justify-center dark:bg-gray-900">
       <AnimatePresence>
         {login ? (
           <motion.div
@@ -42,13 +46,14 @@ const Hero = ({ login }) => {
             <p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
               Build your resume, build your career
             </p>
-            <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+            <div className="flex  flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
               <a
                 href="#"
-                className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
+                onClick={() => setLogin(!login)}
+                className=" flex gap-4 justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
               >
-                Start here
-                <TiArrowRight size="1.5rem" />
+                Sign In
+                <FaUserAlt size="1rem" />
               </a>
               <a
                 href="#"

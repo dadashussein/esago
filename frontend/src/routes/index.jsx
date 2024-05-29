@@ -26,7 +26,7 @@ const routes = createBrowserRouter([
     ),
   },
   {
-    path: "/activation",
+    path: "users/activate/:userId:token",
     element: <ActivationPage />,
   },
 ]);

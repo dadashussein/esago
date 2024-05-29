@@ -12,7 +12,7 @@ class FileService:
 
     @staticmethod
     async def upload(file, path):
-        # path.mkdir(parents=True, exist_ok=True)
+        path.mkdir(parents=True, exist_ok=True)
         file = get_change_file_name(file)
         file_path = path / file.filename
         async with aiofiles.open(file_path, "wb") as buffer:

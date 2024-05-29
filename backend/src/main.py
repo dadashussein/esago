@@ -6,6 +6,7 @@ from routers.ResumeRouter import router as resume_router
 from models.BaseModel import Base
 from config.database import Engine
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 Base.metadata.create_all(bind=Engine)
@@ -16,6 +17,9 @@ origins = [
     "http://localhost:8000",
     "http://localhost:5173",
 ]
+
+# Mount the wwwroot directory
+app.mount("/static", StaticFiles(directory="wwwroot"), name="static")
 
 app.add_middleware(
     CORSMiddleware,

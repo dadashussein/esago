@@ -132,7 +132,7 @@ const Education = () => {
             </label>
             <div className="mt-2">
               <input
-                type="date"
+                type="year"
                 value={education[currentIndex].eduStart}
                 onChange={(e) => handleInputChange("eduStart", e.target.value)}
                 name={`startDate-${currentIndex}`}
@@ -148,7 +148,7 @@ const Education = () => {
             </label>
             <div className="mt-2">
               <input
-                type="date"
+                type="year"
                 value={education[currentIndex].eduEnd}
                 onChange={(e) => handleInputChange("eduEnd", e.target.value)}
                 name={`eduEnd-${currentIndex}`}
@@ -158,6 +158,7 @@ const Education = () => {
               />
             </div>
           </div>
+
 
           <div className="col-span-full">
             <label

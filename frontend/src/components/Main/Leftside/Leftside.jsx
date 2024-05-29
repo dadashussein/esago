@@ -20,6 +20,11 @@ const Leftside = () => {
     );
   };
 
+  
+
+
+
+
   return (
     <div className="border">
       {sections[currentSection]}
@@ -31,7 +36,7 @@ const Leftside = () => {
         )}
         <button className="btn-primary" onClick={handleNext}>
           {currentSection === sections.length - 1 ? (
-            "Restart"
+            "Submit"
           ) : (
             <h1>Next section</h1>
           )}

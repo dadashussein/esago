@@ -6,10 +6,12 @@ services:
     restart: always
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: Password!$2
+      POSTGRES_PASSWORD: Password!$$2
       POSTGRES_DB: esagodb
     ports:
       - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
   pgdata:
