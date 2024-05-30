@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends, UploadFile, File
 from typing import Annotated
-import uuid
 from sqlalchemy.orm import Session
-
 from config.security import JWTBearer, get_current_user
 from models.models import User
 from services.ResumeService import ResumeService

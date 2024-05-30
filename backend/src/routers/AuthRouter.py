@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from config.security import JWTBearer, get_current_user
 from models.models import User
-from schemas.UserSchemas import  UserRegisterSchema, UserLoginSchema
+from schemas.UserSchemas import UserRegisterSchema, UserLoginSchema, UserUpdateSchema
 from services.UserService import UserService
 
 router = APIRouter()
@@ -29,11 +29,18 @@ async def activate_user(user_id: str, token: str, user_service: UserService = De
 
 
 @router.patch("/changepicture", dependencies=[Depends(JWTBearer())])
-async def change_picture(file: UploadFile = File(...), current_user: User = Depends(get_current_user), user_service: UserService = Depends()):
+async def change_picture(file: UploadFile = File(...), current_user: User = Depends(get_current_user),
+                         user_service: UserService = Depends()):
     user_id = current_user['id']
     if not isinstance(user_id, uuid.UUID):
         user_id = uuid.UUID(user_id)
     return await user_service.change_profile_picture(user_id, file)
+
+
+@router.put("/update", dependencies=[Depends(JWTBearer())])
+async def update_user(user: UserUpdateSchema, current_user: User = Depends(get_current_user),
+                      user_service: UserService = Depends()):
+    return user_service.update_user(user, current_user['id'])
 
 
 @router.get("/me", dependencies=[Depends(JWTBearer())])

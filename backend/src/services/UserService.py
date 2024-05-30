@@ -1,11 +1,13 @@
 import uuid
 from datetime import timedelta, datetime
 from fastapi import Depends, HTTPException, status, BackgroundTasks
+from pydantic import ValidationError
+
 from services.FileService import FileService
 from config.config import configs
 from models.models import User
 from repositories.UserRepository import UserRepository
-from schemas.UserSchemas import UserRegisterSchema, UserLoginSchema, Payload
+from schemas.UserSchemas import UserRegisterSchema, UserLoginSchema, Payload, UserSchema, UserUpdateSchema
 from config.security import get_password_hash, verify_password, create_access_token, decode_jwt
 from config.security import JWTBearer
 from services.EmailService import EmailService
@@ -53,14 +55,16 @@ class UserService:
         return created_user
 
     def activate_user(self, user_id: uuid.UUID, token: str):
-        success = True
         user = self.userRepo.get(user_id)
-        if not user or user.is_active or user.activation_token != token or user.activation_expire < datetime.now():
-            success = False
-        updated_user = self.userRepo.update(user.id, {"is_active": success, "activation_token": None})
-        if not updated_user:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                                detail="Invalid activation link or account already activated")
+        if user is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Something went wrong try again to register")
+        if user.is_active:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Account already activated")
+        if user.activation_token != token:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid token")
+        if user.activation_expire < datetime.now():
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Token expired")
+        updated_user = self.userRepo.update(user.id, {"is_active": True, "activation_token": None})
         delattr(updated_user, "password")
         return updated_user
 
@@ -77,11 +81,13 @@ class UserService:
         user = self.userRepo.get(userId)
         if not user:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-        delattr(user, "password")
-        delattr(user, "activation_token")
-        delattr(user, "activation_expire")
-        delattr(user, "is_active")
-        return user
+
+        try:
+            user_schema = UserSchema(**user.to_dict())
+        except ValidationError as e:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+        return user_schema
 
     def get_all_resumes_user(self, userId: uuid.UUID):
         user = self.userRepo.get(userId)
@@ -91,5 +97,10 @@ class UserService:
         user = self.userRepo.get(userId)
         filename = await FileService.upload(file, configs.UPLOAD_PROFILE_DIR)
         updated_user = self.userRepo.update(user.id, {"profile_picture": filename})
+        delattr(updated_user, "password")
+        return updated_user
+
+    def update_user(self, user: UserUpdateSchema, userId: uuid.UUID):
+        updated_user = self.userRepo.update(userId, user.dict(exclude_none=True))
         delattr(updated_user, "password")
         return updated_user
