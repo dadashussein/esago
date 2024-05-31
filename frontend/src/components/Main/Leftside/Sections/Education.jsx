@@ -1,35 +1,50 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import {
   addEducation,
   setEducationField,
   removeEducation,
-} from "../../../../store/features/education/educationSlice";
-import { useRef, useState, useEffect } from "react";
-import { MdDelete } from "react-icons/md";
-import { IoMdAdd } from "react-icons/io";
-import { GrFormPrevious } from "react-icons/gr";
-import { GrFormNext } from "react-icons/gr";
-import { GoArrowLeft } from "react-icons/go";
+  fetchEducation,
+  deleteEducation,
+
+} from '../../../../store/features/education/educationSlice';
+import { useRef, useState, useEffect } from 'react';
+import { MdDelete } from 'react-icons/md';
+import { IoMdAdd } from 'react-icons/io';
+import { GrFormPrevious } from 'react-icons/gr';
+import { GrFormNext } from 'react-icons/gr';
+import { GoArrowLeft } from 'react-icons/go';
 
 const Education = ({ setCurrentSection }) => {
   const dispatch = useDispatch();
   const education = useSelector((state) => state.education.education);
+  const status = useSelector((state) => state.education.status);
+
+  const error = useSelector((state) => state.education.error);
+  console.log(error);
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const formRef = useRef(null);
   const [isEmpty, setIsEmpty] = useState(true);
 
   useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token && status === 'idle') {
+      dispatch(fetchEducation(token));
+    }
+  }, [status, dispatch]);
+
+  useEffect(() => {
     const checkIfEmpty = () => {
-      const edu = education[0];
+      const edu = education[currentIndex];
       if (
         edu &&
-        edu.school === "" &&
-        edu.eduLocation === "" &&
-        edu.degree === "" &&
-        edu.field === "" &&
-        edu.eduStart === "" &&
-        edu.eduEnd === "" &&
-        edu.eduDesc === ""
+        edu.school_name === '' &&
+        edu.location === '' &&
+        edu.degree === '' &&
+        edu.field_of_study === '' &&
+        edu.start_date === '' &&
+        edu.end_date === '' &&
+        edu.description === ''
       ) {
         setIsEmpty(true);
       } else {
@@ -48,22 +63,66 @@ const Education = ({ setCurrentSection }) => {
     setCurrentIndex(education.length);
   };
 
-  const handleRemoveEducation = () => {
-    dispatch(removeEducation(currentIndex));
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
+  // const handleRemoveEducation = () => {
+  //   const token = localStorage.getItem('accessToken');
+  //   console.log(education);
+  //   dispatch(removeEducation(currentIndex));
+  //   // dispatch(deleteEducation({ token, id }));
+  //   if (currentIndex > 0) {
+  //     setCurrentIndex(currentIndex - 1);
+  //   }
+  // };
 
   const handleSendAndNext = (e) => {
     e.preventDefault();
     if (isEmpty) {
       setCurrentSection(2);
     } else {
-      // send to backend
+
+
+      const token = localStorage.getItem('accessToken');
       console.log(education);
+      const postEdu = async (token, education) => {
+        const response = await fetch('http://127.0.0.1:8000/educations', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(education),
+        })
+        const data = await response.json();
+        return data;
+      }
+
+      postEdu(token, education).then(() => {
+        if (currentIndex + 1 < education.length) {
+          setCurrentIndex(currentIndex + 1);
+        } else {
+          setCurrentSection(2);
+        }
+      }).catch(error => {
+        console.log(error);
+      });
+
+      // dispatch(postEducation(token, edu)).then(() => {
+      //   if (currentIndex + 1 < education.length) {
+      //     setCurrentIndex(currentIndex + 1);
+      //   } else {
+      //     setCurrentSection(2);
+      //   }
+      // }).catch(error => {
+      //   console.log(error);
+      // });
     }
   };
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'failed') {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="border-gray-900 px-6 py-4">
@@ -79,7 +138,7 @@ const Education = ({ setCurrentSection }) => {
           <div className="col-span-full">
             <button
               type="button"
-              onClick={handleRemoveEducation}
+              // onClick={handleRemoveEducation}
               className="flex items-center text-gray-600 hover:text-red-500 duration-200 ease-linear "
             >
               <MdDelete size="2rem" />
@@ -88,9 +147,17 @@ const Education = ({ setCurrentSection }) => {
         )}
       </div>
       <p className="text-sm leading-6 text-gray-600">
-        Add your most relevant education, including programs youre currently
-        enrolled in
+        Add your most relevant education, including programs you're currently enrolled in
       </p>
+
+      {education.length === 0 && (
+        <button
+          onClick={handleAddEducation}
+          className="border-2 rounded-md duration-200 hover:bg-slate-300 py-2 px-4 mt-4"
+        >
+          Add Education
+        </button>
+      )}
 
       {education.length > 0 && (
         <form
@@ -98,16 +165,16 @@ const Education = ({ setCurrentSection }) => {
           className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6"
         >
           <div className="sm:col-span-3">
-            <label htmlFor={`school-${currentIndex}`} className="label-primary">
+            <label htmlFor={`school_name-${currentIndex}`} className="label-primary">
               School Name
             </label>
             <input
               type="text"
               required
-              value={education[currentIndex].school}
-              onChange={(e) => handleInputChange("school", e.target.value)}
-              name={`school-${currentIndex}`}
-              id={`school-${currentIndex}`}
+              value={education[currentIndex].school_name}
+              onChange={(e) => handleInputChange('school_name', e.target.value)}
+              name={`school_name-${currentIndex}`}
+              id={`school_name-${currentIndex}`}
               placeholder="School Name"
               className="input-primary"
             />
@@ -115,7 +182,7 @@ const Education = ({ setCurrentSection }) => {
 
           <div className="sm:col-span-3">
             <label
-              htmlFor={`eduLocation-${currentIndex}`}
+              htmlFor={`location-${currentIndex}`}
               className="label-primary"
             >
               School Location
@@ -123,11 +190,11 @@ const Education = ({ setCurrentSection }) => {
             <input
               type="text"
               required
-              value={education[currentIndex].eduLocation}
+              value={education[currentIndex].location}
               placeholder="School Location"
-              onChange={(e) => handleInputChange("eduLocation", e.target.value)}
-              name={`eduLocation-${currentIndex}`}
-              id={`eduLocation-${currentIndex}`}
+              onChange={(e) => handleInputChange('location', e.target.value)}
+              name={`location-${currentIndex}`}
+              id={`location-${currentIndex}`}
               className="input-primary"
             />
           </div>
@@ -139,7 +206,7 @@ const Education = ({ setCurrentSection }) => {
             <input
               type="text"
               value={education[currentIndex].degree}
-              onChange={(e) => handleInputChange("degree", e.target.value)}
+              onChange={(e) => handleInputChange('degree', e.target.value)}
               name={`degree-${currentIndex}`}
               id={`degree-${currentIndex}`}
               placeholder="Degree"
@@ -152,39 +219,39 @@ const Education = ({ setCurrentSection }) => {
             </label>
             <input
               type="text"
-              value={education[currentIndex].field}
-              onChange={(e) => handleInputChange("field", e.target.value)}
-              name={`field-${currentIndex}`}
-              id={`field-${currentIndex}`}
+              value={education[currentIndex].field_of_study}
+              onChange={(e) => handleInputChange('field_of_study', e.target.value)}
+              name={`field_of_study-${currentIndex}`}
+              id={`field_of_study-${currentIndex}`}
               placeholder="Field"
               className="input-primary"
             />
           </div>
 
           <div className="sm:col-span-3">
-            <label htmlFor="startDate" className="label-primary">
+            <label htmlFor="start_date" className="label-primary">
               Start Date
             </label>
             <input
               type="year"
-              value={education[currentIndex].eduStart}
-              onChange={(e) => handleInputChange("eduStart", e.target.value)}
-              name={`startDate-${currentIndex}`}
-              id={`startDate-${currentIndex}`}
+              value={education[currentIndex].start_date}
+              onChange={(e) => handleInputChange('start_date', e.target.value)}
+              name={`start_date-${currentIndex}`}
+              id={`start_date-${currentIndex}`}
               placeholder="Start Date"
               className="input-primary"
             />
           </div>
           <div className="sm:col-span-3">
-            <label htmlFor="startDate" className="label-primary">
+            <label htmlFor="end_date" className="label-primary">
               End Date
             </label>
             <input
               type="year"
-              value={education[currentIndex].eduEnd}
-              onChange={(e) => handleInputChange("eduEnd", e.target.value)}
-              name={`eduEnd-${currentIndex}`}
-              id={`eduEnd-${currentIndex}`}
+              value={education[currentIndex].end_date}
+              onChange={(e) => handleInputChange('end_date', e.target.value)}
+              name={`end_date-${currentIndex}`}
+              id={`end_date-${currentIndex}`}
               placeholder="End Date"
               className="input-primary"
             />
@@ -192,16 +259,16 @@ const Education = ({ setCurrentSection }) => {
 
           <div className="col-span-full">
             <label
-              htmlFor={`eduDesc-${currentIndex}`}
+              htmlFor={`description-${currentIndex}`}
               className="label-primary"
             >
               Description
             </label>
             <textarea
-              id={`eduDesc-${currentIndex}`}
-              name={`eduDesc-${currentIndex}`}
-              value={education[currentIndex].eduDesc}
-              onChange={(e) => handleInputChange("eduDesc", e.target.value)}
+              id={`description-${currentIndex}`}
+              name={`description-${currentIndex}`}
+              value={education[currentIndex].description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
               rows={3}
               placeholder="A brief description of your education"
               className="input-primary"
@@ -210,7 +277,7 @@ const Education = ({ setCurrentSection }) => {
               <button
                 type="button"
                 onClick={handleAddEducation}
-                className=" border-2 rounded-md duration-200 hover:bg-slate-300 py-2 px-4 mt-4"
+                className="border-2 rounded-md duration-200 hover:bg-slate-300 py-2 px-4 mt-4"
               >
                 <IoMdAdd />
               </button>
@@ -246,7 +313,7 @@ const Education = ({ setCurrentSection }) => {
                 onClick={handleSendAndNext}
                 className="mt-4 bg-gray-500 absolute right-2 text-white p-1 rounded-md"
               >
-                {isEmpty ? "Skip" : "Next"}
+                {isEmpty ? 'Skip' : 'Next'}
               </button>
             </div>
           </div>

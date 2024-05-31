@@ -42,22 +42,22 @@ const Template3 = ({ education, experience, personal, img }) => {
             {education.map((edu, index) => (
               <div key={index} className="flex   gap-4">
                 <div className="flex flex-col text-gray-500">
-                  <p className=" text-[10px]">{edu.eduStart}</p>
+                  <p className=" text-[10px]">{edu.start_date}</p>
                   <p className="text-[10px]">/</p>
-                  <p className=" text-[10px]">{edu.eduEnd}</p>
+                  <p className=" text-[10px]">{edu.end_date}</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 justify-center">
-                    <h2 className="text-[12px] text-blue-800">{edu.school}</h2>
+                    <h2 className="text-[12px] text-blue-800">{edu.school_name}</h2>
                     <p className="text-[12px] text-gray-500">
-                      {edu.eduLocation}
+                      {edu.location}
                     </p>
                   </div>
 
-                  <p className=" text-[11px] text-gray-500">{edu.field}</p>
+                  <p className=" text-[11px] text-gray-500">{edu.field_of_study}</p>
                   <p className="text-[11px] text-gray-500">{edu.degree}</p>
                   <p className="text-[10px] text-gray-500   break-all whitespace-pre-wrap italic">
-                    {edu.eduDesc}
+                    {edu.description}
                   </p>
                 </div>
               </div>

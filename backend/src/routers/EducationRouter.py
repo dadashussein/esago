@@ -1,9 +1,10 @@
+from typing import List
 import uuid
 from fastapi import APIRouter, Depends
 from typing import Annotated
 from sqlalchemy.orm import Session
 from config.security import JWTBearer, get_current_user
-from models.models import User
+from models.models import Education, User
 from schemas.EducationSchemas import EducationCreate
 from services.EducationService import EducationService
 
@@ -22,8 +23,10 @@ def get_education(education_id: int, user: User = Depends(get_current_user), edu
 
 
 @router.post("")
-async def add_education(education: EducationCreate, user: User = Depends(get_current_user), education_service: EducationService = Depends()):
-    return await education_service.add_education(user['id'], education)
+async def add_education(education: List[EducationCreate], user: User = Depends(get_current_user), education_service: EducationService = Depends()):
+    for edu in education:
+        await education_service.add_education(user['id'], edu)
+    return {"message": "Educations added successfully"}
 
 
 @router.put("/{education_id}")

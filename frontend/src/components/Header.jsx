@@ -18,7 +18,7 @@ const Header = () => {
       <div className="logo">esago</div>
 
       <div className="flex items-center justify-center gap-8">
-        <h1 className="border p-2 rounded">Hi, {auth?.full_name}</h1>
+        <h1 className="border p-2 rounded">Hi, {auth?.first_name}</h1>
         <img
           src={imgURl}
           alt="profile"
