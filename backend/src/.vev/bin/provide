@@ -1,8 +1,0 @@
-#!/home/texas/esago/backend/src/.vev/bin/python3
-
-import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'provide.django.settings.main'
-
-from provide.cli.admin import UtilityRunner 
-UtilityRunner()
-

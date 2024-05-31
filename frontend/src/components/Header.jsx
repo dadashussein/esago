@@ -11,7 +11,7 @@ const Header = () => {
     navigate("/");
   };
   const auth = useSelector((state) => state.auth.currentUser);
-  console.log(auth);
+  //console.log(auth);
   let imgURl = `http://localhost:8000/static/profiles/${auth?.profile_picture}`
   return (
     <div className="flex justify-between items-center p-[1rem] border-b sticky ">

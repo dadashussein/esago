@@ -2,13 +2,16 @@ import { useState } from "react";
 import Personal from "./Sections/Personal";
 import Education from "./Sections/Education";
 import Experience from "./Sections/Experience";
-import { GrNext } from "react-icons/gr";
-import { GrPrevious } from "react-icons/gr";
+import Skill from "./Sections/Skill";
 
 const Leftside = () => {
   const [currentSection, setCurrentSection] = useState(0);
-
-  const sections = [<Personal />, <Education />, <Experience />];
+  const sections = [
+    <Personal setCurrentSection={setCurrentSection} key="first" />,
+    <Education setCurrentSection={setCurrentSection} key="second" />,
+    <Experience key="third" />,
+    <Skill key="fourth" />,
+  ];
 
   const handleNext = () => {
     setCurrentSection((prevSection) => (prevSection + 1) % sections.length);
@@ -19,11 +22,6 @@ const Leftside = () => {
       (prevSection) => (prevSection - 1 + sections.length) % sections.length
     );
   };
-
-  
-
-
-
 
   return (
     <div className="border">
