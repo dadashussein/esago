@@ -1,5 +1,13 @@
 const Template3 = ({ education, experience, personal, img }) => {
-  const { name, lastname, jobtitle, address, phone, email, bio } = personal;
+  const {
+    first_name,
+    last_name,
+    job_title,
+    address,
+    phone_number,
+    email,
+    bio,
+  } = personal;
   return (
     <div className="w-[595px] p-4 bg-white p h-[842px] border m-auto">
       {/* header  start*/}
@@ -13,14 +21,14 @@ const Template3 = ({ education, experience, personal, img }) => {
           />
           <div className="">
             <h1 className="text-4xl">
-              {name} {lastname}
+              {first_name} {last_name}
             </h1>
-            <p className="text-gray-500">{jobtitle}</p>
+            <p className="text-gray-500">{job_title}</p>
           </div>
         </div>
         <div className=" flex px-4 flex-col justify-center  text-[11px] text-gray-500">
           <p>{address}</p>
-          <p>{phone}</p>
+          <p>{phone_number}</p>
           <p>{email}</p>
         </div>
       </div>
@@ -48,13 +56,15 @@ const Template3 = ({ education, experience, personal, img }) => {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 justify-center">
-                    <h2 className="text-[12px] text-blue-800">{edu.school_name}</h2>
-                    <p className="text-[12px] text-gray-500">
-                      {edu.location}
-                    </p>
+                    <h2 className="text-[12px] text-blue-800">
+                      {edu.school_name}
+                    </h2>
+                    <p className="text-[12px] text-gray-500">{edu.location}</p>
                   </div>
 
-                  <p className=" text-[11px] text-gray-500">{edu.field_of_study}</p>
+                  <p className=" text-[11px] text-gray-500">
+                    {edu.field_of_study}
+                  </p>
                   <p className="text-[11px] text-gray-500">{edu.degree}</p>
                   <p className="text-[10px] text-gray-500   break-all whitespace-pre-wrap italic">
                     {edu.description}

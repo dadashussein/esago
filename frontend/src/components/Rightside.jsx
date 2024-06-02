@@ -6,22 +6,9 @@ const Rightside = () => {
   const education = useSelector((state) => state.education.education);
   const experience = useSelector((state) => state.experience.experience);
   const personal = useSelector((state) => state.personal.personal);
-  const [finalEducation, setFinalEducation] = useState([]);
   const [finalExperience, setFinalExperience] = useState([]);
 
-  useEffect(() => {
-    localStorage.setItem("education", JSON.stringify(education));
-  }, [education]);
-
-  useEffect(() => {
-    const educationFromStorage = JSON.parse(localStorage.getItem("education"));
-
-    if (education.length <= 1) {
-      setFinalEducation(education);
-    } else {
-      setFinalEducation(educationFromStorage);
-    }
-  }, [education]);
+  //console.log(education);
 
   useEffect(() => {
     localStorage.setItem("experience", JSON.stringify(experience));
@@ -49,7 +36,7 @@ const Rightside = () => {
         <Template3
           img={imgURl}
           personal={personal}
-          education={finalEducation}
+          education={education}
           experience={finalExperience}
         />
       </div>

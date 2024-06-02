@@ -1,17 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setPersonalField } from "../../../../store/features/personal/personalSlice";
+import {
+  setPersonalField,
+} from "../../../../store/features/personal/personalSlice";
+import { useEffect } from "react";
 
 const Personal = ({ setCurrentSection }) => {
   const dispatch = useDispatch();
   const personal = useSelector((state) => state.personal.personal);
+  const error = useSelector((state) => state.personal.error);
+  console.log(error);
+  console.log(personal);
 
   const handleInputChange = (field, value) => {
     dispatch(setPersonalField({ field, value }));
   };
 
   const handleSendAndNext = () => {
+    const token = localStorage.getItem("accessToken");
     setCurrentSection(1);
-    // send to backend
+    // dispatch(postInfo({ token, personal }));
   };
 
   return (
@@ -30,9 +37,9 @@ const Personal = ({ setCurrentSection }) => {
           </label>
           <input
             className="input-primary"
-            onChange={(e) => handleInputChange("name", e.target.value)}
+            onChange={(e) => handleInputChange("first_name", e.target.value)}
             type="text"
-            name="firstname"
+            name="first_name"
           />
         </div>
         <div className="sm:col-span-3">
@@ -41,42 +48,42 @@ const Personal = ({ setCurrentSection }) => {
           </label>
           <input
             className="input-primary"
-            onChange={(e) => handleInputChange("lastname", e.target.value)}
+            onChange={(e) => handleInputChange("last_name", e.target.value)}
             type="text"
-            name="lastname"
+            name="last_name"
           />
         </div>
         <div className="sm:col-span-3">
-          <label className="label-primary" htmlFor="jobtitle">
+          <label className="label-primary" htmlFor="job_title">
             Job Title
           </label>
           <input
             className="input-primary"
-            onChange={(e) => handleInputChange("jobtitle", e.target.value)}
+            onChange={(e) => handleInputChange("job_title", e.target.value)}
             type="text"
-            name="jobtitle"
+            name="job_title"
           />
         </div>
         <div className="sm:col-span-3">
-          <label className="label-primary" htmlFor="adress">
+          <label className="label-primary" htmlFor="address">
             Address
           </label>
           <input
             className="input-primary"
             onChange={(e) => handleInputChange("address", e.target.value)}
             type="text"
-            name="adress"
+            name="address"
           />
         </div>
         <div className="sm:col-span-3">
-          <label className="label-primary" htmlFor="phone">
+          <label className="label-primary" htmlFor="phone_number">
             Phone
           </label>
           <input
             className="input-primary"
-            onChange={(e) => handleInputChange("phone", e.target.value)}
+            onChange={(e) => handleInputChange("phone_number", e.target.value)}
             type="text"
-            name="phone"
+            name="phone_number"
           />
         </div>
         <div className="sm:col-span-3">

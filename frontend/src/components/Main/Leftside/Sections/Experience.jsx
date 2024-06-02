@@ -1,32 +1,37 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addExperience, removeExperience, setExperienceField } from "../../../../store/features/experience/experienceSlice";
 import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { GrFormPrevious } from "react-icons/gr";
 import { GrFormNext } from "react-icons/gr";
+import {
+  addExperience,
+  removeExperience,
+  setExperienceField,
+} from "~/store/features/experience/experienceSlice";
 
-const Experience = () => {
+const Experience = ({ setCurrentSection }) => {
   const dispatch = useDispatch();
   const experience = useSelector((state) => state.experience.experience);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleInputChange = (field, value) => {
-    dispatch(setExperienceField({ index: currentIndex, field, value }))
-  }
+    dispatch(setExperienceField({ index: currentIndex, field, value }));
+  };
   const handleAddExperience = () => {
     dispatch(addExperience());
-    setCurrentIndex(experience.length)
-  }
+    setCurrentIndex(experience.length);
+  };
   const handleRemoveExperience = () => {
     dispatch(removeExperience(currentIndex));
     if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1)
+      setCurrentIndex(currentIndex - 1);
     }
-  }
+  };
   return (
     <div className="border-gray-900 p-6">
       <div className="flex items-center justify-between">
+        <button onClick={() => setCurrentSection(1)}>geri</button>
         <h2 className="font-semibold text-[30px] text-gray-900">Experience</h2>
         {experience.length > 1 && (
           <div className="col-span-full">
@@ -41,14 +46,16 @@ const Experience = () => {
         )}
       </div>
       <p className="text-sm leading-6 text-gray-600">
-        Add your most relevant work, company programs youre currently
-        work in
+        Add your most relevant work, company programs youre currently work in
       </p>
 
       {experience.length > 0 && (
         <div className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6">
           <div className="sm:col-span-3">
-            <label htmlFor={`company-${currentIndex}`} className="label-primary">
+            <label
+              htmlFor={`company-${currentIndex}`}
+              className="label-primary"
+            >
               Company name
             </label>
             <div className="mt-2">
@@ -197,7 +204,7 @@ const Experience = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Experience
+export default Experience;
