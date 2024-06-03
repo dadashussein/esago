@@ -1,32 +1,28 @@
-import { MdDelete, MdEdit, MdSave } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { GoArrowLeft } from "react-icons/go";
 import useEducation from "~/hooks/useEducation";
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { postEducation } from "~/store/features/education/educationThunks";
+
 
 const Education = ({ setCurrentSection }) => {
   const {
     education,
     currentIndex,
-    formRef,
     handleAddEducation,
-    handleRemoveEducation,
     handleInputChange,
+    handleRemoveEducation,
     setCurrentIndex,
-    handleUpdateEducation,
+    handlePostEducation
   } = useEducation(setCurrentSection);
 
-  const dispatch = useDispatch();
-
-  const handleSendAndNext = (e) => {
-    const token = localStorage.getItem("accessToken");
+  const gonder = (e) => {
     e.preventDefault();
-    dispatch(postEducation({ token, education }));
-    setCurrentSection(1);
-  };
+    handlePostEducation();
+    console.log("gonderildi", education);
+  }
+
+
 
   return (
     <div className="border-gray-900 px-6 py-4">
@@ -47,14 +43,6 @@ const Education = ({ setCurrentSection }) => {
             >
               <MdDelete size="2rem" />
             </button>
-            <button
-              type="button"
-              onClick={handleUpdateEducation}
-              className="flex items-center text-gray-600 hover:text-red-500 duration-200 ease-linear "
-            >
-              {/* {isEditing ? <MdSave size="2rem" /> : <MdEdit size="2rem" />} */}
-              save
-            </button>
           </div>
         )}
       </div>
@@ -74,7 +62,7 @@ const Education = ({ setCurrentSection }) => {
 
       {education.length > 0 && (
         <form
-          ref={formRef}
+          onSubmit={gonder}
           className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6"
         >
           <div className="sm:col-span-3">
@@ -121,6 +109,7 @@ const Education = ({ setCurrentSection }) => {
             </label>
             <input
               type="text"
+              required
               value={education[currentIndex]?.degree || ""}
               onChange={(e) => handleInputChange("degree", e.target.value)}
               name={`degree-${currentIndex}`}
@@ -135,6 +124,7 @@ const Education = ({ setCurrentSection }) => {
             </label>
             <input
               type="text"
+              required
               value={education[currentIndex]?.field_of_study || ""}
               onChange={(e) =>
                 handleInputChange("field_of_study", e.target.value)
@@ -152,6 +142,7 @@ const Education = ({ setCurrentSection }) => {
             </label>
             <input
               type="year"
+              required
               value={education[currentIndex]?.start_date || ""}
               onChange={(e) => handleInputChange("start_date", e.target.value)}
               name={`start_date-${currentIndex}`}
@@ -166,6 +157,7 @@ const Education = ({ setCurrentSection }) => {
             </label>
             <input
               type="year"
+              required
               value={education[currentIndex]?.end_date || ""}
               onChange={(e) => handleInputChange("end_date", e.target.value)}
               name={`end_date-${currentIndex}`}
@@ -185,6 +177,7 @@ const Education = ({ setCurrentSection }) => {
             <textarea
               id={`description-${currentIndex}`}
               name={`description-${currentIndex}`}
+              required
               value={education[currentIndex]?.description || ""}
               onChange={(e) => handleInputChange("description", e.target.value)}
               rows={3}
@@ -226,14 +219,14 @@ const Education = ({ setCurrentSection }) => {
                   </button>
                 </div>
               )}
-              {currentIndex === education.length - 1 && (
-                <button
-                  onClick={handleSendAndNext}
-                  className="border-2 rounded-md duration-200 hover:bg-slate-300 py-2 px-4 mt-4"
-                >
-                  Submit
-                </button>
-              )}
+              <button
+                type="button"
+                onClick={gonder}
+                className="border-2 rounded-md duration-200 hover:bg-slate-300 py-2 px-4 mt-4"
+              >
+                Next
+              </button>
+
             </div>
           </div>
         </form>
