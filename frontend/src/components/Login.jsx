@@ -1,8 +1,9 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import  { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/features/auth/authSlice";
+import Button from "./Button";
 
 const Login = () => {
   const [error, setError] = useState(null);
@@ -50,7 +51,7 @@ const Login = () => {
             </p>
           </div>
         </div>
-        <form onSubmit={handleSignIn}>
+        <form className="flex flex-col " onSubmit={handleSignIn}>
           <div className="mb-2">
             <label className="font-medium" htmlFor="username_or_email">
               Email
@@ -77,16 +78,17 @@ const Login = () => {
 
             {error && <div className="text-red-500">{error}</div>}
           </div>
-          <button className="w-full mt-4 px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
-            Sign in
-          </button>
+          <Button
+            classname=" inline-block mt-2"
+            bgColor="primary-500"
+            textColor="white"
+          >
+            Sign In
+          </Button>
         </form>
 
         <div className="text-center">
-          <a
-            href="#"
-            className="text-indigo-600 hover:text-indigo-500"
-          >
+          <a href="#" className="text-indigo-600 hover:text-indigo-500">
             Forgot password?
           </a>
         </div>

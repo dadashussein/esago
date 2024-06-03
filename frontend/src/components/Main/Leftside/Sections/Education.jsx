@@ -3,6 +3,9 @@ import { IoMdAdd } from "react-icons/io";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { GoArrowLeft } from "react-icons/go";
 import useEducation from "~/hooks/useEducation";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { postEducation } from "~/store/features/education/educationThunks";
 
 const Education = ({ setCurrentSection }) => {
   const {
@@ -13,11 +16,17 @@ const Education = ({ setCurrentSection }) => {
     handleRemoveEducation,
     handleInputChange,
     setCurrentIndex,
-    handleSendAndNext,
-    handleSaveClick,
-    handleEditClick,
-    isEditing,
+    handleUpdateEducation,
   } = useEducation(setCurrentSection);
+
+  const dispatch = useDispatch();
+
+  const handleSendAndNext = (e) => {
+    const token = localStorage.getItem("accessToken");
+    e.preventDefault();
+    dispatch(postEducation({ token, education }));
+    setCurrentSection(1);
+  };
 
   return (
     <div className="border-gray-900 px-6 py-4">
@@ -40,10 +49,11 @@ const Education = ({ setCurrentSection }) => {
             </button>
             <button
               type="button"
-              onClick={isEditing ? handleSaveClick : handleEditClick}
+              onClick={handleUpdateEducation}
               className="flex items-center text-gray-600 hover:text-red-500 duration-200 ease-linear "
             >
-              {isEditing ? <MdSave size="2rem" /> : <MdEdit size="2rem" />}
+              {/* {isEditing ? <MdSave size="2rem" /> : <MdEdit size="2rem" />} */}
+              save
             </button>
           </div>
         )}

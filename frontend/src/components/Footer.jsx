@@ -1,21 +1,38 @@
 const Footer = () => {
   return (
-    <footer className="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
-      <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-        <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-          © 2024 <a href="google.com" className="hover:underline">Esago</a>. All Rights Reserved.
-        </span>
-        <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-          <li>
-            <a href="#" className="hover:underline me-4 md:me-6">About</a>
-          </li>
-          <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Privacy Policy</a>
-          </li>
-          <li>
-            <a href="#" className="hover:underline me-4 md:me-6">Licensing</a>
-          </li>
-        </ul>
+    <footer className="h-[384px] px-[200px] py-[80px] flex-shrink-0 w-full bg-darkPrimary-800">
+      <div className="grid grid-cols-5 items-center   justify-center gap-[20px] mb-8  text-white">
+        <div>
+          <h1 className="text-[60px] font-[500] ">ESAGO</h1>{" "}
+          <p className="text-[18px] opacity-[0.8] font-[400]">
+            Holberton Azerbaijan portfolio project
+          </p>
+        </div>
+        <div className="ml-8">
+          <h1 className="text-[20px] font-[500]">Resources</h1>
+          <p className="opacity-[0.8] font-[400] text-[16px]">Templates</p>
+          <p className="opacity-[0.8] font-[400] text-[16px]">Resume | CV</p>
+          <p className="opacity-[0.8] font-[400] text-[16px]">Resume filtering</p>
+        </div>
+        <div>
+          <h1 className="text-[20px] font-[500]">Products</h1>
+          <p className="opacity-[0.8] font-[400] text-[16px]">Premium Subscription</p>
+          <p className="opacity-[0.8] font-[400] text-[16px]">Resume filtering Subscription</p>
+        </div>
+        <div>
+          <h1 className="text-[20px] font-[500]">Support</h1>
+          <p className="opacity-[0.8] font-[400] text-[16px]">FAQ’s</p>
+          <p className="opacity-[0.8] font-[400] text-[16px]">Contact US</p>
+        </div>
+        <div>Translate</div>
+      </div>
+      <hr />
+      <div className="flex justify-between mt-8 font-[400] text-white">
+        <div><span>© 2024 Esago, All Rights Reserved</span></div>
+        <div className="flex gap-8">
+          <span>Terms & conditions</span>
+          <span>Privacy Policy</span>
+        </div>
       </div>
     </footer>
   );

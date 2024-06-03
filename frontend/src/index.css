@@ -16,12 +16,8 @@ html {
 }
 
 
-html{
+html {
   scroll-behavior: smooth;
-}
-
-body {
-  background-color: #f5f5f5;
 }
 
 ul,
@@ -31,13 +27,6 @@ li {
 
 
 @layer components {
-  .btn-primary {
-    @apply py-1 px-4 bg-primary-600 duration-300 ease-in text-white font-semibold rounded shadow-md hover:bg-green-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75;
-  }
-
-  .btn-secondary {
-    @apply text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl   font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2;
-  }
 
   .input-primary {
     @apply block w-full rounded-md border p-1.5 text-gray-900 shadow-sm sm:text-sm sm:leading-6 mt-2
@@ -46,4 +35,13 @@ li {
   .label-primary {
     @apply block text-sm font-medium leading-6 text-gray-900
   }
+
+  .landing-container {
+    @apply flex flex-col items-center justify-center h-screen
+  }
+
+  .landing-title {
+    @apply text-4xl font-bold text-gray-900
+  }
+
 }
