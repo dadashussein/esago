@@ -4,9 +4,9 @@ from typing import Annotated
 
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
-from config.security import JWTBearer, get_current_user
+from config.security import JWTBearer, get_current_user, get_current_user_id
 from models.models import User
-from schemas.UserSchemas import UserRegisterSchema, UserLoginSchema, UserUpdateSchema
+from schemas.UserSchemas import UserRegisterSchema, UserLoginSchema
 from services.UserService import UserService
 
 router = APIRouter()
@@ -14,8 +14,8 @@ db_dependency = Annotated[Session, Depends()]
 
 
 @router.post("/register")
-def register(user: UserRegisterSchema, background_tasks: BackgroundTasks, user_service: UserService = Depends()):
-    return user_service.register(user, background_tasks)
+async def register(user: UserRegisterSchema, background_tasks: BackgroundTasks, user_service: UserService = Depends()):
+    return await user_service.register(user, background_tasks)
 
 
 @router.post("/login")
@@ -29,20 +29,13 @@ async def activate_user(user_id: str, token: str, user_service: UserService = De
 
 
 @router.patch("/changepicture", dependencies=[Depends(JWTBearer())])
-async def change_picture(file: UploadFile = File(...), current_user: User = Depends(get_current_user),
+async def change_picture(file: UploadFile = File(...), user_id: User = Depends(get_current_user_id),
                          user_service: UserService = Depends()):
-    user_id = current_user['id']
     if not isinstance(user_id, uuid.UUID):
         user_id = uuid.UUID(user_id)
     return await user_service.change_profile_picture(user_id, file)
 
 
-@router.put("/update", dependencies=[Depends(JWTBearer())])
-async def update_user(user: UserUpdateSchema, current_user: User = Depends(get_current_user),
-                      user_service: UserService = Depends()):
-    return user_service.update_user(user, current_user['id'])
-
-
 @router.get("/me", dependencies=[Depends(JWTBearer())])
-async def get_me(current_user: User = Depends(get_current_user), user_service: UserService = Depends()):
-    return user_service.get_me(current_user['id'])
+async def get_me(user_id: User = Depends(get_current_user_id), user_service: UserService = Depends()):
+    return user_service.get_me(user_id)

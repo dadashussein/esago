@@ -1,6 +1,4 @@
 from datetime import date
-
-import sqlalchemy
 from pydantic import BaseModel
 
 
@@ -22,3 +20,19 @@ class EducationUpdate(BaseModel):
     field_of_study: str
     start_date: date
     end_date: date
+
+
+class EducationSchema(EducationCreate):
+    id: int
+    school_name: str
+    location: str
+    description: str
+    degree: str
+    field_of_study: str
+    start_date: date
+    end_date: date
+
+    class Config:
+        orm_mode = True
+        from_attributes=True
+        

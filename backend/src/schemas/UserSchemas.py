@@ -4,7 +4,7 @@ from datetime import date
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, constr
 
 
 class UserSchema(BaseModel):
@@ -27,15 +27,12 @@ class UserSchema(BaseModel):
 
 
 class UserRegisterSchema(BaseModel):
-    username: str
-    email: str
-    password: str
-    first_name: str
-    last_name: str
+    username: constr(min_length=3, max_length=50)
+    email: EmailStr
+    password: constr(min_length=8)
 
     class Config:
         orm_mode = True
-        from_attributes = True
 
 
 class UserLoginSchema(BaseModel):
@@ -44,21 +41,23 @@ class UserLoginSchema(BaseModel):
 
     class Config:
         orm_mode = True
-        from_attributes = True
+        
 
 
 class Payload(BaseModel):
-    id: str
+    sub: str
     email: str
 
+    class Config:
+        orm_mode = True
 
-class UserUpdateSchema(BaseModel):
-    first_name: str
-    last_name: str
-    address: Optional[str]
-    phone_number: Optional[str]
-    bio: Optional[str]
-    job_title: Optional[str]
-    profile_picture: Optional[str]
-    end_date: Optional[date]
-    start_date: Optional[date]
+
+
+class UserSchema(BaseModel):
+    username: str
+    profile_picture: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+        from_attributes=True
+

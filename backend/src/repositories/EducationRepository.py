@@ -14,3 +14,10 @@ class EducationRepository(BaseRepository[Education, int]):
 
     def get_all_educations_user(self, user_id: int):
         return self.db.query(Education).filter_by(user_id=user_id).all()
+    
+    def get_education(self, education_id: int, user_id: int):
+        return self.db.query(Education).filter_by(id=education_id, user_id=user_id).first()
+    
+    def delete_education(self, education_id: int, user_id: int):
+        return self.db.query(Education).filter_by(id=education_id, user_id=user_id).first()
+        

@@ -30,6 +30,11 @@ class BaseRepository(Generic[ModelType, IdType]):
         self.db.query(self.model).filter_by(id=id).update(updates)
         self.db.commit()
         return self.get(id)
+    
+    def update_by(self, model: ModelType) -> ModelType:
+        self.db.query(self.model).filter_by(id=model.id).update(model)
+        self.db.commit()
+        return self.get(model.id)
 
     def delete(self, id: Type[IdType]) -> bool:
         obj = self.get(id)

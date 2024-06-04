@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from http.client import HTTPException
+from typing import Tuple
 
 from fastapi import Request, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -8,18 +9,19 @@ from passlib.context import CryptContext
 
 from config.config import configs
 from config.exceptions import AuthError
+from schemas.UserSchemas import Payload
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 ALGORITHM = "HS256"
 
 
-def create_access_token(subject: dict, expires_delta: timedelta = None) -> (str, str):
+def create_access_token(subject: Payload, expires_delta: timedelta = None) -> Tuple[str, str]:
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
-    payload = {"exp": expire, **subject}
-    encoded_jwt = jwt.encode(payload, configs.SECRET_KEY, algorithm=ALGORITHM)
+    subject['exp'] = expire
+    encoded_jwt = jwt.encode(subject, configs.SECRET_KEY, algorithm=ALGORITHM)
     expiration_datetime = expire.strftime(configs.DATETIME_FORMAT)
     return encoded_jwt, expiration_datetime
 
@@ -75,3 +77,12 @@ async def get_current_user(token: str = Depends(JWTBearer())):
     if payload['exp'] < int(round(datetime.utcnow().timestamp())):
         raise HTTPException(status_code=401, detail="Token has expired")
     return payload
+
+
+async def get_current_user_id(token: str = Depends(JWTBearer())):
+    payload = decode_jwt(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
+    if payload['exp'] < int(round(datetime.utcnow().timestamp())):
+        raise HTTPException(status_code=401, detail="Token has expired")
+    return payload['sub']
