@@ -10,7 +10,10 @@ class EducationCreate(BaseModel):
     field_of_study: str
     start_date: date
     end_date: date
-    cv_id: int
+
+    class Config:
+        orm_mode = True
+        from_attributes=True
 
 class EducationUpdate(BaseModel):
     id: int
@@ -21,8 +24,10 @@ class EducationUpdate(BaseModel):
     field_of_study: str
     start_date: date
     end_date: date
-    cv_id: int
 
+    class Config:
+        orm_mode = True
+        from_attributes=True
 
 class EducationSchema(EducationCreate):
     id: int

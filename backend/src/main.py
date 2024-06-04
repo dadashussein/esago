@@ -33,7 +33,7 @@ app.add_middleware(
 
 app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(cv_router, prefix="/cvs", tags=["CVs"])
-app.include_router(education_router, prefix="/educations", tags=["Educations"])
+#app.include_router(education_router, prefix="/educations", tags=["Educations"])
 
 
 def run_migrations():
