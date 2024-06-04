@@ -10,9 +10,10 @@ class EducationCreate(BaseModel):
     field_of_study: str
     start_date: date
     end_date: date
-
+    cv_id: int
 
 class EducationUpdate(BaseModel):
+    id: int
     school_name: str
     location: str
     description: str
@@ -20,6 +21,7 @@ class EducationUpdate(BaseModel):
     field_of_study: str
     start_date: date
     end_date: date
+    cv_id: int
 
 
 class EducationSchema(EducationCreate):

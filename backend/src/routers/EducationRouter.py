@@ -8,26 +8,26 @@ from services.EducationService import EducationService
 router = APIRouter(dependencies=[Depends(JWTBearer())])
 db_dependency = Annotated[Session, Depends()]
 
-@router.get("")
-def get_all_Education(user_id: int = Depends(get_current_user_id), education_service: EducationService = Depends()):
-    return education_service.get_all_Educations(user_id)
+@router.get("/cv/{cv_id}")
+def get_all_education(cv_id: int, education_service: EducationService = Depends()):
+    return education_service.get_all_educations_cv(cv_id)
 
 
-@router.get("/{eudcation_id}")
-def get_Education_by_id(eudcation_id: int, user_id: int = Depends(get_current_user_id), education_service: EducationService = Depends()):
-    return education_service.get_Education_by_id(eudcation_id, user_id)
+@router.get("/{cv_id}/{eudcation_id}")
+def get_education_by_id(eudcation_id: int, cv_id: int, education_service: EducationService = Depends()):
+    return education_service.get_education_by_id(eudcation_id, cv_id)
 
 
 @router.post("")
-def create_Education(education_request: EducationCreate, user_id: int = Depends(get_current_user_id), education_service: EducationService = Depends()):
-    return education_service.create_Education(education_request, user_id)
+def create_education(education_request: EducationCreate, education_service: EducationService = Depends()):
+    return education_service.create_education(education_request)
 
 
 @router.put("")
-def update_Education(education_request: EducationUpdate, user_id: int = Depends(get_current_user_id), education_service: EducationService = Depends()):
-    return education_service.update_Education(education_request, user_id)
+def update_education(education_request: EducationUpdate, education_service: EducationService = Depends()):
+    return education_service.update_education(education_request)
 
 
-@router.delete("/{eudcation_id}")
-def delete_Education(eudcation_id: int, user_id: int = Depends(get_current_user_id), education_service: EducationService = Depends()):
-    return education_service.delete_Education(eudcation_id, user_id)
+@router.delete("/{cv_id}/{education_id}")
+def delete_education(education_id: int, cv_id, education_service: EducationService = Depends()):
+    return education_service.delete_education(education_id, cv_id)
