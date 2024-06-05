@@ -6,6 +6,7 @@ from routers.CVRouter import router as cv_router
 from routers.EducationRouter import router as education_router
 from routers.ExperienceRouter import router as experience_router
 from routers.SkillRouter import router as skill_router
+from routers.LanguageRouter import router as language_router
 from models.BaseModel import Base
 from config.database import Engine
 from fastapi.middleware.cors import CORSMiddleware
@@ -38,7 +39,7 @@ app.include_router(cv_router, prefix="/cvs", tags=["CVs"])
 app.include_router(education_router, prefix="/educations/{cv_id}", tags=["Educations"])
 app.include_router(experience_router, prefix="/experiences/{cv_id}", tags=["Experiences"])
 app.include_router(skill_router, prefix="/skills/{cv_id}", tags=["Skills"])
-
+app.include_router(language_router, prefix="/languages/{cv_id}", tags=["Languages"])
 
 
 def run_migrations():
