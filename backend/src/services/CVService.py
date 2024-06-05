@@ -23,6 +23,10 @@ class CVService:
             raise HTTPException(status_code=404, detail="CV not found")
         return CVSchema.from_orm(cv)
 
+    def create_empty_cv(self, user_id:UUID):
+        cv = self.cv_repo.create(CV(user_id=user_id))
+        return cv
+
     def create_cv(self, cv_data: CVCreateSchema, user_id: UUID) -> CVSchema:
         cv_data_dict = cv_data.dict()
         cv_data_dict['user_id'] = user_id
@@ -44,45 +48,3 @@ class CVService:
         update_data_dict = update_data.dict(exclude_unset=True)
         updated_cv = self.cv_repo.update(update_data.id, update_data_dict)
         return CVSchema.from_orm(updated_cv) 
-
-
-    def add_education_cv(self, cv_id: int, education: EducationCreate, user_id: UUID):
-        cv = self.cv_repo.get_cv_by_id(cv_id, user_id)
-        if cv is None:
-            raise HTTPException(status_code=404, detail="CV not found")
-        new_education = Education(**education.dict())
-        cv.educations.append(new_education)
-        self.cv_repo.db.commit()
-        return CVSchema.from_orm(cv)
-    
-
-    def delete_education_cv(self, cv_id: int, education_id: int, user_id: UUID):
-        cv = self.cv_repo.get_cv_by_id(cv_id, user_id)
-        if cv is None:
-            raise HTTPException(status_code=404, detail="CV not found")
-        cv.educations = [education for education in cv.educations if education.id != education_id]
-        print(len(cv.educations))
-        self.cv_repo.db.commit()
-        return True
-    
-
-    def update_education_cv(self, cv_id: int, education_id: int, education: EducationCreate, user_id: UUID):
-        cv = self.cv_repo.get_cv_by_id(cv_id, user_id)
-        if cv is None:
-            raise HTTPException(status_code=404, detail="CV not found")
-        for edu in cv.educations:
-            if edu.id == education_id:
-                edu.degree = education.degree
-                edu.school_name = education.school_name
-                edu.start_date = education.start_date
-                edu.end_date = education.end_date
-                edu.description = education.description
-        self.cv_repo.db.commit()
-        return True
-    
-
-    def get_education_cv(self, cv_id: int, user_id: UUID):
-        cv = self.cv_repo.get_cv_by_id(cv_id, user_id)
-        if cv is None:
-            raise HTTPException(status_code=404, detail="CV not found")
-        return [EducationSchema.from_orm(education) for education in cv.educations]

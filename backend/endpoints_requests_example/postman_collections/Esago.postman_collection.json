@@ -2,195 +2,474 @@
 	"info": {
 		"_postman_id": "9147aa86-f6d3-418e-8952-2f886def1851",
 		"name": "Esago",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "29974030"
 	},
 	"item": [
 		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"user1\",\r\n  \"email\": \"user1@gmail.com\",\r\n  \"password\": \"user1234\",\r\n  \"full_name\": \"User Name\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{URL}}users/register",
-					"host": [
-						"{{URL}}users"
-					],
-					"path": [
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"username_or_email\": \"user1\",\r\n  \"password\": \"user1234\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{URL}}users/login",
-					"host": [
-						"{{URL}}users"
-					],
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "UploadResume",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxMzAxMzAsImlkIjoiZmYzNDQ3ZTctYmIxNC00MzYyLWFiZTMtZGI4MzE3NTdkNzRmIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20ifQ.SK9xMMIwVUjKsR7En3-kB9m5l8akuj4HkiSh_TMVvxk",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": "./resume.pdf"
-						}
-					]
-				},
-				"url": {
-					"raw": "{{URL}}resumes",
-					"host": [
-						"{{URL}}resumes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetAllResume",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxMzAxMzAsImlkIjoiZmYzNDQ3ZTctYmIxNC00MzYyLWFiZTMtZGI4MzE3NTdkNzRmIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20ifQ.SK9xMMIwVUjKsR7En3-kB9m5l8akuj4HkiSh_TMVvxk",
-							"type": "string"
-						}
-					]
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{URL}}resumes",
-					"host": [
-						"{{URL}}resumes"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "UpdateResume",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxMzAxMzAsImlkIjoiZmYzNDQ3ZTctYmIxNC00MzYyLWFiZTMtZGI4MzE3NTdkNzRmIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20ifQ.SK9xMMIwVUjKsR7En3-kB9m5l8akuj4HkiSh_TMVvxk",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "id",
-							"value": "9",
-							"type": "text",
-							"disabled": true
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username_or_email\": \"rehh213@gmail.com\",\r\n  \"password\": \"user1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
-						{
-							"key": "file",
-							"type": "file",
-							"src": "./resume.pdf"
-						}
-					]
+						"url": "{{URL}}users/login"
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{URL}}resumes?id=9",
-					"host": [
-						"{{URL}}resumes"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "9"
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"user\",\r\n  \"email\": \"rehh213@gmail.com\",\r\n  \"password\": \"user1234\",\r\n  \"full_name\": \"User Name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}users/register"
+					},
+					"response": []
+				},
+				{
+					"name": "ActivateUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}users/activate/1f53aa66-e3cb-4af0-96aa-6a91bd0d66df?token=56382ea2-fae6-47e0-8232-e67209ad84bc",
+							"host": [
+								"{{URL}}users"
+							],
+							"path": [
+								"activate",
+								"1f53aa66-e3cb-4af0-96aa-6a91bd0d66df"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "56382ea2-fae6-47e0-8232-e67209ad84bc"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}users/me"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Picture",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true,
+							"host": true,
+							"content-length": true,
+							"user-agent": true,
+							"accept": true,
+							"accept-encoding": true,
+							"connection": true
+						},
+						"strictSSL": false
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"contentType": "multipart/form-data",
+									"type": "file",
+									"src": "/C:/Users/rehh2/Downloads/sensors-22-06586 tr.pdf"
+								}
+							]
+						},
+						"url": "{{URL}}users/changepicture"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{TOKEN}}"
 				}
 			},
-			"response": []
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
 		},
 		{
-			"name": "DeleteResume",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxMzAxMzAsImlkIjoiZmYzNDQ3ZTctYmIxNC00MzYyLWFiZTMtZGI4MzE3NTdkNzRmIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20ifQ.SK9xMMIwVUjKsR7En3-kB9m5l8akuj4HkiSh_TMVvxk",
-							"type": "string"
-						}
-					]
+			"name": "Resume",
+			"item": [
+				{
+					"name": "GetAllResume",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxMzAxMzAsImlkIjoiZmYzNDQ3ZTctYmIxNC00MzYyLWFiZTMtZGI4MzE3NTdkNzRmIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20ifQ.SK9xMMIwVUjKsR7En3-kB9m5l8akuj4HkiSh_TMVvxk"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}resumes"
+					},
+					"response": []
 				},
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{URL}}resumes?id=9",
-					"host": [
-						"{{URL}}resumes"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "9"
+				{
+					"name": "UploadResume",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxMzAxMzAsImlkIjoiZmYzNDQ3ZTctYmIxNC00MzYyLWFiZTMtZGI4MzE3NTdkNzRmIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20ifQ.SK9xMMIwVUjKsR7En3-kB9m5l8akuj4HkiSh_TMVvxk"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/rehh2/OneDrive/Desktop/train.csv"
+								}
+							]
+						},
+						"url": "{{URL}}resumes"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateResume",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxMzAxMzAsImlkIjoiZmYzNDQ3ZTctYmIxNC00MzYyLWFiZTMtZGI4MzE3NTdkNzRmIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20ifQ.SK9xMMIwVUjKsR7En3-kB9m5l8akuj4HkiSh_TMVvxk"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "9",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/rehh2/OneDrive/Desktop/data_cleaning.ipynb"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}resumes?id=9",
+							"host": [
+								"{{URL}}resumes"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteResume",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MTkxMzAxMzAsImlkIjoiZmYzNDQ3ZTctYmIxNC00MzYyLWFiZTMtZGI4MzE3NTdkNzRmIiwiZW1haWwiOiJ1c2VyMUBnbWFpbC5jb20ifQ.SK9xMMIwVUjKsR7En3-kB9m5l8akuj4HkiSh_TMVvxk"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}resumes?id=9",
+							"host": [
+								"{{URL}}resumes"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "Education",
+			"item": [
+				{
+					"name": "EducationDeleteCv",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{URL}}cv/8/13"
+					},
+					"response": []
+				},
+				{
+					"name": "AddEducation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"school_name\": \"string\",\r\n  \"location\": \"string\",\r\n  \"description\": \"string\",\r\n  \"degree\": \"string\",\r\n  \"field_of_study\": \"string\",\r\n  \"start_date\": \"2024-06-05\",\r\n  \"end_date\": \"2024-06-05\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}cv/8"
+					},
+					"response": []
+				},
+				{
+					"name": "GetEducationCv",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}cv/8"
+					},
+					"response": []
+				},
+				{
+					"name": "EducationUpdateCv",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 13,\r\n  \"school_name\": \"12321312321312321\",\r\n  \"location\": \"123\",\r\n  \"description\": \"123\",\r\n  \"degree\": \"123\",\r\n  \"field_of_study\": \"123\",\r\n  \"start_date\": \"2024-06-04\",\r\n  \"end_date\": \"2024-06-04\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}cv/8"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CV",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}cvs"
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{URL}}cvs/9"
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1ef21af6-bda0-4b60-be3d-42a7da5b0bbe"
+								},
+								{
+									"key": "title",
+									"value": "awd",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "wd",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "wd",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "wd",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "awd",
+									"type": "text"
+								},
+								{
+									"key": "bio",
+									"value": "awd",
+									"type": "text"
+								},
+								{
+									"key": "job_title",
+									"value": "awd",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{URL}}cvs"
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\" : 6,\r\n  \"title\": \"1\",\r\n  \"first_name\": \"1\",\r\n  \"last_name\": \"1\",\r\n  \"address\": \"1\",\r\n  \"phone_number\": \"22222\",\r\n  \"bio\": \"2222\",\r\n  \"job_title\": \"3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{URL}}cvs"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{URL}}cv"
+					},
+					"response": []
+				},
+				{
+					"name": "First",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{URL}}cvs/first"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{TOKEN}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlMGQyNjVlMC0yOTJlLTRjNDYtYjMxZi0zNmIzY2NhOTI2NGIiLCJlbWFpbCI6InJlaGgyMTNAZ21haWwuY29tIiwiZXhwIjoxNzIwMDkyNDUzfQ.asHQcAume7lRT1RPC3JJpIDekBRBqx5UXYRtgza4JuY"
 		}
 	]
 }

@@ -30,10 +30,10 @@ class CV(Base):
     __tablename__ = 'cvs'
 
     id = Column(sqlalchemy.Integer, primary_key=True)
-    title = Column(sqlalchemy.String, nullable=False)
+    title = Column(sqlalchemy.String, nullable=True)
     created_at = Column(sqlalchemy.DateTime, default=sqlalchemy.func.now())
     updated_at = Column(sqlalchemy.DateTime, default=sqlalchemy.func.now(), onupdate=sqlalchemy.func.now())
-    user_id = Column(ForeignKey('users.id'))
+    user_id = Column(ForeignKey('users.id'), nullable=False)
     user = relationship('User', back_populates='cvs')
 
     # User information
