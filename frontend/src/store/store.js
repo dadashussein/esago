@@ -4,6 +4,7 @@ import educationReducer from './features/education/educationSlice';
 import personalReducer from './features/personal/personalSlice';
 import experienceReducer from './features/experience/experienceSlice';
 import skillReducer from './features/skills/skillSlice';
+import resumeReducer from './features/resume/resumeSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
 		personal: personalReducer,
 		experience: experienceReducer,
 		skills: skillReducer,
+		resumes: resumeReducer
 	}
 });

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { deleteEducation, fetchEducation, postEducation } from "~/store/features/education/educationThunks";
 import { addEducation, removeEducation, setEducationField } from "~/store/features/education/educationSlice";
 
-const useEducation = (setActiveTab) => {
+const useEducation = () => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const dispatch = useDispatch();
@@ -12,10 +12,9 @@ const useEducation = (setActiveTab) => {
 
 	const handleAddEducation = (e) => {
 		e.preventDefault();
-		const token = localStorage.getItem("accessToken");
 		dispatch(addEducation());
 		setCurrentIndex(education.length);
-		dispatch(postEducation({ token, education: education[currentIndex] }));
+		dispatch(postEducation({ education: education[currentIndex] }));
 		//dispatch(fetchEducation(token));
 	};
 

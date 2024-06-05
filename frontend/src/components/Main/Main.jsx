@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Experience from "./Leftside/Sections/Experience";
-import Education from "./Leftside/Sections/Education";
 import Skill from "./Leftside/Sections/Skill";
 import Rightside from "../Rightside";
 import Personal from "./Leftside/Sections/Personal";
+import Education from "./Leftside/Sections/Education";
+import Button from "../Button";
+import { useNavigate } from "react-router-dom";
+
+
 
 const Main = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const navigate = useNavigate()
+
+  const handleBack = () => {
+    navigate('/app')
+  }
 
   const tabs = [
     {
@@ -45,9 +54,8 @@ const Main = () => {
                 <div
                   key={index}
                   onClick={() => setActiveTab(index)}
-                  className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${
-                    activeTab === index ? "border-b-2 border-primary-500" : ""
-                  }`}
+                  className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${activeTab === index ? "border-b-2 border-primary-500" : ""
+                    }`}
                 >
                   {tab.name}
                 </div>
@@ -56,9 +64,21 @@ const Main = () => {
             <div className="">{tabs[activeTab].component}</div>
           </div>
           {/* right side */}
-          {/* <div className="border-[20px] h-[40rem] border-primary-500 rounded-2xl">
+          <div className="border-[20px] h-[40rem] border-primary-500 rounded-2xl">
             <Rightside />
-          </div> */}
+          </div>
+        </div>
+
+        <div>
+
+          <button onClick={handleBack} >
+            <Button textColor='primary-500' bgColor='gray-100'>
+              Exit
+            </Button>
+          </button>
+          <Button textColor='white' bgColor='primary-500'>
+            Save
+          </Button>
         </div>
       </div>
     </div>

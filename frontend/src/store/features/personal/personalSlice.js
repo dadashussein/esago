@@ -1,23 +1,52 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+
+
 export const createCv = createAsyncThunk(
 	'cv/create',
-	async ({ info }) => {
-		const token = localStorage.getItem('accessToken')
-		const response = await fetch('http://127.0.0.1:8000/cvs', {
-			method: 'POST',
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-			body: JSON.stringify(info)
-		})
-		const data = await response.json()
-		const cvId = data.id
-		localStorage.setItem('cvId', cvId)
-		return data
+	async (thunkAPI) => {
+		try {
+			const token = localStorage.getItem('accessToken')
+			const response = await fetch('http://127.0.0.1:8000/cvs/first', {
+				method: 'POST',
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(thunkAPI)
+			})
+			const data = await response.json()
+			const cvId = data.id
+			localStorage.setItem('cvId', cvId)
+			return data
+		} catch (err) {
+			return thunkAPI.rejectWithValue(err.response.data.detail)
+		}
 	}
 )
 
+export const postInfo = createAsyncThunk(
+	'personal/postInfo',
+	async ({ info }, thunkAPI) => {
+		try {
+			const token = localStorage.getItem('accessToken');
+			const response = await fetch(`http://127.0.0.1:8000/cvs`, {
+				method: 'PUT',
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: JSON.stringify(info)
+			});
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			return data;
+		} catch (err) {
+			return thunkAPI.rejectWithValue(err.message || 'Something went wrong');
+		}
+	}
+);
 
 export const fetchInfo = createAsyncThunk(
 	'personal/fetchInfo',
