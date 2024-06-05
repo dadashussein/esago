@@ -336,9 +336,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}education/8/13",
+							"raw": "{{URL}}educations/8/13",
 							"host": [
-								"{{URL}}education"
+								"{{URL}}educations"
 							],
 							"path": [
 								"8",
@@ -363,9 +363,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}education/8",
+							"raw": "{{URL}}educations/8",
 							"host": [
-								"{{URL}}education"
+								"{{URL}}educations"
 							],
 							"path": [
 								"8"
@@ -380,9 +380,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}education/8",
+							"raw": "{{URL}}educations/8",
 							"host": [
-								"{{URL}}education"
+								"{{URL}}educations"
 							],
 							"path": [
 								"8"
@@ -406,9 +406,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}education/8",
+							"raw": "{{URL}}educations/8",
 							"host": [
-								"{{URL}}education"
+								"{{URL}}educations"
 							],
 							"path": [
 								"8"
@@ -428,9 +428,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}experience/8/2",
+							"raw": "{{URL}}experiences/8/2",
 							"host": [
-								"{{URL}}experience"
+								"{{URL}}experiences"
 							],
 							"path": [
 								"8",
@@ -455,9 +455,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}experience/8",
+							"raw": "{{URL}}experiences/8",
 							"host": [
-								"{{URL}}experience"
+								"{{URL}}experiences"
 							],
 							"path": [
 								"8"
@@ -472,9 +472,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}experience/8",
+							"raw": "{{URL}}experiences/8",
 							"host": [
-								"{{URL}}experience"
+								"{{URL}}experiences"
 							],
 							"path": [
 								"8"
@@ -498,9 +498,101 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}experience/8",
+							"raw": "{{URL}}experiences/8",
 							"host": [
-								"{{URL}}experience"
+								"{{URL}}experiences"
+							],
+							"path": [
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Skill",
+			"item": [
+				{
+					"name": "SkillDeleteCv",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}skills/8/2",
+							"host": [
+								"{{URL}}skills"
+							],
+							"path": [
+								"8",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddSkill",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"level\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}skills/8",
+							"host": [
+								"{{URL}}skills"
+							],
+							"path": [
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetSkillCv",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}skills/8",
+							"host": [
+								"{{URL}}skills"
+							],
+							"path": [
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SkillUpdateCv",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"23232\",\r\n  \"level\": \"string\",\r\n  \"id\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}skills/8",
+							"host": [
+								"{{URL}}skills"
 							],
 							"path": [
 								"8"
