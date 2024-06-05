@@ -34,8 +34,8 @@ app.add_middleware(
 
 app.include_router(user_router, prefix="/users", tags=["Users"])
 app.include_router(cv_router, prefix="/cvs", tags=["CVs"])
-app.include_router(education_router, prefix="/education/{cv_id}", tags=["Educations"])
-app.include_router(experience_router, prefix="/experience/{cv_id}", tags=["Experiences"])
+app.include_router(education_router, prefix="/educations/{cv_id}", tags=["Educations"])
+app.include_router(experience_router, prefix="/experiences/{cv_id}", tags=["Experiences"])
 
 
 def run_migrations():
