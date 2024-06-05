@@ -1,5 +1,3 @@
-import React from "react";
-
 const Button = ({ bgColor, textColor, children, classname }) => {
   return (
     <button

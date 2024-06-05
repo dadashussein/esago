@@ -29,10 +29,10 @@ const Experience = ({ setCurrentSection }) => {
     }
   };
   return (
-    <div className="border-gray-900 p-6">
+    <div className="border-gray-900/10 p-6 relative">
       <div className="flex items-center justify-between">
-        <button onClick={() => setCurrentSection(1)}>geri</button>
-        <h2 className="font-semibold text-[30px] text-gray-900">Experience</h2>
+        
+        <h2 className="font-semibold lg:text-[40px] text-[40px] text-gray-900">Experience</h2>
         {experience.length > 1 && (
           <div className="col-span-full">
             <button

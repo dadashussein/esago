@@ -5,6 +5,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 
 import HomePage from "../pages/home/HomePage";
 import Register from "../components/Register";
+import Dashboard from "~/components/Dashboard";
 
 const routes = createBrowserRouter([
   {
@@ -20,9 +21,16 @@ const routes = createBrowserRouter([
     path: "/app",
     element: (
       // <ProtectedRoute>
-
       // </ProtectedRoute>
       <Inner />
+    ),
+  },
+  {
+    path: "/app/*",
+    element: (
+      // <ProtectedRoute>
+      // </ProtectedRoute>
+      <Dashboard />
     ),
   },
   {

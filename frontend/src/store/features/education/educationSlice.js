@@ -44,11 +44,30 @@ const educationSlice = createSlice({
 			})
 			.addCase(fetchEducation.fulfilled, (state, action) => {
 				state.education = action.payload;
-				state.status = 'succeeded';
+				if (action.payload.length === 0) {
+					state.education.push({
+						school_name: '',
+						location: '',
+						degree: '',
+						field_of_study: '',
+						start_date: '',
+						end_date: '',
+						description: '',
+					});
+				}
 			})
 			.addCase(fetchEducation.rejected, (state, action) => {
 				state.error = action.error.message;
 				state.status = 'failed';
+				state.education.push({
+					school_name: '',
+					location: '',
+					degree: '',
+					field_of_study: '',
+					start_date: '',
+					end_date: '',
+					description: '',
+				});
 			})
 			.addCase(deleteEducation.fulfilled, (state, action) => {
 				state.education = state.education.filter(

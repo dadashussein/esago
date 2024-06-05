@@ -1,3 +1,4 @@
+import avatar from "../../assets/avatar.jpg";
 const Template3 = ({ education, experience, personal, img }) => {
   const {
     first_name,
@@ -8,15 +9,16 @@ const Template3 = ({ education, experience, personal, img }) => {
     email,
     bio,
   } = personal;
+
   return (
-    <div className="w-[595px] p-4 bg-white p h-[842px] border m-auto">
+    <div className="p-4 bg-white border m-auto">
       {/* header  start*/}
 
       <div className="border-b-2 flex justify-between p-4">
         <div className="flex items-center gap-4 p-2">
           <img
             className="rounded-full w-32 h-32 object-cover"
-            src={img}
+            src={avatar}
             alt=""
           />
           <div className="">
@@ -44,35 +46,40 @@ const Template3 = ({ education, experience, personal, img }) => {
               {bio}
             </p>
           </div>
-          <div className="flex mt-6 flex-col gap-2 ">
-            <h1>Education</h1>
-            <div className="border-b-2"></div>
-            {education.map((edu, index) => (
-              <div key={index} className="flex   gap-4">
-                <div className="flex flex-col text-gray-500">
-                  <p className=" text-[10px]">{edu.start_date}</p>
-                  <p className="text-[10px]">/</p>
-                  <p className=" text-[10px]">{edu.end_date}</p>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 justify-center">
-                    <h2 className="text-[12px] text-blue-800">
-                      {edu.school_name}
-                    </h2>
-                    <p className="text-[12px] text-gray-500">{edu.location}</p>
+          {/* education */}
+          {education && (
+            <div className="flex mt-6 flex-col gap-2 ">
+              <h1>Education</h1>
+              <div className="border-b-2"></div>
+              {education.map((edu, index) => (
+                <div key={index} className="flex   gap-4">
+                  <div className="flex flex-col text-gray-500">
+                    <p className=" text-[10px]">{edu.start_date}</p>
+                    <p className="text-[10px]">/</p>
+                    <p className=" text-[10px]">{edu.end_date}</p>
                   </div>
+                  <div>
+                    <div className="flex items-center gap-2 justify-center">
+                      <h2 className="text-[12px] text-blue-800">
+                        {edu.school_name}
+                      </h2>
+                      <p className="text-[12px] text-gray-500">
+                        {edu.location}
+                      </p>
+                    </div>
 
-                  <p className=" text-[11px] text-gray-500">
-                    {edu.field_of_study}
-                  </p>
-                  <p className="text-[11px] text-gray-500">{edu.degree}</p>
-                  <p className="text-[10px] text-gray-500   break-all whitespace-pre-wrap italic">
-                    {edu.description}
-                  </p>
+                    <p className=" text-[11px] text-gray-500">
+                      {edu.field_of_study}
+                    </p>
+                    <p className="text-[11px] text-gray-500">{edu.degree}</p>
+                    <p className="text-[10px] text-gray-500   break-all whitespace-pre-wrap italic">
+                      {edu.description}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           <div className="flex mt-6 flex-col gap-2">
             <h1>Key Skills</h1>
             <div className="grid grid-cols-2">

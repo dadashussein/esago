@@ -20,12 +20,11 @@ const Register = () => {
       return;
     }
 
-    const newUser = { username, email, password, first_name, last_name};
+    const newUser = { username, email, password};
     try {
       const action = await dispatch(register(newUser));
       const resultAction = unwrapResult(action);
 
-      navigate("/activation");
     } catch (err) {
       setError(err);
     }

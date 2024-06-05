@@ -29,17 +29,16 @@ const Rightside = () => {
   const auth = useSelector((state) => state.auth.currentUser);
 
   let imgURl = `http://localhost:8000/static/profiles/${auth?.profile_picture}`;
+  
 
   return (
-    <div className="bg-gray-100">
-      <div className="h-[842px] w-[595px]">
-        <Template3
-          img={imgURl}
-          personal={personal}
-          education={education}
-          experience={finalExperience}
-        />
-      </div>
+    <div className="bg-gray-100  w-[30rem]">
+      <Template3
+        img={imgURl}
+        personal={personal}
+        education={education}
+        experience={finalExperience}
+      />
     </div>
   );
 };

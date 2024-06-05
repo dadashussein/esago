@@ -3,9 +3,9 @@ import { IoMdAdd } from "react-icons/io";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import { GoArrowLeft } from "react-icons/go";
 import useEducation from "~/hooks/useEducation";
+import { useEffect } from "react";
 
-
-const Education = ({ setCurrentSection }) => {
+const Education = ({ setActiveTab }) => {
   const {
     education,
     currentIndex,
@@ -13,29 +13,42 @@ const Education = ({ setCurrentSection }) => {
     handleInputChange,
     handleRemoveEducation,
     setCurrentIndex,
-    handlePostEducation
-  } = useEducation(setCurrentSection);
+  } = useEducation(setActiveTab);
+
+  console.log(currentIndex);
 
   const gonder = (e) => {
     e.preventDefault();
-    handlePostEducation();
-    console.log("gonderildi", education);
-  }
+    handleAddEducation(e);
+  };
 
+  console.log(education);
 
+  // useEffect(() => {
+  //   console.log(hasId);
+  // }, [education]);
+  
+  // console.log(education);
+
+  // console.log(hasId);
+
+  // const handleNext = (e) => {
+  //   e.preventDefault();
+  //   if (hasId) {
+  //     setActiveTab(2);
+  //   } else {
+  //     handleAddEducation(e);
+  //     setActiveTab(2);
+  //   }
+  // };
 
   return (
-    <div className="border-gray-900 px-6 py-4">
-      <button
-        onClick={() => setCurrentSection(0)}
-        className="cursor-pointer inline-block"
-      >
-        <GoArrowLeft size="1.5rem" />
-      </button>
+    <div className="border-gray-900/10 p-6 relative">
       <div className="flex items-center justify-between">
-        <h2 className="font-semibold text-[30px] text-gray-900">Education</h2>
-        {education.length > 0 && (
-          <div className="col-span-full flex">
+        <h2 className="font-semibold lg:text-[40px] text-[40px] text-gray-900">
+          Education
+        </h2>
+        <div className="col-span-full flex">
             <button
               type="button"
               onClick={handleRemoveEducation}
@@ -44,22 +57,11 @@ const Education = ({ setCurrentSection }) => {
               <MdDelete size="2rem" />
             </button>
           </div>
-        )}
       </div>
       <p className="text-sm leading-6 text-gray-600">
         Add your most relevant education, including programs youre currently
         enrolled in
       </p>
-
-      {education.length === 0 && (
-        <button
-          onClick={handleAddEducation}
-          className="border-2 rounded-md duration-200 hover:bg-slate-300 py-2 px-4 mt-4"
-        >
-          Add Education
-        </button>
-      )}
-
       {education.length > 0 && (
         <form
           onSubmit={gonder}
@@ -174,24 +176,27 @@ const Education = ({ setCurrentSection }) => {
             >
               Description
             </label>
-            <textarea
-              id={`description-${currentIndex}`}
-              name={`description-${currentIndex}`}
-              required
-              value={education[currentIndex]?.description || ""}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-              rows={3}
-              placeholder="A brief description of your education"
-              className="input-primary"
-            />
-            <div className="flex relative items-center gap-[12rem]">
+            <div className="flex gap-4 items-center">
+              <textarea
+                id={`description-${currentIndex}`}
+                name={`description-${currentIndex}`}
+                required
+                value={education[currentIndex]?.description || ""}
+                onChange={(e) =>
+                  handleInputChange("description", e.target.value)
+                }
+                rows={3}
+                placeholder="A brief description of your education"
+                className="input-primary"
+              />
               <button
-                type="button"
-                onClick={handleAddEducation}
-                className="border-2 rounded-md duration-200 hover:bg-slate-300 py-2 px-4 mt-4"
+                type="submit"
+                className="p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
               >
                 <IoMdAdd />
               </button>
+            </div>
+            <div className="flex relative items-center gap-[12rem]">
               {education.length > 1 && (
                 <div className="flex justify-center gap-8 mt-4">
                   <button
@@ -219,18 +224,17 @@ const Education = ({ setCurrentSection }) => {
                   </button>
                 </div>
               )}
-              <button
-                type="button"
-                onClick={gonder}
-                className="border-2 rounded-md duration-200 hover:bg-slate-300 py-2 px-4 mt-4"
-              >
-                Next
-              </button>
-
             </div>
           </div>
         </form>
       )}
+      <button
+        type="button"
+        onClick={() => setActiveTab(2)}
+        className="inline-flex py-2 px-6 absolute text-center bottom-[-50px] right-[-10px]    rounded-[20px] bg-primary-500 text-white"
+      >
+        Next
+      </button>
     </div>
   );
 };
