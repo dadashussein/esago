@@ -103,54 +103,10 @@
 					"response": []
 				},
 				{
-					"name": "Change Picture",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {
-							"content-type": true,
-							"host": true,
-							"content-length": true,
-							"user-agent": true,
-							"accept": true,
-							"accept-encoding": true,
-							"connection": true
-						},
-						"strictSSL": false
-					},
+					"name": "ChangePicture",
 					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"contentType": "multipart/form-data",
-									"type": "file",
-									"src": "/C:/Users/rehh2/Downloads/sensors-22-06586 tr.pdf"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}users/changepicture",
-							"host": [
-								"{{URL}}users"
-							],
-							"path": [
-								"changepicture"
-							]
-						}
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}

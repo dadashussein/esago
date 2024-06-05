@@ -1,6 +1,6 @@
 import uuid
 from datetime import timedelta, datetime
-from fastapi import Depends, HTTPException, status, BackgroundTasks
+from fastapi import Depends, File, HTTPException, UploadFile, status, BackgroundTasks
 from pydantic import ValidationError
 
 from services.FileService import FileService
@@ -107,7 +107,7 @@ class UserService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
         return user.resumes
 
-    async def change_profile_picture(self, userId: uuid.UUID, file):
+    async def change_profile_picture(self, userId: uuid.UUID, file: UploadFile = File(...)):
         user = self.userRepo.get(userId)
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
