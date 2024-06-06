@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException
 from config.mapper import map_schema_to_model
 from models.models import CV, Education
 from repositories.CVRepository import CVRepository
-from schemas.CVSchemas import CVCreateSchema, CVSchema, CVUpdateSchema
+from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVUpdateSchema
 from schemas.EducationSchemas import EducationCreate, EducationSchema
 from services.FileService import FileService
 from config.config import configs
@@ -23,8 +23,8 @@ class CVService:
             raise HTTPException(status_code=404, detail="CV not found")
         return CVSchema.from_orm(cv)
 
-    def create_empty_cv(self, title:str, user_id:UUID):
-        cv = self.cv_repo.create(CV(user_id=user_id, title=title))
+    def create_empty_cv(self, title:CVFirstSchema, user_id:UUID):
+        cv = self.cv_repo.create(CV(user_id=user_id, title=title.title))
         return cv
 
     def create_cv(self, cv_data: CVCreateSchema, user_id: UUID) -> CVSchema:

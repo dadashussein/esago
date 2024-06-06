@@ -40,3 +40,6 @@ class CVUpdateSchema(BaseModel):
     bio: Optional[str]
     email: Optional[str]
     job_title: Optional[str]
+
+class CVFirstSchema(BaseModel):
+    title: str
