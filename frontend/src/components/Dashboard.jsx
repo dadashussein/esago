@@ -6,23 +6,28 @@ import { fetchEducation } from "~/store/features/education/educationThunks";
 import { fetchExperience } from "~/store/features/experience/experienceThunks";
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const fetchAllData = () => {
-      dispatch(fetchEducation());
-      dispatch(fetchExperience());
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   const fetchAllData = () => {
+  //     dispatch(fetchEducation());
+  //     dispatch(fetchExperience());
+  // const token = localStorage.getItem("accessToken");
+  //   dispatch(fetchInfo(token));
 
-    };
-    fetchAllData();
-    return () => {
-      localStorage.removeItem("currentSection");
-    };
-  }, [dispatch]);
+  //   };
+  //   fetchAllData();
+  //   return () => {
+  //     localStorage.removeItem("currentSection");
+  //   };
+  // }, [dispatch]);
 
+  
 
-  return <div className="flex justify-center">
-    <Main />
-  </div>;
+  return (
+    <div className="flex justify-center">
+      <Main />
+    </div>
+  );
 };
 
 export default Dashboard;

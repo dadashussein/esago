@@ -18,7 +18,7 @@ const Template3 = ({ education, experience, personal, img }) => {
         <div className="flex items-center gap-4 p-2">
           <img
             className="rounded-full w-32 h-32 object-cover"
-            src={avatar}
+            src={img && img || avatar}
             alt=""
           />
           <div className="">
@@ -80,7 +80,7 @@ const Template3 = ({ education, experience, personal, img }) => {
               ))}
             </div>
           )}
-          <div className="flex mt-6 flex-col gap-2">
+          {/* <div className="flex mt-6 flex-col gap-2">
             <h1>Key Skills</h1>
             <div className="grid grid-cols-2">
               <div>
@@ -104,7 +104,7 @@ const Template3 = ({ education, experience, personal, img }) => {
                 <p className=" text-[11px] text-gray-500">Node</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* right side */}

@@ -1,32 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 
-export const createCv = createAsyncThunk(
-	'cv/create',
-	async (thunkAPI) => {
-		try {
-			const token = localStorage.getItem('accessToken')
-			const response = await fetch('http://127.0.0.1:8000/cvs/first', {
-				method: 'POST',
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-				body: JSON.stringify(thunkAPI)
-			})
-			const data = await response.json()
-			const cvId = data.id
-			localStorage.setItem('cvId', cvId)
-			return data
-		} catch (err) {
-			return thunkAPI.rejectWithValue(err.response.data.detail)
-		}
-	}
-)
 
 export const postInfo = createAsyncThunk(
 	'personal/postInfo',
-	async ({ info }, thunkAPI) => {
+	async ({ info, cvId }, thunkAPI) => {
 		try {
 			const token = localStorage.getItem('accessToken');
 			const response = await fetch(`http://127.0.0.1:8000/cvs`, {
@@ -35,11 +13,8 @@ export const postInfo = createAsyncThunk(
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
 				},
-				body: JSON.stringify(info)
+				body: JSON.stringify({ ...info, id: cvId })
 			});
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
 			const data = await response.json();
 			return data;
 		} catch (err) {
@@ -50,24 +25,31 @@ export const postInfo = createAsyncThunk(
 
 export const fetchInfo = createAsyncThunk(
 	'personal/fetchInfo',
-	async (token) => {
-		const cvId = localStorage.getItem('cvId')
-		//console.log(cvId);
+	async (cvId) => {
+		const token = localStorage.getItem('accessToken');
 		const response = await fetch(`http://127.0.0.1:8000/cvs/${cvId}`, {
 			headers: {
 				Authorization: `Bearer ${token}`
 			}
 		});
-		const data = await response.json()
-		//console.log(data);
-		return data
+		const data = await response.json();
+		return data;
 	}
-)
+);
 
 const initialState = {
 	status: 'idle',
 	error: null,
-	personal: {}
+	personal: {
+		title: '',
+		first_name: '',
+		last_name: '',
+		job_title: '',
+		address: '',
+		phone_number: '',
+		email: '',
+		bio: ''
+	}
 };
 
 const personalSlice = createSlice({
@@ -81,31 +63,52 @@ const personalSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
+			// .addCase(createCv.pending, (state) => {
+			// 	state.status = 'loading';
+			// })
+			// .addCase(createCv.fulfilled, (state, action) => {
+			// 	state.status = 'succeeded';
+			// 	state.cvId = action.payload.id;
+			// 	state.personal = {
+			// 		title: '',
+			// 		first_name: '',
+			// 		last_name: '',
+			// 		job_title: '',
+			// 		address: '',
+			// 		phone_number: '',
+			// 		email: '',
+			// 		bio: ''
+			// 	};
+			// })
+			// .addCase(createCv.rejected, (state, action) => {
+			// 	state.status = 'failed';
+			// 	state.error = action.payload;
+			// })
 			.addCase(fetchInfo.pending, (state) => {
-				state.status = 'loading'
+				state.status = 'loading';
 			})
 			.addCase(fetchInfo.fulfilled, (state, action) => {
-				state.personal = action.payload
+				state.status = 'succeeded';
+				state.personal = action.payload;
 			})
 			.addCase(fetchInfo.rejected, (state, action) => {
-				state.status = 'failed',
-					state.error = action.payload.message
+				state.status = 'failed';
+				state.error = action.payload;
 			})
-		// .addCase(postInfo.pending, (state) => {
-		// 	state.status = 'loading'
-		// })
-		// .addCase(postInfo.fulfilled, (state) => {
-		// 	state.status = 'succceeded'
-		// })
-		// .addCase(postInfo.rejected, (state, action) => {
-		// 	state.status = 'failed',
-		// 		state.error = action.payload.message
-		// })
+			.addCase(postInfo.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(postInfo.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				state.personal = { ...state.personal, ...action.payload };
+			})
+			.addCase(postInfo.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.payload;
+			});
 	}
 });
 
-export const {
-	setPersonalField,
-} = personalSlice.actions;
+export const { setPersonalField } = personalSlice.actions;
 
 export default personalSlice.reducer;

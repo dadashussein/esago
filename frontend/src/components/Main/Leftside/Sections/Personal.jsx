@@ -1,42 +1,36 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createCv,
   fetchInfo,
   postInfo,
   setPersonalField,
 } from "../../../../store/features/personal/personalSlice";
-import { useEffect } from "react";
-import { fetchEducation } from "~/store/features/education/educationThunks";
 
 import { unwrapResult } from "@reduxjs/toolkit";
+import { useEffect, useState } from "react";
 
-const Personal = ({ setActiveTab }) => {
+const Personal = ({ setActiveTab, cvId }) => {
   const dispatch = useDispatch();
   const personal = useSelector((state) => state.personal.personal);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    dispatch(fetchInfo(token));
-  }, []);
+  //const [photo, setPhoto] = useState(null);
+  //console.log(photo);
 
   const handleInputChange = (field, value) => {
     dispatch(setPersonalField({ field, value }));
   };
 
-
-
   const handleSendAndNext = async () => {
     try {
-      const resultAction = await dispatch(postInfo({ info: personal }));
+      const resultAction = await dispatch(postInfo({ info: personal, cvId }));
       unwrapResult(resultAction);
-      console.log(unwrapResult);
-      setActiveTab(1); // Move to the next tab
+      setActiveTab(1);
     } catch (error) {
-      console.error('Failed to save personal info: ', error);
+      console.error("Failed to save personal info: ", error);
     }
   };
 
-
+  useEffect(() => {
+    dispatch(fetchInfo(cvId));
+  }, [dispatch, cvId]);
 
   return (
     <div className="border-gray-900/10 p-6 relative">
@@ -50,18 +44,6 @@ const Personal = ({ setActiveTab }) => {
       {personal && (
         <div className="mt-4 relative grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6 ">
           <div className="sm:col-span-3">
-            <label htmlFor="title" className="label-primary">
-              Title
-            </label>
-            <input
-              className="input-primary"
-              onChange={(e) => handleInputChange("title", e.target.value)}
-              type="text"
-              value={personal.title}
-              name="title"
-            />
-          </div>
-          <div className="sm:col-span-3">
             <label htmlFor="firstname" className="label-primary">
               First Name
             </label>
@@ -69,10 +51,20 @@ const Personal = ({ setActiveTab }) => {
               className="input-primary"
               onChange={(e) => handleInputChange("first_name", e.target.value)}
               type="text"
-              value={personal.first_name}
+              value={personal?.first_name || ""}
               name="first_name"
             />
           </div>
+          {/* <div className="sm:col-span-3">
+            <label htmlFor="photo" className="label-primary">
+              Upload Photo
+            </label>
+            <input
+              type="file"
+              name="photo"
+              onChange={(e) => setPhoto(e.target.files[0])}
+            />
+          </div> */}
           <div className="sm:col-span-3">
             <label className="label-primary" htmlFor="lastname">
               Last Name
@@ -81,7 +73,7 @@ const Personal = ({ setActiveTab }) => {
               className="input-primary"
               onChange={(e) => handleInputChange("last_name", e.target.value)}
               type="text"
-              value={personal.last_name}
+              value={personal?.last_name || ""}
               name="last_name"
             />
           </div>
@@ -93,7 +85,7 @@ const Personal = ({ setActiveTab }) => {
               className="input-primary"
               onChange={(e) => handleInputChange("job_title", e.target.value)}
               type="text"
-              value={personal.job_title}
+              value={personal?.job_title || ""}
               name="job_title"
             />
           </div>
@@ -105,7 +97,7 @@ const Personal = ({ setActiveTab }) => {
               className="input-primary"
               onChange={(e) => handleInputChange("address", e.target.value)}
               type="text"
-              value={personal.address}
+              value={personal?.address || ""}
               name="address"
             />
           </div>
@@ -119,7 +111,7 @@ const Personal = ({ setActiveTab }) => {
                 handleInputChange("phone_number", e.target.value)
               }
               type="text"
-              value={personal.phone_number}
+              value={personal?.phone_number || ""}
               name="phone_number"
             />
           </div>
@@ -131,7 +123,7 @@ const Personal = ({ setActiveTab }) => {
               className="input-primary"
               onChange={(e) => handleInputChange("email", e.target.value)}
               type="email"
-              value={personal.email}
+              value={personal?.email || ""}
               name="email"
             />
           </div>
@@ -145,7 +137,7 @@ const Personal = ({ setActiveTab }) => {
               name="bio"
               id="bio"
               rows={3}
-              value={personal.bio}
+              value={personal?.bio || ""}
               placeholder="Write down your bio"
             />
           </div>

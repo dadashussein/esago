@@ -5,26 +5,33 @@ import Rightside from "../Rightside";
 import Personal from "./Leftside/Sections/Personal";
 import Education from "./Leftside/Sections/Education";
 import Button from "../Button";
-import { useNavigate } from "react-router-dom";
-
-
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchEducation } from "~/store/features/education/educationThunks";
 
 const Main = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { cvId } = useParams();
+
+  useEffect(() => {
+    dispatch(fetchEducation({ cvId }));
+    //dispatch(fetchExperience());
+  }, [dispatch, cvId]);
 
   const handleBack = () => {
-    navigate('/app')
-  }
+    navigate("/app");
+  };
 
   const tabs = [
     {
       name: "Contact",
-      component: <Personal setActiveTab={setActiveTab} />,
+      component: <Personal cvId={cvId} setActiveTab={setActiveTab} />,
     },
     {
       name: "Education",
-      component: <Education setActiveTab={setActiveTab} />,
+      component: <Education cvId={cvId} setActiveTab={setActiveTab} />,
     },
     {
       name: "Experience",
@@ -54,8 +61,9 @@ const Main = () => {
                 <div
                   key={index}
                   onClick={() => setActiveTab(index)}
-                  className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${activeTab === index ? "border-b-2 border-primary-500" : ""
-                    }`}
+                  className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${
+                    activeTab === index ? "border-b-2 border-primary-500" : ""
+                  }`}
                 >
                   {tab.name}
                 </div>
@@ -70,13 +78,9 @@ const Main = () => {
         </div>
 
         <div>
+          <button onClick={handleBack}>exit</button>
 
-          <button onClick={handleBack} >
-            <Button textColor='primary-500' bgColor='gray-100'>
-              Exit
-            </Button>
-          </button>
-          <Button textColor='white' bgColor='primary-500'>
+          <Button textColor="white" bgColor="primary-500">
             Save
           </Button>
         </div>

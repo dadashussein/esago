@@ -1,8 +1,31 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
-export const downloadCV = createAsyncThunk(
-    'resume/cvDownload',
-    async (thunkAPI) => {
+
+export const createCv = createAsyncThunk(
+    'cv/cvCreate',
+    async ({ title }, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('accessToken');
+            const response = await fetch('http://127.0.0.1:8000/cvs/first', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ title })
+            });
+            const data = await response.json();
+            console.log(data);
+            return data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data.detail);
+        }
+    }
+);
+
+export const fetchCv = createAsyncThunk(
+    'resume/cvRetrieve',
+    async (_, thunkAPI) => {
         try {
             const token = localStorage.getItem('accessToken')
             const response = await fetch('http://127.0.0.1:8000/cvs', {
@@ -19,26 +42,21 @@ export const downloadCV = createAsyncThunk(
     }
 )
 
-// export const updateCV = createAsyncThunk(
-//     'resume/updateCV',
-//     async ({ cvId, data }) => {
-//         const token = localStorage.getItem('accessToken');
-//         const response = await fetch(`http://127.0.0.1:8000/cvs/${cvId}`, {
-//             method: 'PUT',
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 Authorization: `Bearer ${token}`,
-//             },
-//             body: JSON.stringify(data)
-//         });
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//         const updatedData = await response.json();
-//         return updatedData;
-//     }
-// );
+export const fetchCVById = createAsyncThunk(
+    'resume/fetchCVById',
+    async (cvId) => {
+        const token = localStorage.getItem('accessToken');
+        const response = await fetch(`http://127.0.0.1:8000/cvs/${cvId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
 
+        const data = await response.json();
+        console.log(data);
+        return data;
+    }
+);
 
 export const deleteCv = createAsyncThunk(
     'resume/cvDelete',
@@ -70,12 +88,15 @@ const resumeSlice = createSlice({
     initialState,
     extraReducers: (builder) => {
         builder
-            .addCase(downloadCV.fulfilled, (state, action) => {
+            .addCase(fetchCv.fulfilled, (state, action) => {
                 state.cv = action.payload
             })
             .addCase(deleteCv.fulfilled, (state, action) => {
                 state.cv = state.cv.filter(cv => cv.id !== action.payload.id);
-            });
+            })
+            .addCase(fetchCVById.fulfilled, (state, action) => {
+                state.cv = action.payload
+            })
     }
 })
 

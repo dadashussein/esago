@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { deleteEducation, fetchEducation, postEducation } from "~/store/features/education/educationThunks";
 import { addEducation, removeEducation, setEducationField } from "~/store/features/education/educationSlice";
 
-const useEducation = () => {
+const useEducation = ({ cvId }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const dispatch = useDispatch();
@@ -14,8 +14,7 @@ const useEducation = () => {
 		e.preventDefault();
 		dispatch(addEducation());
 		setCurrentIndex(education.length);
-		dispatch(postEducation({ education: education[currentIndex] }));
-		//dispatch(fetchEducation(token));
+		dispatch(postEducation({ cvId, education: education[currentIndex] }));
 	};
 
 	const handleInputChange = (field, value) => {
@@ -23,15 +22,12 @@ const useEducation = () => {
 	};
 
 	const handleRemoveEducation = () => {
-		const token = localStorage.getItem("accessToken");
-		dispatch(deleteEducation({ token, id: education[currentIndex].id }));
+		dispatch(deleteEducation({ cvId, id: education[currentIndex].id }));
 		dispatch(removeEducation(currentIndex));
-		dispatch(fetchEducation(token));
 		if (currentIndex > 0) {
 			setCurrentIndex(currentIndex - 1);
 		}
 	};
-
 
 	return {
 		education,

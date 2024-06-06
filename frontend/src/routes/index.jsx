@@ -16,19 +16,12 @@ const routes = createBrowserRouter([
   },
   {
     path: "/app",
-    element: (
-
-      <Inner />
-    ),
+    element: <Inner />,
   },
   {
-    path: "/app/dashboard",
-    element: (
-
-      <Dashboard />
-    ),
+    path: "/app/dashboard/:cvId",
+    element: <Dashboard />,
   },
-
 ]);
 
 export default routes;

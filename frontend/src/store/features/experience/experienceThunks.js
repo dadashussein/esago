@@ -25,10 +25,9 @@ export const postExperience = createAsyncThunk(
 
 export const fetchExperience = createAsyncThunk(
     'experience/fetchExperience',
-    async (thunkAPI) => {
+    async ({ cvId },thunkAPI) => {
         try {
             const token = localStorage.getItem('accessToken');
-            const cvId = localStorage.getItem('cvId');
             const response = await fetch(`http://127.0.0.1:8000/experiences/${cvId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
