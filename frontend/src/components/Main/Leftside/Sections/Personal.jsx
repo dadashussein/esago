@@ -2,16 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createCv,
   fetchInfo,
+  postInfo,
   setPersonalField,
 } from "../../../../store/features/personal/personalSlice";
 import { useEffect } from "react";
 import { fetchEducation } from "~/store/features/education/educationThunks";
 
+import { unwrapResult } from "@reduxjs/toolkit";
+
 const Personal = ({ setActiveTab }) => {
   const dispatch = useDispatch();
   const personal = useSelector((state) => state.personal.personal);
-  console.log(personal);
-  const error = useSelector((state) => state.personal.error);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -22,13 +23,20 @@ const Personal = ({ setActiveTab }) => {
     dispatch(setPersonalField({ field, value }));
   };
 
-  const handleSendAndNext = () => {
-    const token = localStorage.getItem("accessToken");
-    setActiveTab(1);
-    //console.log("sending personal data", personal);
-    dispatch(createCv({ info: personal }));
-    dispatch(fetchEducation(token));  
+
+
+  const handleSendAndNext = async () => {
+    try {
+      const resultAction = await dispatch(postInfo({ info: personal }));
+      unwrapResult(resultAction);
+      console.log(unwrapResult);
+      setActiveTab(1); // Move to the next tab
+    } catch (error) {
+      console.error('Failed to save personal info: ', error);
+    }
   };
+
+
 
   return (
     <div className="border-gray-900/10 p-6 relative">
@@ -146,7 +154,7 @@ const Personal = ({ setActiveTab }) => {
             onClick={handleSendAndNext}
             className="inline-flex py-2 px-6 absolute text-center bottom-[-50px] right-[-10px]    rounded-[20px] bg-primary-500 text-white mt-4"
           >
-            Next
+            Go
           </button>
         </div>
       )}

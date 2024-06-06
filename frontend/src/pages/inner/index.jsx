@@ -7,6 +7,7 @@ import { getCurrentUser, logout } from "../../store/features/auth/authSlice";
 import { fetchEducation } from "../../store/features/education/educationThunks";
 import Dashboard from "~/components/Dashboard";
 import { useNavigate } from "react-router-dom";
+import Hero from "~/components/Hero";
 
 export default function Inner() {
   const dispatch = useDispatch();
@@ -15,33 +16,22 @@ export default function Inner() {
     dispatch(getCurrentUser());
   }, [dispatch]);
 
-  useEffect(() => {
-    const fetchAllData = () => {
-      const token = localStorage.getItem("accessToken");
-      dispatch(fetchEducation(token));
-    };
-    fetchAllData();
-    return () => {
-      localStorage.removeItem("currentSection");
-    };
-  }, [dispatch]);
-
-
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     dispatch(logout());
     navigate("/");
+    console.log('handled');
   };
+
   const auth = useSelector((state) => state.auth.currentUser);
   console.log(auth);
   let imgURl = `http://localhost:8000/static/profiles/${auth?.profile_picture}`;
 
   return (
     <div className="h-full dark:bg-gray-900">
-      <Header auth={auth} />
-      <Dashboard />
-      <Main />
+      <Header auth={auth} handleLogout={handleLogout} img={imgURl} />
+      <Hero />
       <Footer />
     </div>
   );
