@@ -56,6 +56,7 @@ class Payload(BaseModel):
 class UserSchema(BaseModel):
     username: str
     profile_picture: Optional[str] = None
+    email: str
 
     class Config:
         orm_mode = True

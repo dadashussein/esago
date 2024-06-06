@@ -43,6 +43,7 @@ class CV(Base):
     phone_number = Column(sqlalchemy.String, nullable=True, default=None)
     bio = Column(sqlalchemy.String, nullable=True, default=None)
     job_title = Column(sqlalchemy.String, nullable=True, default=None)
+    email = Column(sqlalchemy.String, nullable=True, default=None)
     picture = Column(sqlalchemy.String, nullable=True, default=None)
 
     educations = relationship('Education', back_populates='cv', cascade="all, delete-orphan")
