@@ -25,8 +25,8 @@ def create_cv(cvRquest: CVCreateSchema, user_id: int = Depends(get_current_user_
     return cvService.create_cv(cvRquest, user_id)
 
 @router.post("/first")
-def create_empty_cv(user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
-    return cvService.create_empty_cv(user_id)
+def create_empty_cv(title:str, user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
+    return cvService.create_empty_cv(title, user_id)
 
 @router.put("")
 def update_cv(cvRequest: CVUpdateSchema, user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):

@@ -23,8 +23,8 @@ class CVService:
             raise HTTPException(status_code=404, detail="CV not found")
         return CVSchema.from_orm(cv)
 
-    def create_empty_cv(self, user_id:UUID):
-        cv = self.cv_repo.create(CV(user_id=user_id))
+    def create_empty_cv(self, title:str, user_id:UUID):
+        cv = self.cv_repo.create(CV(user_id=user_id, title=title))
         return cv
 
     def create_cv(self, cv_data: CVCreateSchema, user_id: UUID) -> CVSchema:
