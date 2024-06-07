@@ -48,3 +48,11 @@ class CVService:
         update_data_dict = update_data.dict(exclude_unset=True)
         updated_cv = self.cv_repo.update(update_data.id, update_data_dict)
         return CVSchema.from_orm(updated_cv) 
+    
+    def upload_picture(self, cv_id: int, user_id: UUID, file_service: FileService = Depends()) -> bool:
+        cv = self.get_cv_by_id(cv_id, user_id)
+        if cv is None:
+            raise HTTPException(status_code=404, detail="CV not found")
+        filename = file_service.upload(file=cv.picture, folder=configs.CV_PICTURE_FOLDER)
+        self.cv_repo.update(cv_id, {"picture": filename})
+        return True

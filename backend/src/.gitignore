@@ -5,6 +5,7 @@ __pycache__/
 
 # Local development environment
 .env
+myenv/
 wwwroot/
 versions/
 /test

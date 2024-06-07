@@ -18,6 +18,7 @@ class Configs(BaseSettings):
     PROJECT_NAME: str = "esago"
     UPLOAD_RESUME_DIR: Path = Path("wwwroot/resumes")
     UPLOAD_PROFILE_DIR: Path = Path("wwwroot/profiles")
+    CV_PICTURE_FOLDER: Path = Path("wwwroot/cv_pictures")
     PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
     # auth
