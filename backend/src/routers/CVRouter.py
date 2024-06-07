@@ -36,3 +36,8 @@ def update_cv(cvRequest: CVUpdateSchema, user_id: int = Depends(get_current_user
 @router.delete("/{cv_id}")
 def delete_cv(cv_id: int, user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
     return cvService.delete_cv(cv_id, user_id)
+
+
+@router.patch("/{cv_id}/picture")
+def upload_picture(cv_id: int, user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
+    return cvService.upload_picture(cv_id, user_id)
