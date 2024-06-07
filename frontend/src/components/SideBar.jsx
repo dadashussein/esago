@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 import { logout } from "~/store/features/auth/authSlice";
+import avatar from "../assets/avatar.jpg"
 
 const SideBarContext = createContext();
 
@@ -17,6 +18,7 @@ export default function SideBar({ children }) {
   const auth = useSelector((state) => state.auth.currentUser);
   const currentUser = useSelector((state) => state.auth.currentUser);
   const loadingBarRef = useRef(null);
+  const [open, setOpen] = useState(true);
   const [dropdown, setDropdown] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,17 +26,16 @@ export default function SideBar({ children }) {
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
-    console.log("handled");
   };
 
   let imgURl = auth?.profile_picture
     ? `http://localhost:8000/static/profiles/${auth.profile_picture}`
-    : "/path/to/default/avatar.jpg";
+    : "/assets/avatar.jpg";
 
   const email = auth?.email || "email";
   const username = auth?.username || "username";
 
-  const [open, setOpen] = useState(true);
+
 
   useEffect(() => {
     if (!currentUser) {
@@ -46,14 +47,13 @@ export default function SideBar({ children }) {
 
   return (
     <>
-      <LoadingBar color="#33CC8C" ref={loadingBarRef} />
+      <LoadingBar color="#33CC8C" shadow={true} height={4} ref={loadingBarRef} />
       <aside className="h-screen">
         <nav className="h-full flex flex-col bg-white border-r shadow-sm">
           <div className="pb-2 p-4 flex justify-between items-center">
             <span
-              className={`overflow-hidden text-[30px] transition-all duration-500 ${
-                open ? "w-32" : "w-0"
-              }`}
+              className={`overflow-hidden text-[30px] transition-all duration-500 ${open ? "w-32" : "w-0"
+                }`}
             >
               Esago
             </span>
@@ -76,7 +76,7 @@ export default function SideBar({ children }) {
             <div
               className={`flex justify-between items-center overflow-hidden transition-all duration-500
                 ${open ? "w-52" : "w-0"} 
-                w-52 ml-3`}
+                ml-3`}
             >
               <div className="leading-4">
                 <h4 className="font-semibold">{username}</h4>
@@ -114,25 +114,22 @@ export function SideBarItem({ icon, text, active, alert }) {
     <li
       className={`flex relative items-center gap-2 py-2 px-3 my-1 font-medium rounded-md
         cursor-pointer transition-colors duration-500 group
-        ${
-          active
-            ? "bg-primary-500 text-white"
-            : "hover:bg-gray-100 text-gray-700"
+        ${active
+          ? "bg-primary-500 text-white"
+          : "hover:bg-gray-100 text-gray-700"
         }`}
     >
       {icon}
       <span
-        className={`overflow-hidden transition-all duration-500 ${
-          open ? "w-52 ml-3" : "w-0"
-        }`}
+        className={`overflow-hidden transition-all duration-500 ${open ? "w-52 ml-3" : "w-0"
+          }`}
       >
         {text}
       </span>
       {alert && (
         <div
-          className={`absolute right-2 w-2 h-2 rounded bg-primary-500 ${
-            open ? "" : "top-2"
-          }`}
+          className={`absolute right-2 w-2 h-2 rounded bg-primary-500 ${open ? "" : "top-2"
+            }`}
         ></div>
       )}
       {!open && (
