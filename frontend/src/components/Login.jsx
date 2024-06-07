@@ -32,12 +32,48 @@ const Login = () => {
   };
 
   return (
-    <main className="w-fulln h-[30rem] flex flex-col items-center justify-center px-4">
-      <div className="max-w-sm w-full text-gray-600 space-y-8">
+    <section className="w-full h-screen justify-center gap-8 flex items-center  ">
+      <div className="bg-primary-300 h-[600px] gap-24 flex flex-col rounded-2xl  justify-center items-center w-[500px]">
+        <div className="text-[35px] text-center">
+          <h1>Esago is your primary CV and Resume maker</h1>
+        </div>
+        <div className="bg-primary-100 flex h-[212px] rounded-lg  ">
+          <div className="flex flex-col items-center w-[200px]   border-r-2 border-gray-300 justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="66" height="66" viewBox="0 0 66 66" fill="none">
+              <g clipPath="url(#clip0_180_392)">
+                <path d="M38.5 5.5H16.5C13.475 5.5 11.0275 7.975 11.0275 11L11 55C11 58.025 13.4475 60.5 16.4725 60.5H49.5C52.525 60.5 55 58.025 55 55V22L38.5 5.5ZM16.5 55V11H35.75V24.75H49.5V55H16.5Z" fill="black" />
+              </g>
+              <defs>
+                <clipPath id="clip0_180_392">
+                  <rect width="66" height="66" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <h1>A lot of templates</h1>
+          </div>
+          <div className="flex flex-col items-center w-[200px] justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="66" height="66" viewBox="0 0 66 66" fill="none">
+              <g clipPath="url(#clip0_180_395)">
+                <path d="M42.625 38.5H40.4525L39.6825 37.7575C42.3775 34.6225 44 30.5525 44 26.125C44 16.2525 35.9975 8.25 26.125 8.25C16.2525 8.25 8.25 16.2525 8.25 26.125C8.25 35.9975 16.2525 44 26.125 44C30.5525 44 34.6225 42.3775 37.7575 39.6825L38.5 40.4525V42.625L52.25 56.3475L56.3475 52.25L42.625 38.5ZM26.125 38.5C19.2775 38.5 13.75 32.9725 13.75 26.125C13.75 19.2775 19.2775 13.75 26.125 13.75C32.9725 13.75 38.5 19.2775 38.5 26.125C38.5 32.9725 32.9725 38.5 26.125 38.5Z" fill="black" />
+              </g>
+              <defs>
+                <clipPath id="clip0_180_395">
+                  <rect width="66" height="66" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <h1>
+              Filter
+              any resume
+            </h1>
+          </div>
+        </div>
+      </div>
+      <div className=" flex flex-col items-center  justify-center  h-[600px] w-[500px] text-gray-600  space-y-8">
         <div className="text-center">
-          <div className="mt-5 space-y-2">
+          <div className=" space-y-2">
             <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl">
-              Log in to your account
+              Welcome again to Esago CV and resume maker platform
             </h3>
             <p className="">
               Don't have an account?{" "}
@@ -93,7 +129,7 @@ const Login = () => {
           </a>
         </div>
       </div>
-    </main>
+    </section>
   );
 };
 
