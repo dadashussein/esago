@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, UploadFile
 from sqlalchemy.orm import Session
 from config.security import JWTBearer, get_current_user_id
 from models.models import User
@@ -39,5 +39,5 @@ def delete_cv(cv_id: int, user_id: int = Depends(get_current_user_id), cvService
 
 
 @router.patch("/{cv_id}/picture")
-def upload_picture(cv_id: int, user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
-    return cvService.upload_picture(cv_id, user_id)
+async def upload_picture(cv_id: int, file:UploadFile = File(...), user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
+    return await cvService.upload_picture(cv_id, user_id, file)

@@ -1,6 +1,6 @@
 from dataclasses import asdict
 from uuid import UUID
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, UploadFile
 from config.mapper import map_schema_to_model
 from models.models import CV, Education
 from repositories.CVRepository import CVRepository
@@ -49,10 +49,12 @@ class CVService:
         updated_cv = self.cv_repo.update(update_data.id, update_data_dict)
         return CVSchema.from_orm(updated_cv) 
     
-    def upload_picture(self, cv_id: int, user_id: UUID, file_service: FileService = Depends()) -> bool:
+    async def upload_picture(self, cv_id: int, user_id: UUID, file: UploadFile) -> bool:
         cv = self.get_cv_by_id(cv_id, user_id)
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
-        filename = file_service.upload(file=cv.picture, folder=configs.CV_PICTURE_FOLDER)
+        filename = await FileService.upload(file, configs.CV_PICTURE_FOLDER)
+        print("=====================================")
+        print(filename)
         self.cv_repo.update(cv_id, {"picture": filename})
         return True
