@@ -122,7 +122,7 @@ class UserService:
         db_user = self.userRepo.get_where(email=user.email)
         if not db_user:
             db_user = User(username=user.username.split("@")[0], email=user.email, is_active=True, is_google=True)
-            db_user = self.userRepo.create(db_user)        
+            db_user = self.userRepo.create(db_user)
         payload = Payload(sub=str(str(db_user.id)), email=db_user.email).dict()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token, expiration_datetime = create_access_token(payload, token_lifespan)

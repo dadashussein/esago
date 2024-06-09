@@ -20,5 +20,5 @@ class CVRepository(BaseRepository[CV, int]):
     def get_all_cvs(self, user_id: UUID):
         return self.db.query(CV).filter_by(user_id=user_id).all()
     
-    def get_all_cvs_all(self, user_id: UUID):
-        return self.db.query(CV).filter_by(user_id=user_id).all()
+    def get_cv_all(self, cv_id:int, user_id: UUID):
+        return self.db.query(CV).filter_by(id=cv_id, user_id=user_id).first()

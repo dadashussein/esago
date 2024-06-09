@@ -14,9 +14,9 @@ db_dependency = Annotated[Session, Depends()]
 def get_all_cv(user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
     return cvService.get_all_cvs(user_id)
 
-@router.get("/all")
-def get_all_cv(user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
-    return cvService.get_all_cvs_all(user_id)
+@router.get("/all/{cv_id}")
+def get_all_cv(cv_id:int, user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):
+    return cvService.get_cv_all(cv_id, user_id)
 
 @router.get("/{cv_id}")
 def get_cv_by_id(cv_id: int, user_id: int = Depends(get_current_user_id), cvService: CVService = Depends()):

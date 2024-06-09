@@ -21,16 +21,17 @@ class CVService:
         cvs = self.cv_repo.get_all_cvs(user_id)
         return [CVSchema.model_validate(cv) for cv in cvs]
 
-    def get_all_cvs_all(self, user_id: UUID) -> List[CVSchemaAll]:
-        cvs = self.cv_repo.get_all_cvs_all(user_id)
+    def get_cv_all(self,cv_id:int, user_id: UUID) -> List[CVSchemaAll]:
+        cv = self.cv_repo.get_cv_all(cv_id, user_id)
+        if cv is None:
+            raise HTTPException(status_code=404, detail="CV not found")
         response = []
-        for cv in cvs:
-            cv_dict = cv.__dict__
-            cv_dict['education'] = [EducationSchema.model_validate(education) for education in cv.educations]
-            cv_dict['experience'] = [ExperienceSchema.model_validate(experience) for experience in cv.experiences]
-            cv_dict['skill'] = [SkillSchema.model_validate(skill) for skill in cv.skills]
-            cv_dict['language'] = [LanguageSchema.model_validate(language) for language in cv.languages]
-            response.append(CVSchemaAll(**cv_dict))
+        cv_dict = cv.__dict__
+        cv_dict['education'] = [EducationSchema.model_validate(education) for education in cv.educations]
+        cv_dict['experience'] = [ExperienceSchema.model_validate(experience) for experience in cv.experiences]
+        cv_dict['skill'] = [SkillSchema.model_validate(skill) for skill in cv.skills]
+        cv_dict['language'] = [LanguageSchema.model_validate(language) for language in cv.languages]
+        response.append(CVSchemaAll(**cv_dict))
         return response
 
 

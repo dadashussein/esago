@@ -23,6 +23,7 @@ oauth.register(
     }
 )
 
+
 @oauth_router.get('/login')
 async def login(request: Request):
     redirect_uri = request.url_for('auth')
@@ -37,7 +38,7 @@ async def auth(request: Request, response: Response, user_service: UserService =
         return f"Error: {error}"
     user = token.get('userinfo')
     response = user_service.google_auth(UserGoogleSchema(email=user['email'], username=user['email']), response)
-    return {'token': response['token'], 'user': response['user'], 'exp': response['expiration']}
+    return {'token': response['token']}
 
 
 @oauth_router.get('/logout')
