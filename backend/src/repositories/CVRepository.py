@@ -3,7 +3,7 @@ from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from config.database import get_db_connection
-from models.models import CV
+from models.models import CV, Education, Experience, Language, Skill
 from repositories.BaseRepository import BaseRepository
 from schemas.CVSchemas import CVUpdateSchema
 
@@ -20,3 +20,5 @@ class CVRepository(BaseRepository[CV, int]):
     def get_all_cvs(self, user_id: UUID):
         return self.db.query(CV).filter_by(user_id=user_id).all()
     
+    def get_all_cvs_all(self, user_id: UUID):
+        return self.db.query(CV).filter_by(user_id=user_id).all()

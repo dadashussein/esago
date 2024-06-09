@@ -31,7 +31,7 @@ class UserService:
         self._validate_password(user.password, db_user.password)
         if not db_user.is_active:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is not activated")
-        if db_user.is_google & user.password == None:
+        if db_user.is_google and user.password == None:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google or you need set a password to your account")
         delattr(db_user, "password")
         payload = Payload(sub=str(str(db_user.id)), email=db_user.email).dict()

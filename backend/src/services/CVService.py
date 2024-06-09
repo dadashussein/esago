@@ -1,11 +1,15 @@
 from dataclasses import asdict
+from typing import List
 from uuid import UUID
 from fastapi import Depends, HTTPException, UploadFile
 from config.mapper import map_schema_to_model
 from models.models import CV, Education
 from repositories.CVRepository import CVRepository
-from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVUpdateSchema
+from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVSchemaAll, CVUpdateSchema
 from schemas.EducationSchemas import EducationCreate, EducationSchema
+from schemas.ExperienceSchemas import ExperienceSchema
+from schemas.LanguageSchemas import LanguageSchema
+from schemas.SkillSchemas import SkillSchema
 from services.FileService import FileService
 from config.config import configs
 
@@ -16,6 +20,20 @@ class CVService:
     def get_all_cvs(self, user_id: UUID) -> list[CVSchema]:
         cvs = self.cv_repo.get_all_cvs(user_id)
         return [CVSchema.from_orm(cv) for cv in cvs]
+
+    def get_all_cvs_all(self, user_id: UUID) -> List[CVSchemaAll]:
+        cvs = self.cv_repo.get_all_cvs_all(user_id)
+        response = []
+        for cv in cvs:
+            cv_dict = cv.__dict__
+            cv_dict['education'] = [EducationSchema.model_validate(education) for education in cv.educations]
+            cv_dict['experience'] = [ExperienceSchema.model_validate(experience) for experience in cv.experiences]
+            cv_dict['skill'] = [SkillSchema.model_validate(skill) for skill in cv.skills]
+            cv_dict['language'] = [LanguageSchema.model_validate(language) for language in cv.languages]
+            response.append(CVSchemaAll(**cv_dict))
+        return response
+
+
 
     def get_cv_by_id(self, cv_id: int, user_id: UUID) -> CVSchema:
         cv = self.cv_repo.get_cv_by_id(cv_id, user_id)
