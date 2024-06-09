@@ -22,7 +22,6 @@ class UserSchema(BaseModel):
     start_date: Optional[date]
 
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -30,17 +29,13 @@ class UserRegisterSchema(BaseModel):
     username: constr(min_length=3, max_length=50)
     email: EmailStr
     password: constr(min_length=8)
-
-    class Config:
-        orm_mode = True
+        
 
 
 class UserGoogleSchema(BaseModel):
     username: str
     email: EmailStr
-
     class Config:
-        orm_mode = True
         from_attributes = True
 
 
@@ -48,17 +43,12 @@ class UserLoginSchema(BaseModel):
     username_or_email: str
     password: str
 
-    class Config:
-        orm_mode = True
         
 
 
 class Payload(BaseModel):
     sub: str
     email: str
-
-    class Config:
-        orm_mode = True
 
 
 
@@ -68,6 +58,5 @@ class UserSchema(BaseModel):
     email: str
 
     class Config:
-        orm_mode = True
         from_attributes=True
 

@@ -19,7 +19,7 @@ class User(Base):
     activation_token = Column(sqlalchemy.String, nullable=True, default=None)
     activation_expire = Column(sqlalchemy.DateTime, nullable=True, default=None)
 
-    cvs = relationship('CV', back_populates='user')
+    cvs = relationship('CV', back_populates='user', cascade="all, delete-orphan")
 
     def to_dict(self):
         data = {c.key: getattr(self, c.key) for c in sqlalchemy.inspect(self).mapper.column_attrs}
@@ -97,7 +97,7 @@ class Skill(Base):
 
     id = Column(sqlalchemy.Integer, primary_key=True)
     name = Column(sqlalchemy.String)
-    level = Column(sqlalchemy.String)
+    # level = Column(sqlalchemy.String, nullable=True)
     cv_id = Column(ForeignKey('cvs.id'))
     cv = relationship('CV', back_populates='skills')
 

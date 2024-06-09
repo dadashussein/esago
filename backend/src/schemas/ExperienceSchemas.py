@@ -11,7 +11,7 @@ class ExperienceBase(BaseModel):
     end_date: Optional[date]
     
     class Config:
-        orm_mode = True
+        
         from_attributes=True
 
 class ExperienceCreate(ExperienceBase):
@@ -26,6 +26,4 @@ class ExperienceUpdate(ExperienceBase):
 class ExperienceSchema(ExperienceBase):
     id: int
     cv_id: int
-
-    class Config:
-        orm_mode = True
+        

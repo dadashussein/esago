@@ -78,7 +78,7 @@ class UserService:
 
         updated_user = self.userRepo.update(user.id, {"is_active": True, "activation_token": None})
         delattr(updated_user, "password")
-        return UserSchema.from_orm(updated_user)
+        return UserSchema.model_validate(updated_user)
 
     def get_current_user(self, token: str) -> User:
         payload = decode_jwt(token)
@@ -114,7 +114,7 @@ class UserService:
         filename = await FileService.upload(file, configs.UPLOAD_PROFILE_DIR)
         updated_user = self.userRepo.update(user.id, {"profile_picture": filename})
         delattr(updated_user, "password")
-        return UserSchema.from_orm(updated_user)
+        return UserSchema.model_validate(updated_user)
 
     
 

@@ -19,7 +19,7 @@ class CVService:
 
     def get_all_cvs(self, user_id: UUID) -> list[CVSchema]:
         cvs = self.cv_repo.get_all_cvs(user_id)
-        return [CVSchema.from_orm(cv) for cv in cvs]
+        return [CVSchema.model_validate(cv) for cv in cvs]
 
     def get_all_cvs_all(self, user_id: UUID) -> List[CVSchemaAll]:
         cvs = self.cv_repo.get_all_cvs_all(user_id)
@@ -39,7 +39,7 @@ class CVService:
         cv = self.cv_repo.get_cv_by_id(cv_id, user_id)
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
-        return CVSchema.from_orm(cv)
+        return CVSchema.model_validate(cv)
 
     def create_empty_cv(self, title:CVFirstSchema, user_id:UUID):
         cv = self.cv_repo.create(CV(user_id=user_id, title=title.title))
@@ -50,7 +50,7 @@ class CVService:
         cv_data_dict['user_id'] = user_id
         cv = CV(**cv_data_dict)
         cv = self.cv_repo.create(cv)
-        return CVSchema.from_orm(cv)
+        return CVSchema.model_validate(cv)
 
     def delete_cv(self, cv_id: int, user_id: UUID) -> CVSchema:
         cv = self.get_cv_by_id(cv_id, user_id)
@@ -65,7 +65,7 @@ class CVService:
     
         update_data_dict = update_data.dict(exclude_unset=True)
         updated_cv = self.cv_repo.update(update_data.id, update_data_dict)
-        return CVSchema.from_orm(updated_cv) 
+        return CVSchema.model_validate(updated_cv) 
     
     async def upload_picture(self, cv_id: int, user_id: UUID, file: UploadFile) -> bool:
         cv = self.get_cv_by_id(cv_id, user_id)

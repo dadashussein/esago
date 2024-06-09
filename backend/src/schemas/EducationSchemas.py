@@ -12,7 +12,7 @@ class EducationCreate(BaseModel):
     end_date: date
 
     class Config:
-        orm_mode = True
+        
         from_attributes=True
 
 class EducationUpdate(BaseModel):
@@ -26,7 +26,7 @@ class EducationUpdate(BaseModel):
     end_date: date
 
     class Config:
-        orm_mode = True
+        
         from_attributes=True
 
 class EducationSchema(EducationCreate):
@@ -40,6 +40,6 @@ class EducationSchema(EducationCreate):
     end_date: date
 
     class Config:
-        orm_mode = True
+        
         from_attributes=True
         

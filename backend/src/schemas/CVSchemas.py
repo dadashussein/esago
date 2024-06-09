@@ -20,7 +20,7 @@ class CVSchema(BaseModel):
     email: Optional[str]
 
     class Config:
-        orm_mode = True
+        
         from_attributes=True
 
 class CVSchemaAll(BaseModel):
@@ -41,7 +41,7 @@ class CVSchemaAll(BaseModel):
     language: Optional[list[LanguageSchema]]
 
     class Config:
-        orm_mode = True
+        
         from_attributes=True
 
 class CVCreateSchema(BaseModel):
