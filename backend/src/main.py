@@ -15,7 +15,6 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
-from authlib.integrations.starlette_client import OAuth
 
 app = FastAPI()
 Base.metadata.create_all(bind=Engine)

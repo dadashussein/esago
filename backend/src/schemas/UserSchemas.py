@@ -35,6 +35,15 @@ class UserRegisterSchema(BaseModel):
         orm_mode = True
 
 
+class UserGoogleSchema(BaseModel):
+    username: str
+    email: EmailStr
+
+    class Config:
+        orm_mode = True
+        from_attributes = True
+
+
 class UserLoginSchema(BaseModel):
     username_or_email: str
     password: str

@@ -8,7 +8,7 @@ DATABASE_URL = configs.DATABASE_URI
 
 # Create Database Engine
 Engine = create_engine(
-    DATABASE_URL, echo=True, future=True
+    DATABASE_URL, future=True
 )
 
 SessionLocal = sessionmaker(

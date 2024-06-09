@@ -1,13 +1,13 @@
+import logging
 import uuid
 from datetime import timedelta, datetime
-from fastapi import Depends, File, HTTPException, UploadFile, status, BackgroundTasks
+from fastapi import Depends, File, HTTPException, Request, Response, UploadFile, status, BackgroundTasks
 from pydantic import ValidationError
-
 from services.FileService import FileService
 from config.config import configs
 from models.models import User
 from repositories.UserRepository import UserRepository
-from schemas.UserSchemas import UserRegisterSchema, UserLoginSchema, Payload, UserSchema
+from schemas.UserSchemas import UserGoogleSchema, UserRegisterSchema, UserLoginSchema, Payload, UserSchema
 from config.security import get_password_hash, verify_password, create_access_token, decode_jwt
 from services.EmailService import EmailService
 
@@ -29,10 +29,10 @@ class UserService:
     def login(self, user: UserLoginSchema):
         db_user = self._get_user_by_username_or_email(user.username_or_email)
         self._validate_password(user.password, db_user.password)
-
         if not db_user.is_active:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is not activated")
-
+        if db_user.is_google & user.password == None:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google or you need set a password to your account")
         delattr(db_user, "password")
         payload = Payload(sub=str(str(db_user.id)), email=db_user.email).dict()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -116,9 +116,14 @@ class UserService:
         delattr(updated_user, "password")
         return UserSchema.from_orm(updated_user)
 
-    # def update_user(self, user: UserUpdateSchema, userId: uuid.UUID):
-    #     updated_user = self.userRepo.update(userId, user.dict(exclude_none=True))
-    #     if not updated_user:
-    #         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    #     delattr(updated_user, "password")
-    #     return updated_user
+    
+
+    def google_auth(self, user: UserGoogleSchema, response: Response):
+        db_user = self.userRepo.get_where(email=user.email)
+        if not db_user:
+            db_user = User(username=user.username.split("@")[0], email=user.email, is_active=True, is_google=True)
+            db_user = self.userRepo.create(db_user)        
+        payload = Payload(sub=str(str(db_user.id)), email=db_user.email).dict()
+        token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token, expiration_datetime = create_access_token(payload, token_lifespan)
+        return {"token": access_token, "expiration": expiration_datetime, "user": db_user}

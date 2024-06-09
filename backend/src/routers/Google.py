@@ -1,10 +1,12 @@
-import json
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, Depends, Response
 from starlette.config import Config
 from starlette.requests import Request
-from starlette.middleware.sessions import SessionMiddleware
-from starlette.responses import HTMLResponse, RedirectResponse
+from starlette.responses import RedirectResponse
 from authlib.integrations.starlette_client import OAuth, OAuthError
+from config.config import configs
+from schemas.UserSchemas import UserGoogleSchema
+from services.UserService import UserService
+
 oauth_router = APIRouter()
 
 config = Config('.env')
@@ -28,15 +30,14 @@ async def login(request: Request):
 
 
 @oauth_router.get('/auth')
-async def auth(request: Request):
+async def auth(request: Request, response: Response, user_service: UserService = Depends()):
     try:
         token = await oauth.google.authorize_access_token(request)
     except OAuthError as error:
-        return "Error: {}".format(error)
+        return f"Error: {error}"
     user = token.get('userinfo')
-    if user:
-        request.session['user'] = dict(user)
-    return user
+    response = user_service.google_auth(UserGoogleSchema(email=user['email'], username=user['email']), response)
+    return {'token': response['token'], 'user': response['user'], 'exp': response['expiration']}
 
 
 @oauth_router.get('/logout')

@@ -11,8 +11,9 @@ class User(Base):
     id = Column(sqlalchemy.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(sqlalchemy.String, unique=True)
     email = Column(sqlalchemy.String, unique=True)
-    password = Column(sqlalchemy.String)
+    password = Column(sqlalchemy.String, nullable=True)
     is_active = Column(sqlalchemy.Boolean, default=False)
+    is_google = Column(sqlalchemy.Boolean, default=False)
     profile_picture = Column(sqlalchemy.String, nullable=True, default=None)
 
     activation_token = Column(sqlalchemy.String, nullable=True, default=None)
