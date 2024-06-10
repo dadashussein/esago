@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1.0">
+	<title>A4 Paper Size with Shade - Centered Content</title>
+	<style>
+		/* Set A4 size */
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		@page {
+			size: A4;
+			margin: 0;
+		}
+
+		/* Set content to fill the entire A4 page */
+		html,
+		body {
+			width: 210mm;
+			height: 297mm;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		/* Style content with shaded background */
+		.content {
+			width: 80%;
+			/* Adjust the width as needed */
+			height: 80%;
+			/* Adjust the height as needed*/
+			padding: 20px;
+			box-sizing: border-box;
+			font-family: Arial, sans-serif;
+			background-color: #f0f0f0;
+			/* Light gray shade */
+		}
+	</style>
+</head>
+
+<body>
+	<div class="content">
+		<!-- Your content goes here -->
+		<h1>Hello, A4 World!</h1>
+		<p>This is an example of an HTML page with A4 
+		paper size and shaded background.
+		</p>
+	</div>
+</body>
+
+</html>

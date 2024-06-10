@@ -9,6 +9,8 @@ import Button from "./Button";
 import Preview from "./Preview";
 import { fetchEducation } from "~/store/features/education/educationThunks";
 import { fetchExperience } from "~/store/features/experience/experienceThunks";
+import { getSkills } from "~/store/features/skills/skillsThunks";
+import A4Component from "./A4";
 
 const CreateCv = () => {
   const [activeTab, setActiveTab] = useState(0);
@@ -19,6 +21,7 @@ const CreateCv = () => {
   useEffect(() => {
     dispatch(fetchEducation({ cvId }));
     dispatch(fetchExperience({ cvId }));
+    dispatch(getSkills({ cvId }))
   }, [dispatch, cvId]);
 
   const handleBack = () => {
@@ -48,44 +51,34 @@ const CreateCv = () => {
   }, [activeTab]);
 
   return (
-    <div className="h-screen flex justify-center">
-      <div className="flex flex-col">
-        <div className="flex flex-col">
-          <h1 className="text-[32px]">Let’s create your first resume!</h1>
-          <p>Fill the inputs, please.</p>
-        </div>
-        <div className="flex flex-col gap-16 sm:flex-row">
-          {/* leftide */}
-          <div className="max-w-[35rem]">
-            <div className="flex">
-              {tabs.map((tab, index) => (
-                <div
-                  key={index}
-                  onClick={() => setActiveTab(index)}
-                  className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${activeTab === index ? "border-b-2 border-primary-500" : ""
-                    }`}
-                >
-                  {tab.name}
-                </div>
-              ))}
-            </div>
-            <div className="">{tabs[activeTab].component}</div>
-          </div>
-          {/* right side */}
-          <div className="border-[20px] h-[40rem] border-primary-500 rounded-2xl">
-            <Preview />
-          </div>
-        </div>
 
-        <div>
-          <button onClick={handleBack}>exit</button>
+    <div className="bg-gray-200 ">
 
-          <Button textColor="white" bgColor="primary-500">
-            Save
-          </Button>
+      <div className="flex">
+        {/* leftide */}
+        <div className="w-1/2 bg-white p-8">
+          <div className="flex">
+            {tabs.map((tab, index) => (
+              <div
+                key={index}
+                onClick={() => setActiveTab(index)}
+                className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${activeTab === index ? "border-b-2 border-primary-500" : ""
+                  }`}
+              >
+                {tab.name}
+              </div>
+            ))}
+          </div>
+          <div className="">{tabs[activeTab].component}</div>
+        </div>
+        {/* right side */}
+        <div className="w-1/2 bg-green-100 p-8">
+          <A4Component />
         </div>
       </div>
+
     </div>
+
   );
 };
 

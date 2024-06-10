@@ -45,7 +45,8 @@ const Personal = ({ setActiveTab, cvId }) => {
         file: file,
         url: URL.createObjectURL(file)
       });
-      await dispatch(patchPhoto({ cvId, file }));
+
+      dispatch(patchPhoto({ cvId, file }));
     }
   }
 

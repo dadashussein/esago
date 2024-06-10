@@ -7,9 +7,9 @@ export const postInfo = createAsyncThunk(
 	'personal/postInfo',
 	async ({ info, cvId }, thunkAPI) => {
 		try {
-			const data = await fetchWithAuth(`cvs/${cvId}`, {
+			const data = await fetchWithAuth(`/cvs`, {
 				method: 'PUT',
-				body: JSON.stringify(info)
+				body: JSON.stringify({ ...info, id: cvId })
 			});
 			return data;
 
@@ -22,26 +22,32 @@ export const postInfo = createAsyncThunk(
 export const fetchInfo = createAsyncThunk(
 	'personal/fetchInfo',
 	async (cvId) => {
-		const data = await fetchWithAuth(`cvs/${cvId}`);
+		const data = await fetchWithAuth(`/cvs/${cvId}`);
 		return data;
 	}
 );
 
-export const patchPhoto = async ({ cvId, file }) => {
+export const patchPhoto = createAsyncThunk(
+	'personal/patchPhoto',
+	async ({ cvId, file }) => {
 
-	const formData = new FormData();
-	formData.append("file", file);
-
-	try {
-		const response = await fetchWithAuth(`cvs/${cvId}/photo`, {
-			method: 'PATCH',
-			body: formData
-		});
-		return response;
-	} catch (err) {
-		console.log(err);
+		const formData = new FormData();
+		formData.append("file", file);
+		try {
+			const accessToken = Cookies.get('accessToken');
+			const response = await fetch(`http://127.0.0.1:8000/cvs/${cvId}/picture`, {
+				method: 'PATCH',
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				},
+				body: formData
+			});
+			return response;
+		} catch (err) {
+			console.log(err);
+		}
 	}
-}
+);
 
 
 const initialState = {

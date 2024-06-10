@@ -1,30 +1,26 @@
 import React, { useState } from 'react';
-import { MdDelete } from 'react-icons/md';
-import { useDispatch } from 'react-redux';
-import { postSkills } from '~/store/features/skills/skillsThunks';
+import { FaRegTrashCan } from "react-icons/fa6";
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteSkill, postSkills } from '~/store/features/skills/skillsThunks';
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+
 
 export default function Skill({ cvId }) {
   const dispatch = useDispatch()
-  const [skills, setSkills] = useState([]);
   const [currentSkill, setCurrentSkill] = useState('');
-
-
+  const skills = useSelector((state) => state.skills.skills)
+  const [animationParent] = useAutoAnimate()
 
   const handleAdd = () => {
     if (currentSkill.trim() !== '') {
-      setSkills([...skills, currentSkill]);
-      const data = {
-        name: currentSkill,
-        level: "Beginner",
-      }
-      dispatch(postSkills({ skill: data, cvId }));
+      const skillName = { name: currentSkill };
+      dispatch(postSkills({ skillName, cvId }));
       setCurrentSkill('');
     }
   };
 
   const handleDelete = (id) => {
-    const updatedSkills = skills.filter((skill, index) => index !== id);
-    setSkills(updatedSkills);
+    dispatch(deleteSkill({ skillId: id, cvId }));
   };
 
   return (
@@ -46,13 +42,12 @@ export default function Skill({ cvId }) {
             Add Skill
           </button>
         </div>
-        <ul className=''>
+        <ul className='' ref={animationParent}>
           {skills.map((skill, index) => (
-            <li key={index} className='border-b relative py-1'>
-              {skill}
-              <span onClick={() => handleDelete(index)} className='absolute right-0 text-red-500 cursor-pointer'>
-                <MdDelete size={"1.5rem"} />
-              </span>
+            <li key={index} className='flex justify-between items-center'>
+              <p>{skill.name}</p>
+              <FaRegTrashCan onClick={() => handleDelete(skill.id)}
+                className='cursor-pointer' />
             </li>
           ))}
         </ul>

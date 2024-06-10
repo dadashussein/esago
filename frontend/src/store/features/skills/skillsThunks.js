@@ -1,23 +1,46 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import fetchWithAuth from "~/utils/api";
 
 export const postSkills = createAsyncThunk(
     'skills/addSkill',
-    async ({ skill, cvId }, thunkAPI) => {
-        console.log(skill);
+    async ({ skillName, cvId }, thunkAPI) => {
         try {
-            const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://127.0.0.1:8000/skills/${cvId}`, {
+            const response = await fetchWithAuth(`/skills/${cvId}`, {
                 method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(skill)
+                body: JSON.stringify(skillName),
             })
-            const data = await response.json()
-            return data
+            console.log(response);
+            return response
+
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response.data.detail)
         }
     }
 )
+
+export const getSkills = createAsyncThunk(
+    'skills/getSkills',
+    async ({ cvId }, thunkAPI) => {
+        try {
+            const response = await fetchWithAuth(`/skills/${cvId}`)
+            return response
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data.detail)
+        }
+    }
+)
+
+
+export const deleteSkill = createAsyncThunk(
+    'skills/deleteSkill',
+    async ({ skillId, cvId }, thunkAPI) => {
+        try {
+            await fetchWithAuth(`/skills/${cvId}/${skillId}`, {
+                method: 'DELETE',
+            })
+            return skillId
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response.data.detail)
+        }
+    }
+);

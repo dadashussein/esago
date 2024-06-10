@@ -8,7 +8,6 @@ const Preview = () => {
   const personal = useSelector((state) => state.personal.personal);
   const [finalExperience, setFinalExperience] = useState([]);
 
-  //console.log(education);
 
   useEffect(() => {
     localStorage.setItem("experience", JSON.stringify(experience));
@@ -26,20 +25,18 @@ const Preview = () => {
     }
   }, [experience]);
 
-  const auth = useSelector((state) => state.auth.currentUser);
+  let imgURl = `http://localhost:8000/static/cv_pictures/${personal?.picture}`;
 
-  let imgURl = `http://localhost:8000/static/profiles/${auth?.profile_picture}`;
-  
 
   return (
-    <div className="bg-gray-100  w-[30rem]">
+    <>
       <Template3
         img={imgURl}
         personal={personal}
         education={education}
         experience={finalExperience}
       />
-    </div>
+    </>
   );
 };
 

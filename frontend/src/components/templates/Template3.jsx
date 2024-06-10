@@ -11,10 +11,11 @@ const Template3 = ({ education, experience, personal, img }) => {
   } = personal;
 
   return (
-    <div className="p-4 bg-white border m-auto">
+
+    <div className="bg-white">
       {/* header  start*/}
 
-      <div className="border-b-2 flex justify-between p-4">
+      <div className=" flex justify-between">
         <div className="flex items-center gap-4 p-2">
           <img
             className="rounded-full w-32 h-32 object-cover"
@@ -80,31 +81,9 @@ const Template3 = ({ education, experience, personal, img }) => {
               ))}
             </div>
           )}
-          {/* <div className="flex mt-6 flex-col gap-2">
-            <h1>Key Skills</h1>
-            <div className="grid grid-cols-2">
-              <div>
-                <h2>Frontend</h2>
-                <p className="text-sm text-gray-500">React</p>
-                <p className="text-sm text-gray-500">Javascript</p>
-                <p className="text-sm text-gray-500">HTML</p>
-                <p className="text-sm text-gray-500">CSS</p>
-                <p className="text-sm text-gray-500">CSS</p>
-                <p className="text-sm text-gray-500">CSS</p>
-                <p className="text-sm text-gray-500">CSS</p>
-              </div>
-              <div>
-                <h2>Backend</h2>
-                <p className=" text-[11px] text-gray-500">Python</p>
-                <p className=" text-[11px] text-gray-500">Flask</p>
-                <p className=" text-[11px] text-gray-500">Django</p>
-                <p className=" text-[11px] text-gray-500">Node</p>
-                <p className=" text-[11px] text-gray-500">Node</p>
-                <p className=" text-[11px] text-gray-500">Node</p>
-                <p className=" text-[11px] text-gray-500">Node</p>
-              </div>
-            </div>
-          </div> */}
+          <div className="flex mt-6 flex-col gap-2">
+
+          </div>
         </div>
 
         {/* right side */}
