@@ -1,55 +1,62 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addSkill,
-  removeSkill,
-} from "../../../../store/features/skills/skillSlice";
+import React, { useState } from 'react';
+import { MdDelete } from 'react-icons/md';
+import { useDispatch } from 'react-redux';
+import { postSkills } from '~/store/features/skills/skillsThunks';
 
-const Skill = () => {
-  const skill = useSelector((state) => state.skills.skills);
-  const dispatch = useDispatch();
-  const handleAddSkill = () => {
-    dispatch(addSkill(""));
+export default function Skill({ cvId }) {
+  const dispatch = useDispatch()
+  const [skills, setSkills] = useState([]);
+  const [currentSkill, setCurrentSkill] = useState('');
+
+
+
+  const handleAdd = () => {
+    if (currentSkill.trim() !== '') {
+      setSkills([...skills, currentSkill]);
+      const data = {
+        name: currentSkill,
+        level: "Beginner",
+      }
+      dispatch(postSkills({ skill: data, cvId }));
+      setCurrentSkill('');
+    }
   };
 
-  const handleChange = (e, i) => {
-    dispatch(addSkill(e.target.value, i));
+  const handleDelete = (id) => {
+    const updatedSkills = skills.filter((skill, index) => index !== id);
+    setSkills(updatedSkills);
   };
-  const handleRemoveSkill = (i) => {
-    dispatch(removeSkill(i));
-  };
+
   return (
-    <div className="border-gray-900/10 p-6">
-      <h1 className="font-semibold text-[30px] text-gray-900">Skills</h1>
-      <p className="text-sm leading-6 text-gray-600">
-        Add your most relevant skills
-      </p>
-      <div className="flex items-center justify-between">
-        <button
-          onClick={handleAddSkill}
-          className="flex items-center text-gray-600 hover:text-red-500 duration-200 ease-linear "
-        >
-          Add Skill
-        </button>
-      </div>
-      <div className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6">
-        {skill.map((s, i) => (
-          <div key={i} className="sm:col-span-3 inline-block">
-            <label className="label-primary" htmlFor={`skill-${i}`}>
-              Skill
-            </label>
-            <input
-              className="input-primary"
-              type="text"
-              name={`skill-${i}`}
-              value={s}
-              onChange={(e) => handleChange(e, i)}
-            />
-            <button onClick={() => handleRemoveSkill(i)}>Remove</button>
-          </div>
-        ))}
+    <div className='p-6'>
+      <h1>Most relevant skill</h1>
+      <div className=''>
+        <div className='flex flex-col gap-2 my-4'>
+          <input
+            type="text"
+            value={currentSkill}
+            onChange={e => setCurrentSkill(e.target.value)}
+            className='border outline-none p-2'
+            placeholder='Type skill'
+          />
+          <button
+            onClick={handleAdd}
+            className='border p-2 bg-primary-500 rounded-md text-white'
+          >
+            Add Skill
+          </button>
+        </div>
+        <ul className=''>
+          {skills.map((skill, index) => (
+            <li key={index} className='border-b relative py-1'>
+              {skill}
+              <span onClick={() => handleDelete(index)} className='absolute right-0 text-red-500 cursor-pointer'>
+                <MdDelete size={"1.5rem"} />
+              </span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
-};
-
-export default Skill;
+}

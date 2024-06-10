@@ -2,7 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import Inner from "../pages/inner";
 import HomePage from "../pages/home/HomePage";
 import Register from "../components/Register";
-import Dashboard from "~/components/Dashboard";
+import MainLayout from "~/components/layouts/main";
+import Templates from "~/components/Templates";
+import CreateCv from "~/components/CreateCv";
 
 const routes = createBrowserRouter([
   {
@@ -16,11 +18,21 @@ const routes = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <Inner />,
-  },
-  {
-    path: "/app/dashboard/:cvId",
-    element: <Dashboard />,
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Inner />,
+      },
+      {
+        path: "template",
+        element: <Templates />,
+      },
+      {
+        path: ":cvId",
+        element: <CreateCv />,
+      }
+    ],
   },
 ]);
 

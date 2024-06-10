@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import Cookies from "js-cookie";
+import fetchWithAuth from "~/utils/api";
 const initialState = {
 	currentUser: undefined,
 	isLoading: false,
@@ -15,6 +17,8 @@ export const register = createAsyncThunk('auth/register', async (userData, thunk
 export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
 	try {
 		const response = await axios.post('http://127.0.0.1:8000/users/login', userData)
+		const { token } = response.data;
+		Cookies.set("accessToken", token);
 		return response.data
 	} catch (err) {
 		return thunkAPI.rejectWithValue(err.response.data.detail)
@@ -22,24 +26,15 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 })
 export const getCurrentUser = createAsyncThunk('auth/getCurrentUser', async (_, thunkAPI) => {
 	try {
-		const accessToken = localStorage.getItem('accessToken')
-		if (!accessToken) {
-			return thunkAPI.rejectWithValue('No access token')
-		}
-		const response = await axios.get('http://127.0.0.1:8000/users/me', {
-			headers: {
-				Authorization: `Bearer ${accessToken}`
-			}
-		})
-		return response.data
-
+		const data = await fetchWithAuth('/users/me')
+		return data
 	} catch (err) {
 		return thunkAPI.rejectWithValue(err.response.data.detail)
 	}
 })
 
 export const logout = createAsyncThunk('auth/logout', async () => {
-	localStorage.removeItem('accessToken')
+	Cookies.remove("accessToken");
 })
 const authSlice = createSlice({
 	name: "auth",

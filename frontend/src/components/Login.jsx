@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/features/auth/authSlice";
 import Button from "./Button";
 
+
 const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -23,8 +24,7 @@ const Login = () => {
     const newUser = { username_or_email, password };
     try {
       const action = await dispatch(login(newUser));
-      const resultAction = unwrapResult(action);
-      localStorage.setItem("accessToken", resultAction.token);
+      const result = unwrapResult(action);
       navigate("/app");
     } catch (err) {
       setError(err);

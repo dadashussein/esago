@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { deleteEducation, fetchEducation, postEducation } from "~/store/features/education/educationThunks";
+import { deleteEducation, postEducation } from "~/store/features/education/educationThunks";
 import { addEducation, removeEducation, setEducationField } from "~/store/features/education/educationSlice";
 
 const useEducation = ({ cvId }) => {

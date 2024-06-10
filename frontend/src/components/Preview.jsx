@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Template3 from "./templates/Template3";
 
-const Rightside = () => {
+const Preview = () => {
   const education = useSelector((state) => state.education.education);
   const experience = useSelector((state) => state.experience.experience);
   const personal = useSelector((state) => state.personal.personal);
@@ -43,4 +43,4 @@ const Rightside = () => {
   );
 };
 
-export default Rightside;
+export default Preview;

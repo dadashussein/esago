@@ -1,82 +1,42 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import fetchWithAuth from "~/utils/api";
 
 
 export const createCv = createAsyncThunk(
     'cv/cvCreate',
-    async ({ title }, thunkAPI) => {
-        try {
-            const token = localStorage.getItem('accessToken');
-            const response = await fetch('http://127.0.0.1:8000/cvs/first', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({ title })
-            });
-            const data = await response.json();
-            console.log(data);
-            return data;
-        } catch (err) {
-            return thunkAPI.rejectWithValue(err.response.data.detail);
-        }
+    async ({ title }) => {
+        const data = await fetchWithAuth('/cvs/first', {
+            method: 'POST',
+            body: JSON.stringify({ title }),
+        });
+        return data;
     }
 );
 
 export const fetchCv = createAsyncThunk(
     'resume/cvRetrieve',
-    async (_, thunkAPI) => {
-        try {
-            const token = localStorage.getItem('accessToken')
-            const response = await fetch('http://127.0.0.1:8000/cvs', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            const data = await response.json()
-            return data
-        } catch (err) {
-            return thunkAPI.rejectWithValue(err.message)
-        }
-
-    }
-)
-
-export const fetchCVById = createAsyncThunk(
-    'resume/fetchCVById',
-    async (cvId) => {
-        const token = localStorage.getItem('accessToken');
-        const response = await fetch(`http://127.0.0.1:8000/cvs/${cvId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        const data = await response.json();
-        console.log(data);
+    async () => {
+        const data = await fetchWithAuth('/cvs');
         return data;
     }
 );
 
+export const fetchCVById = createAsyncThunk(
+    'resume/fetchCVById',
+    async (cvId) => {
+        const data = await fetchWithAuth(`/cvs/${cvId}`);
+        return data;
+    }
+);
+
+
 export const deleteCv = createAsyncThunk(
     'resume/cvDelete',
-    async ({ id }, thunkAPI) => {
-        try {
-            const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://127.0.0.1:8000/cvs/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-            })
-            const data = await response.json()
-            return id
-        } catch (err) {
-            return thunkAPI.rejectWithValue(err.response.data.detail)
-        }
-
+    async ({ id }) => {
+        await fetchWithAuth(`/cvs/${id}`, { method: 'DELETE' });
+        return id;
     }
-)
+);
 
 const initialState = {
     cv: [],

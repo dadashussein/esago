@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
-import Experience from "./Leftside/Sections/Experience";
-import Skill from "./Leftside/Sections/Skill";
-import Rightside from "../Rightside";
-import Personal from "./Leftside/Sections/Personal";
-import Education from "./Leftside/Sections/Education";
-import Button from "../Button";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import Personal from "./Main/Leftside/Sections/Personal";
+import Education from "./Main/Leftside/Sections/Education";
+import Experience from "./Main/Leftside/Sections/Experience";
+import Skill from "./Main/Leftside/Sections/Skill";
+import Button from "./Button";
+import Preview from "./Preview";
 import { fetchEducation } from "~/store/features/education/educationThunks";
+import { fetchExperience } from "~/store/features/experience/experienceThunks";
 
-const Main = () => {
+const CreateCv = () => {
   const [activeTab, setActiveTab] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const Main = () => {
 
   useEffect(() => {
     dispatch(fetchEducation({ cvId }));
-    //dispatch(fetchExperience());
+    dispatch(fetchExperience({ cvId }));
   }, [dispatch, cvId]);
 
   const handleBack = () => {
@@ -35,11 +36,11 @@ const Main = () => {
     },
     {
       name: "Experience",
-      component: <Experience setActiveTab={setActiveTab} />,
+      component: <Experience cvId={cvId} setActiveTab={setActiveTab} />,
     },
     {
       name: "Skills",
-      component: <Skill setActiveTab={setActiveTab} />,
+      component: <Skill cvId={cvId} setActiveTab={setActiveTab} />,
     },
   ];
   useEffect(() => {
@@ -61,9 +62,8 @@ const Main = () => {
                 <div
                   key={index}
                   onClick={() => setActiveTab(index)}
-                  className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${
-                    activeTab === index ? "border-b-2 border-primary-500" : ""
-                  }`}
+                  className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${activeTab === index ? "border-b-2 border-primary-500" : ""
+                    }`}
                 >
                   {tab.name}
                 </div>
@@ -73,7 +73,7 @@ const Main = () => {
           </div>
           {/* right side */}
           <div className="border-[20px] h-[40rem] border-primary-500 rounded-2xl">
-            <Rightside />
+            <Preview />
           </div>
         </div>
 
@@ -89,4 +89,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default CreateCv;

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addExperience, removeExperience, setExperienceField } from "~/store/features/experience/experienceSlice";
-import { deleteExperience, fetchExperience, postExperience } from "~/store/features/experience/experienceThunks";
+import { deleteExperience, postExperience } from "~/store/features/experience/experienceThunks";
 
 
-const useExperience = () => {
+const useExperience = ({ cvId }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const dispatch = useDispatch();
     const experience = useSelector((state) => state.experience.experience);
@@ -17,13 +17,12 @@ const useExperience = () => {
         e.preventDefault()
         dispatch(addExperience())
         setCurrentIndex(experience.length)
-        dispatch(postExperience({ experience: experience[currentIndex] }))
+        dispatch(postExperience({ cvId, experience: experience[currentIndex] }))
     }
 
     const handleRemoveExperience = () => {
-        dispatch(deleteExperience({ id: experience[currentIndex].id }));
+        dispatch(deleteExperience({ cvId, id: experience[currentIndex].id }));
         dispatch(removeExperience(currentIndex))
-        dispatch(fetchExperience())
         if (currentIndex > 0) {
             setCurrentIndex(currentIndex - 1);
         }
@@ -37,9 +36,6 @@ const useExperience = () => {
         handleAddExperience,
         handleRemoveExperience
     }
-
-
-
 }
 
 

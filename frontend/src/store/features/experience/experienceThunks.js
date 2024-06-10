@@ -1,20 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import fetchWithAuth from "~/utils/api";
 
 export const postExperience = createAsyncThunk(
     'experience/addExperience',
-    async ({ experience }, thunkAPI) => {
+    async ({ cvId, experience }, thunkAPI) => {
         try {
-            const cvId = localStorage.getItem('cvId');
-            const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://127.0.0.1:8000/experiences/${cvId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
+            const data = await fetchWithAuth(`/experiences/${cvId}`, {
+                method: 'POST',
                 body: JSON.stringify(experience),
             });
-            const data = await response.json();
             return data;
         }
         catch (err) {
@@ -25,15 +19,9 @@ export const postExperience = createAsyncThunk(
 
 export const fetchExperience = createAsyncThunk(
     'experience/fetchExperience',
-    async ({ cvId },thunkAPI) => {
+    async ({ cvId }, thunkAPI) => {
         try {
-            const token = localStorage.getItem('accessToken');
-            const response = await fetch(`http://127.0.0.1:8000/experiences/${cvId}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            const data = await response.json();
+            const data = await fetchWithAuth(`/experiences/${cvId}`);
             return data;
         }
         catch (err) {
@@ -44,32 +32,19 @@ export const fetchExperience = createAsyncThunk(
 
 export const deleteExperience = createAsyncThunk(
     'experience/deleteExperience',
-    async ({ id }) => {
-        const cvId = localStorage.getItem('cvId');
-        const token = localStorage.getItem('accessToken');
-        const response = await fetch(`http://127.0.0.1:8000/experiences/${cvId}/${id}`, {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        const data = await response.json();
+    async ({ cvId, id }) => {
+        await fetchWithAuth(`/experiences/${cvId}/${id}`, { method: 'DELETE' });
         return id;
     }
 );
 
 export const updateExperience = createAsyncThunk(
     'experience/updateExperience',
-    async ({ token, id, experience }) => {
-        const response = await fetch(`http://127.0.0.1:8000/experiences/${id}`, {
+    async ({ id, experience }) => {
+        const data = await fetchWithAuth(`/experiences/${id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
             body: JSON.stringify(experience),
         });
-        const data = await response.json();
         return data;
     }
 );

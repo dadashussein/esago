@@ -4,8 +4,6 @@ import EducationNavigation from "./EducationNavigation";
 import useEducation from "~/hooks/useEducation";
 
 const Education = ({ setActiveTab, cvId }) => {
-    console.log(cvId);
-
   const {
     education,
     currentIndex,
@@ -13,7 +11,7 @@ const Education = ({ setActiveTab, cvId }) => {
     handleInputChange,
     handleRemoveEducation,
     setCurrentIndex,
-  } = useEducation({setActiveTab, cvId});
+  } = useEducation({ setActiveTab, cvId });
 
   return (
     <div className="border-gray-900/10 p-6 relative">

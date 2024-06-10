@@ -1,9 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchInfo,
+  patchPhoto,
   postInfo,
   setPersonalField,
 } from "../../../../store/features/personal/personalSlice";
+import sekil from "../../../../assets/avata.png"
 
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
@@ -11,12 +13,16 @@ import { useEffect, useState } from "react";
 const Personal = ({ setActiveTab, cvId }) => {
   const dispatch = useDispatch();
   const personal = useSelector((state) => state.personal.personal);
-  //const [photo, setPhoto] = useState(null);
-  //console.log(photo);
+  const [avatar, setAvatar] = useState({
+    file: null,
+    url: ""
+  })
 
   const handleInputChange = (field, value) => {
     dispatch(setPersonalField({ field, value }));
   };
+
+
 
   const handleSendAndNext = async () => {
     try {
@@ -31,6 +37,19 @@ const Personal = ({ setActiveTab, cvId }) => {
   useEffect(() => {
     dispatch(fetchInfo(cvId));
   }, [dispatch, cvId]);
+
+  const handleAvatar = async (e) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      setAvatar({
+        file: file,
+        url: URL.createObjectURL(file)
+      });
+      await dispatch(patchPhoto({ cvId, file }));
+    }
+  }
+
+
 
   return (
     <div className="border-gray-900/10 p-6 relative">
@@ -55,16 +74,19 @@ const Personal = ({ setActiveTab, cvId }) => {
               name="first_name"
             />
           </div>
-          {/* <div className="sm:col-span-3">
-            <label htmlFor="photo" className="label-primary">
-              Upload Photo
+          <div className="sm:col-span-3">
+            <label htmlFor="avatar" className="flex label-primary items-center">
+              <img className="w-12 h-12 object-contain rounded  -xl" src={avatar.url || sekil} alt="avatar" />
+              <p>Upload an image</p>
             </label>
             <input
+              id="avatar"
               type="file"
-              name="photo"
-              onChange={(e) => setPhoto(e.target.files[0])}
+              style={{ display: "none" }}
+              name="avatar"
+              onChange={handleAvatar}
             />
-          </div> */}
+          </div>
           <div className="sm:col-span-3">
             <label className="label-primary" htmlFor="lastname">
               Last Name

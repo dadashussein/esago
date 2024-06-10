@@ -3,7 +3,7 @@ import ExperienceForm from './ExperienceForm'
 import ExperienceNav from './ExperienceNav'
 import { MdDelete } from 'react-icons/md'
 
-const Experience = ({ setActiveTab }) => {
+const Experience = ({ setActiveTab, cvId }) => {
 
     const {
         experience,
@@ -11,7 +11,7 @@ const Experience = ({ setActiveTab }) => {
         handleRemoveExperience,
         handleInputChange,
         handleAddExperience,
-        setCurrentIndex } = useExperience()
+        setCurrentIndex } = useExperience({ setActiveTab, cvId })
 
     return (
         <div className="border-gray-900/10 p-6 relative">

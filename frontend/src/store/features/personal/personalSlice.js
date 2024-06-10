@@ -1,22 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import Cookies from 'js-cookie';
+import fetchWithAuth from '~/utils/api';
 
 
 export const postInfo = createAsyncThunk(
 	'personal/postInfo',
 	async ({ info, cvId }, thunkAPI) => {
 		try {
-			const token = localStorage.getItem('accessToken');
-			const response = await fetch(`http://127.0.0.1:8000/cvs`, {
+			const data = await fetchWithAuth(`cvs/${cvId}`, {
 				method: 'PUT',
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-				body: JSON.stringify({ ...info, id: cvId })
+				body: JSON.stringify(info)
 			});
-			const data = await response.json();
 			return data;
+
 		} catch (err) {
 			return thunkAPI.rejectWithValue(err.message || 'Something went wrong');
 		}
@@ -26,16 +22,27 @@ export const postInfo = createAsyncThunk(
 export const fetchInfo = createAsyncThunk(
 	'personal/fetchInfo',
 	async (cvId) => {
-		const token = localStorage.getItem('accessToken');
-		const response = await fetch(`http://127.0.0.1:8000/cvs/${cvId}`, {
-			headers: {
-				Authorization: `Bearer ${token}`
-			}
-		});
-		const data = await response.json();
+		const data = await fetchWithAuth(`cvs/${cvId}`);
 		return data;
 	}
 );
+
+export const patchPhoto = async ({ cvId, file }) => {
+
+	const formData = new FormData();
+	formData.append("file", file);
+
+	try {
+		const response = await fetchWithAuth(`cvs/${cvId}/photo`, {
+			method: 'PATCH',
+			body: formData
+		});
+		return response;
+	} catch (err) {
+		console.log(err);
+	}
+}
+
 
 const initialState = {
 	status: 'idle',
