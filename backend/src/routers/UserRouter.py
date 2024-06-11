@@ -24,8 +24,8 @@ async def login(user: UserLoginSchema, user_service: UserService = Depends()):
 
 
 @router.post("/google")
-async def google_login(user: UserGoogleSchema, user_service: UserService = Depends()):
-    return user_service.google_auth(user)
+async def google_login(token: str, user_service: UserService = Depends()):
+    return user_service.google_auth(token)
 
 
 @router.get("/activate/{user_id}")

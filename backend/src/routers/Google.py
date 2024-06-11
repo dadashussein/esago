@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, HTTPException, Response
 from starlette.config import Config
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
@@ -6,6 +6,8 @@ from authlib.integrations.starlette_client import OAuth, OAuthError
 from config.config import configs
 from schemas.UserSchemas import UserGoogleSchema
 from services.UserService import UserService
+from google.oauth2 import id_token 
+from google.auth.transport import requests 
 
 oauth_router = APIRouter()
 
@@ -24,24 +26,18 @@ oauth.register(
 )
 
 
-@oauth_router.get('/login')
-async def login(request: Request):
-    redirect_uri = request.url_for('auth')
-    return await oauth.google.authorize_redirect(request, redirect_uri)
-
-
-@oauth_router.get('/auth')
-async def auth(request: Request, response: Response, user_service: UserService = Depends()):
-    try:
-        token = await oauth.google.authorize_access_token(request)
-    except OAuthError as error:
-        return f"Error: {error}"
-    user = token.get('userinfo')
-    response = user_service.google_auth(UserGoogleSchema(email=user['email'], username=user['email']), response)
-    return {'token': response['token']}
-
-
-@oauth_router.get('/logout')
-async def logout(request: Request):
-    request.session.pop('user', None)
-    return RedirectResponse(url='/')
+@oauth_router.get("/auth") 
+def authentication(request: Request,token:str, user_service: UserService = Depends()): 
+    try: 
+        # Specify the CLIENT_ID of the app that accesses the backend: 
+        user =id_token.verify_oauth2_token(token, requests.Request(), config('GOOGLE_CLIENT_ID'))
+        request.session['user'] = dict({ 
+            "email" : user["email"]  
+        })
+        return user_service.google_auth(UserGoogleSchema(**user))
+    except ValueError: 
+        raise HTTPException(status_code=404, detail='Invalid Token')
+  
+@oauth_router.get('/') 
+def check(request:Request): 
+    return "hi "+ str(request.session.get('user')['email']) 
