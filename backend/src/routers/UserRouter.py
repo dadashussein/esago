@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from config.security import JWTBearer, get_current_user, get_current_user_id
 from models.models import User
-from schemas.UserSchemas import UserRegisterSchema, UserLoginSchema
+from schemas.UserSchemas import UserGoogleSchema, UserRegisterSchema, UserLoginSchema
 from services.UserService import UserService
 
 router = APIRouter()
@@ -21,6 +21,11 @@ async def register(user: UserRegisterSchema, background_tasks: BackgroundTasks, 
 @router.post("/login")
 async def login(user: UserLoginSchema, user_service: UserService = Depends()):
     return user_service.login(user)
+
+
+@router.post("/google")
+async def google_login(user: UserGoogleSchema, user_service: UserService = Depends()):
+    return user_service.google_auth(user)
 
 
 @router.get("/activate/{user_id}")

@@ -118,7 +118,7 @@ class UserService:
 
     
 
-    def google_auth(self, user: UserGoogleSchema, response: Response):
+    def google_auth(self, user: UserGoogleSchema):
         db_user = self.userRepo.get_where(email=user.email)
         if not db_user:
             db_user = User(username=user.username.split("@")[0], email=user.email, is_active=True, is_google=True)

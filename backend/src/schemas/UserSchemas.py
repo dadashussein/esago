@@ -1,5 +1,3 @@
-import json
-import uuid
 from datetime import date
 from typing import Optional
 from uuid import UUID
@@ -33,7 +31,7 @@ class UserRegisterSchema(BaseModel):
 
 
 class UserGoogleSchema(BaseModel):
-    username: str
+    image_url: str
     email: EmailStr
     class Config:
         from_attributes = True
