@@ -24,25 +24,25 @@ export default function Skill({ cvId }) {
   };
 
   return (
-    <div className='p-6'>
-      <h1>Most relevant skill</h1>
+    <div className=''>
+      <h1 className='section-title '>Most relevant skill</h1>
       <div className=''>
         <div className='flex flex-col gap-2 my-4'>
           <input
             type="text"
             value={currentSkill}
             onChange={e => setCurrentSkill(e.target.value)}
-            className='border outline-none p-2'
+            className='input-primary'
             placeholder='Type skill'
           />
           <button
             onClick={handleAdd}
-            className='border p-2 bg-primary-500 rounded-md text-white'
+            className='button-primary'
           >
             Add Skill
           </button>
         </div>
-        <ul className='' ref={animationParent}>
+        <ul className='dark:text-white text-gray-900' ref={animationParent}>
           {skills.map((skill, index) => (
             <li key={index} className='flex justify-between items-center'>
               <p>{skill.name}</p>

@@ -34,7 +34,7 @@ const A4Component = () => {
 
     return (
         <div
-            className={`mx-auto border border-black ${width > 0 && height > 0 ? `w-[${width}px] h-[${height}px]` : ''}`}
+            className={`mx-auto border ${width > 0 && height > 0 ? `w-[${width}px] h-[${height}px]` : ''}`}
         >
             <Preview />
         </div>

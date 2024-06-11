@@ -14,9 +14,9 @@ const Experience = ({ setActiveTab, cvId }) => {
         setCurrentIndex } = useExperience({ setActiveTab, cvId })
 
     return (
-        <div className="border-gray-900/10 p-6 relative">
+        <div className="border-gray-900/10 relative">
             <div className="flex items-center justify-between">
-                <h2 className="font-semibold lg:text-[40px] text-[40px] text-gray-900">Experience</h2>
+                <h2 className="section-title">Experience</h2>
                 <div className="col-span-full flex">
                     <button
                         type="button"
@@ -27,7 +27,7 @@ const Experience = ({ setActiveTab, cvId }) => {
                     </button>
                 </div>
             </div>
-            <p className="text-sm leading-6 text-gray-600">
+            <p className=" section-description">
                 Add your most relevant work, company programs youre currently work in </p>
             {experience.length > 0 && (
                 <>
@@ -44,13 +44,13 @@ const Experience = ({ setActiveTab, cvId }) => {
                     />
                 </>
             )}
-            {/* <button
+            <button
                 type="button"
                 onClick={() => setActiveTab(3)}
-                className="inline-flex py-2 px-6 absolute text-center bottom-[-50px] right-[-10px] rounded-[20px] bg-primary-500 text-white"
+                className="inline-flex py-2 px-6 absolute text-center bottom-[-50px] right-[-10px] button-primary "
             >
                 Next
-            </button> */}
+            </button>
 
 
         </div>

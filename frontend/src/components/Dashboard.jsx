@@ -5,6 +5,7 @@ import { createCv, deleteCv, fetchCv } from "~/store/features/resume/resumeSlice
 import { unwrapResult } from "@reduxjs/toolkit";
 import { motion } from "framer-motion";
 import sas from "../assets/sas.jpg"
+import A4Component from "./A4";
 
 const Dashboard = ({ auth }) => {
   const navigate = useNavigate();
@@ -55,8 +56,8 @@ const Dashboard = ({ auth }) => {
   };
 
   return (
-    <main className="flex-1 p-10">
-      <div className="flex justify-between items-center mb-8">
+    <main className="flex-1 p-4">
+      <div className="flex justify-between items-center mb-4">
         <h2 className="text-3xl font-bold">Hi, {auth?.username}</h2>
         <button
           onClick={() => setShowInput(!showInput)}
@@ -91,7 +92,7 @@ const Dashboard = ({ auth }) => {
       <div className="grid grid-cols-4 gap-6">
         {cv.map((item) => (
           <div key={item.id} className="relative  w-[300px]  bg-yellow-100 p-6 rounded-lg group">
-            <img src={sas} alt="" />
+            <A4Component />
             <p className="text-center font-semibold mt-4">{item.title}</p>
             <motion.div
               initial={{ opacity: 0 }}
@@ -105,11 +106,6 @@ const Dashboard = ({ auth }) => {
             </motion.div>
           </div>
         ))}
-      </div>
-      <div className="flex justify-end mt-8">
-        <button className="bg-green-100 text-green-700 font-semibold py-2 px-4 rounded-full">
-          View all templates
-        </button>
       </div>
     </main>
   );

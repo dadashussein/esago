@@ -6,6 +6,7 @@ const Preview = () => {
   const education = useSelector((state) => state.education.education);
   const experience = useSelector((state) => state.experience.experience);
   const personal = useSelector((state) => state.personal.personal);
+  const skills = useSelector((state) => state.skills.skills);
   const [finalExperience, setFinalExperience] = useState([]);
 
 
@@ -35,6 +36,7 @@ const Preview = () => {
         personal={personal}
         education={education}
         experience={finalExperience}
+        skills={skills}
       />
     </>
   );

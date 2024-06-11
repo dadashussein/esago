@@ -36,7 +36,6 @@ export default function Inner() {
       <div className="flex flex-col w-full">
         {/* <Header /> */}
         <Dashboard auth={auth} />
-        {/* <Footer /> */}
       </div>
     </>
 

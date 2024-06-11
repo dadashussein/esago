@@ -52,7 +52,7 @@ const resumeSlice = createSlice({
                 state.cv = action.payload
             })
             .addCase(deleteCv.fulfilled, (state, action) => {
-                state.cv = state.cv.filter(cv => cv.id !== action.payload.id);
+                state.cv = state.cv.filter(cv => cv.id !== action.payload);
             })
             .addCase(fetchCVById.fulfilled, (state, action) => {
                 state.cv = action.payload

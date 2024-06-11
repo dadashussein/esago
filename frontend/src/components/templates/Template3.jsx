@@ -1,5 +1,5 @@
 import avatar from "../../assets/avatar.jpg";
-const Template3 = ({ education, experience, personal, img }) => {
+const Template3 = ({ education, experience, personal, img, skills }) => {
   const {
     first_name,
     last_name,
@@ -12,7 +12,7 @@ const Template3 = ({ education, experience, personal, img }) => {
 
   return (
 
-    <div className="bg-white">
+    <div className="bg-white ">
       {/* header  start*/}
 
       <div className=" flex justify-between">
@@ -82,7 +82,15 @@ const Template3 = ({ education, experience, personal, img }) => {
             </div>
           )}
           <div className="flex mt-6 flex-col gap-2">
-
+            Skills
+            <div className="border-b-2"></div>
+            <div className="flex flex-wrap gap-2">
+              {skills?.map((skill) => (
+                <span key={skill.id} className="bg-gray-200 text-gray-500 text-[11px] px-2 py-1 rounded">
+                  {skill.name}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -93,20 +101,20 @@ const Template3 = ({ education, experience, personal, img }) => {
             {experience.map((exp, index) => (
               <div key={index} className="flex items-start gap-4">
                 <div className="text-sm flex text-gray-500">
-                  <p className=" text-[11px]">{exp.workStart}</p>
+                  <p className=" text-[11px]">{exp.start_date}</p>
                   <p className="text-[11px]">/</p>
-                  <p className=" text-[11px]">{exp.workEnd}</p>
+                  <p className=" text-[11px]">{exp.end_date}</p>
                 </div>
                 <div>
                   <div>
-                    <h2 className="text-[12px]">{exp.company}</h2>
+                    <h2 className="text-[12px]">{exp.company_name}</h2>
                     <p className="text-[11px] text-blue-500">
-                      {exp.companyPlace}
+                      {exp.location}
                     </p>
                   </div>
-                  <p className=" text-[11px] text-gray-500">{exp.field}</p>
+                  <p className=" text-[11px] text-gray-500">{exp.job_title}</p>
                   <p className="text-[10px] text-gray-500   break-all whitespace-pre-wrap italic">
-                    {exp.workDesc}
+                    {exp.description}
                   </p>
                 </div>
               </div>

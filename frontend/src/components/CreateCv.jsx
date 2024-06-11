@@ -5,7 +5,6 @@ import Personal from "./Main/Leftside/Sections/Personal";
 import Education from "./Main/Leftside/Sections/Education";
 import Experience from "./Main/Leftside/Sections/Experience";
 import Skill from "./Main/Leftside/Sections/Skill";
-import Button from "./Button";
 import Preview from "./Preview";
 import { fetchEducation } from "~/store/features/education/educationThunks";
 import { fetchExperience } from "~/store/features/experience/experienceThunks";
@@ -51,34 +50,29 @@ const CreateCv = () => {
   }, [activeTab]);
 
   return (
-
-    <div className="bg-gray-200 ">
-
-      <div className="flex">
-        {/* leftide */}
-        <div className="w-1/2 bg-white p-8">
-          <div className="flex">
-            {tabs.map((tab, index) => (
-              <div
-                key={index}
-                onClick={() => setActiveTab(index)}
-                className={`flex items-center justify-center w-[10rem] h-[50px]  cursor-pointer ${activeTab === index ? "border-b-2 border-primary-500" : ""
-                  }`}
-              >
-                {tab.name}
-              </div>
-            ))}
-          </div>
-          <div className="">{tabs[activeTab].component}</div>
+    <div className="flex lg:flex-row sm:flex-col items-center  ">
+      {/* leftide */}
+      <div className="lg:w-1/2 h-screen  px-4 py-8  m-1 drop-shadow-xl dark:bg-[#232429] bg-white">
+        <div className="flex gap-2">
+          {tabs.map((tab, index) => (
+            <div
+              key={index}
+              onClick={() => setActiveTab(index)}
+              className={`flex border-b-4 w-full text-gray-900 dark:text-[#D4D4D4]    items-center justify-center  cursor-pointer 
+                ${activeTab === index ? "border-b-2 border-primary-500 dark:border-primary-400" : ""
+                }`}
+            >
+              {tab.name}
+            </div>
+          ))}
         </div>
-        {/* right side */}
-        <div className="w-1/2 bg-green-100 p-8">
-          <A4Component />
-        </div>
+        <div className="px-4 py-2">{tabs[activeTab].component}</div>
       </div>
-
+      {/* right side */}
+      <div className="w-1/2 h-screen">
+        <A4Component />
+      </div>
     </div>
-
   );
 };
 

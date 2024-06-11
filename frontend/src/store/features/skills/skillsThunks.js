@@ -9,8 +9,7 @@ export const postSkills = createAsyncThunk(
                 method: 'POST',
                 body: JSON.stringify(skillName),
             })
-            console.log(response);
-            return response
+            return response;
 
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response.data.detail)
@@ -23,7 +22,7 @@ export const getSkills = createAsyncThunk(
     async ({ cvId }, thunkAPI) => {
         try {
             const response = await fetchWithAuth(`/skills/${cvId}`)
-            return response
+            return response;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response.data.detail)
         }

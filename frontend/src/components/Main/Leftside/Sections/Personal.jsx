@@ -53,11 +53,11 @@ const Personal = ({ setActiveTab, cvId }) => {
 
 
   return (
-    <div className="border-gray-900/10 p-6 relative">
-      <h1 className="font-semibold lg:text-[40px] text-[40px] text-gray-900">
+    <div className="border-gray-900/10  relative">
+      <h1 className="section-title ">
         Personal Details
       </h1>
-      <p className="text-sm leading-6 text-gray-600">
+      <p className="section-description">
         Get started with the basics: your name and contact information.
       </p>
 
