@@ -38,6 +38,6 @@ def authentication(request: Request,token:str, user_service: UserService = Depen
     except ValueError: 
         raise HTTPException(status_code=404, detail='Invalid Token')
   
-@oauth_router.get('/') 
+@oauth_router.get('/check') 
 def check(request:Request): 
     return "hi "+ str(request.session.get('user')['email']) 
