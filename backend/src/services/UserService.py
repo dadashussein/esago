@@ -118,10 +118,10 @@ class UserService:
 
     
 
-    def google_auth(self, user_login: UserGoogleSchema):
-        user = self.userRepo.get_where(email=user_login.email)
+    def google_auth(self, email:str, picture_url:str):
+        user = self.userRepo.get_where(email=email)
         if user is None:
-            user = User(**user_login.dict(), is_active=True, is_google=True)
+            user = User(email=email,username=email, profile_picture=picture_url , is_active=True, is_google=True)
             self.userRepo.create(user)
         payload = Payload(sub=str(str(user.id)), email=user.email).dict()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)

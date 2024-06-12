@@ -1,43 +1,52 @@
-from fastapi import APIRouter, Depends, HTTPException, Response
+# main.py
+import time
+from fastapi import APIRouter, Depends, Response
+from fastapi.responses import RedirectResponse
+import requests
+from authlib.integrations.starlette_client import OAuth
+from pydantic import BaseModel
 from starlette.config import Config
-from starlette.requests import Request
-from starlette.responses import RedirectResponse
-from authlib.integrations.starlette_client import OAuth, OAuthError
+import os
+from fastapi import FastAPI, Request
+from fastapi_sso.sso.google import GoogleSSO
 from config.config import configs
 from schemas.UserSchemas import UserGoogleSchema
 from services.UserService import UserService
-from google.oauth2 import id_token 
-from google.auth.transport import requests 
+
 
 oauth_router = APIRouter()
 
-config = Config('.env')
-oauth = OAuth()
-
-CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
-oauth.register(
-    name='google',
-    server_metadata_url=CONF_URL,
-    client_id=config('GOOGLE_CLIENT_ID'),
-    client_secret=config('GOOGLE_CLIENT_SECRET'),
-    client_kwargs={
-        'scope': 'openid email profile'
-    }
+google_sso = GoogleSSO(
+    client_id= configs.GOOGLE_CLIENT_ID,
+    client_secret= configs.GOOGLE_CLIENT_SECRET,
+    redirect_uri="http://localhost:8000/google/callback",
+    allow_insecure_http=True,
 )
 
+class Gooogle(BaseModel):
+    code: str
 
-@oauth_router.get("/auth") 
-def authentication(request: Request,token:str, user_service: UserService = Depends()): 
-    try: 
-        # Specify the CLIENT_ID of the app that accesses the backend: 
-        user =id_token.verify_oauth2_token(token, requests.Request(), config('GOOGLE_CLIENT_ID'))
-        request.session['user'] = dict({ 
-            "email" : user["email"]  
-        })
-        return user_service.google_auth(UserGoogleSchema(**user))
-    except ValueError: 
-        raise HTTPException(status_code=404, detail='Invalid Token')
-  
-@oauth_router.get('/check') 
-def check(request:Request): 
-    return "hi "+ str(request.session.get('user')['email']) 
+
+@oauth_router.get("/google/login")
+async def google_login():
+    with google_sso:
+        return await google_sso.get_login_redirect(redirect_uri="http://localhost:8000/google/callback")
+
+@oauth_router.get("/google/callback")
+async def google_callback(request: Request, response:Response, user_service: UserService=Depends()):
+    print(request.json())
+    with google_sso:
+        user = await google_sso.verify_and_process(request)
+    if user:
+        email = user.email
+        picture_url = user.picture
+        access_token = user_service.google_auth(email, picture_url)
+        response.set_cookie(key="access_token", value=access_token['token'], samesite='strict')
+        # todo frontend_google_uri must come from .env
+        return RedirectResponse(url="http://localhost:5173/google/callback?access_token="+access_token['token'], status_code=308)
+    raise Exception("User not found")   
+
+@oauth_router.get("/read-cookie/")
+async def read_cookie(request:Request, response:Response):
+    return {"cookie_value": request.cookies.get("access_token")}
+    

@@ -20,6 +20,8 @@ class Configs(BaseSettings):
     UPLOAD_PROFILE_DIR: Path = Path("wwwroot/profiles")
     CV_PICTURE_FOLDER: Path = Path("wwwroot/cv_pictures")
     PROJECT_ROOT: str = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    GOOGLE_CLIENT_ID: str = os.getenv("GOOGLE_CLIENT_ID")
+    GOOGLE_CLIENT_SECRET: str = os.getenv("GOOGLE_CLIENT_SECRET")
 
     # auth
     SECRET_KEY: str = os.getenv("SECRET_KEY", "")
