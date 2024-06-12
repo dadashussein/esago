@@ -1,6 +1,6 @@
 # main.py
 import time
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.responses import RedirectResponse
 import requests
 from authlib.integrations.starlette_client import OAuth
@@ -38,15 +38,8 @@ async def google_callback(request: Request, response:Response, user_service: Use
     with google_sso:
         user = await google_sso.verify_and_process(request)
     if user:
-        email = user.email
-        picture_url = user.picture
-        access_token = user_service.google_auth(email, picture_url)
-        response.set_cookie(key="access_token", value=access_token['token'], samesite='strict')
+        access_token = user_service.google_auth(user.email, user.picture)
         # todo frontend_google_uri must come from .env
+        response.set_cookie(key="salam", value=access_token['token'])
         return RedirectResponse(url="http://localhost:5173/google/callback?access_token="+access_token['token'], status_code=308)
-    raise Exception("User not found")   
-
-@oauth_router.get("/read-cookie/")
-async def read_cookie(request:Request, response:Response):
-    return {"cookie_value": request.cookies.get("access_token")}
-    
+    raise HTTPException(status_code=404, detail="User not found")

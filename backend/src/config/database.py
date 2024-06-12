@@ -8,7 +8,7 @@ DATABASE_URL = configs.DATABASE_URI
 
 # Create Database Engine
 Engine = create_engine(
-    DATABASE_URL, future=True
+    DATABASE_URL, future=True, pool_size=20, max_overflow=0
 )
 
 SessionLocal = sessionmaker(
