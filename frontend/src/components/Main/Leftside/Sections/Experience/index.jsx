@@ -44,13 +44,7 @@ const Experience = ({ setActiveTab, cvId }) => {
                     />
                 </>
             )}
-            <button
-                type="button"
-                onClick={() => setActiveTab(3)}
-                className="inline-flex py-2 px-6 absolute text-center bottom-[-50px] right-[-10px] button-primary "
-            >
-                Next
-            </button>
+
 
 
         </div>

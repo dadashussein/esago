@@ -1,14 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import Cookies from "js-cookie";
-import fetchWithAuth from "~/utils/api";
+import fetchWithAuth, { baseUrl } from "~/utils/api";
 const initialState = {
 	currentUser: undefined,
 	isLoading: false,
 };
+
+
 export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
 	try {
-		const response = await axios.post('http://127.0.0.1:8000/users/register', userData)
+		const response = await axios.post(`${baseUrl}/users/register`, userData)
 		return response.data
 	} catch (err) {
 		return thunkAPI.rejectWithValue(err.response.data.detail)
@@ -16,9 +18,7 @@ export const register = createAsyncThunk('auth/register', async (userData, thunk
 })
 export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
 	try {
-		const response = await axios.post('http://127.0.0.1:8000/users/login', userData)
-		const { token } = response.data;
-		Cookies.set("accessToken", token);
+		const response = await axios.post(`${baseUrl}/users/login`, userData)
 		return response.data
 	} catch (err) {
 		return thunkAPI.rejectWithValue(err.response.data.detail)

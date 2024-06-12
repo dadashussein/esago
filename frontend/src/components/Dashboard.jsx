@@ -5,14 +5,15 @@ import { createCv, deleteCv, fetchCv } from "~/store/features/resume/resumeSlice
 import { unwrapResult } from "@reduxjs/toolkit";
 import { motion } from "framer-motion";
 import sas from "../assets/sas.jpg"
-import A4Component from "./A4";
 
-const Dashboard = ({ auth }) => {
+
+const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cv = useSelector((state) => state.resumes.cv);
   const [cvTitle, setCvTitle] = useState("");
   const [showInput, setShowInput] = useState(false);
+  const auth = useSelector((state) => state.auth.currentUser);
 
   useEffect(() => {
     dispatch(fetchCv());
@@ -30,7 +31,7 @@ const Dashboard = ({ auth }) => {
 
     const action = await dispatch(createCv({ title: cvTitle }));
     const resultAction = unwrapResult(action);
-    console.log("result", resultAction);
+    //console.log("result", resultAction);
 
     navigate(`${resultAction.id}`);
     setCvTitle("");
@@ -46,12 +47,12 @@ const Dashboard = ({ auth }) => {
   };
 
   const handleDownload = (cvId) => {
-    // Implement the download functionality here
+
     console.log(`Downloading CV with ID: ${cvId}`);
   };
 
   const handlePreview = (cvId) => {
-    // Implement the preview functionality here
+
     console.log(`Previewing CV with ID: ${cvId}`);
   };
 
@@ -92,7 +93,7 @@ const Dashboard = ({ auth }) => {
       <div className="grid grid-cols-4 gap-6">
         {cv.map((item) => (
           <div key={item.id} className="relative  w-[300px]  bg-yellow-100 p-6 rounded-lg group">
-            <A4Component />
+            <img src={sas} alt="cv" className="w-full h-40 object-cover rounded-lg" />
             <p className="text-center font-semibold mt-4">{item.title}</p>
             <motion.div
               initial={{ opacity: 0 }}

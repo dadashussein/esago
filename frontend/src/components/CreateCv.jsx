@@ -11,11 +11,16 @@ import { fetchExperience } from "~/store/features/experience/experienceThunks";
 import { getSkills } from "~/store/features/skills/skillsThunks";
 import A4Component from "./A4";
 
+
 const CreateCv = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [finished, setFinished] = useState(false);
+  console.log(finished);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cvId } = useParams();
+
+  console.log(activeTab);
 
   useEffect(() => {
     dispatch(fetchEducation({ cvId }));
@@ -24,8 +29,22 @@ const CreateCv = () => {
   }, [dispatch, cvId]);
 
   const handleBack = () => {
-    navigate("/app");
+    if (activeTab === 0) {
+      navigate("/app");
+    } else {
+      setActiveTab((prev) => prev - 1);
+    }
   };
+
+
+  const handleSubmit = () => {
+    if (activeTab === 3) {
+      setFinished(true);
+    } else {
+      setActiveTab((prev) => prev + 1);
+    }
+  };
+
 
   const tabs = [
     {
@@ -52,7 +71,7 @@ const CreateCv = () => {
   return (
     <div className="flex lg:flex-row sm:flex-col items-center  ">
       {/* leftide */}
-      <div className="lg:w-1/2 h-screen  px-4 py-8  m-1 drop-shadow-xl dark:bg-[#232429] bg-white">
+      <div className="lg:w-1/2 h-screen relative px-4 py-8  m-1 drop-shadow-xl dark:bg-[#232429] bg-white">
         <div className="flex gap-2">
           {tabs.map((tab, index) => (
             <div
@@ -67,6 +86,14 @@ const CreateCv = () => {
           ))}
         </div>
         <div className="px-4 py-2">{tabs[activeTab].component}</div>
+        <div className="absolute bottom-[50px] right-[50px] flex  gap-4">
+          <button className="  button-primary bg-primary-300 text-primary-500 " onClick={handleBack}>
+            Back
+          </button>
+          <button onClick={handleSubmit} className=" button-primary ">{
+            finished ? "Submit" : "Next"
+          }</button>
+        </div>
       </div>
       {/* right side */}
       <div className="w-1/2 h-screen">

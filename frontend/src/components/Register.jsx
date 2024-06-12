@@ -30,10 +30,9 @@ const Register = () => {
     try {
       const action = await dispatch(register(newUser));
       const resultAction = unwrapResult(action);
-      console.log(resultAction);
-
+      const data = resultAction;
       console.log("account created");
-      navigate('/login')
+      navigate("/activate", { state: { data } });
     } catch (err) {
       setError(err);
     }
@@ -136,7 +135,7 @@ const Register = () => {
                 style={{ display: "none" }}
                 name="avatar"
                 onChange={handleAvatar}
-             
+
                 className=" mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
               />
               {error && <div className="text-red-500">{error}</div>}

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
-import fetchWithAuth from '~/utils/api';
+import fetchWithAuth, { baseUrl } from '~/utils/api';
 
 
 export const postInfo = createAsyncThunk(
@@ -35,7 +35,7 @@ export const patchPhoto = createAsyncThunk(
 		formData.append("file", file);
 		try {
 			const accessToken = Cookies.get('accessToken');
-			const response = await fetch(`http://127.0.0.1:8000/cvs/${cvId}/picture`, {
+			const response = await fetch(`${baseUrl}/cvs/${cvId}/picture`, {
 				method: 'PATCH',
 				headers: {
 					Authorization: `Bearer ${accessToken}`
@@ -76,27 +76,6 @@ const personalSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			// .addCase(createCv.pending, (state) => {
-			// 	state.status = 'loading';
-			// })
-			// .addCase(createCv.fulfilled, (state, action) => {
-			// 	state.status = 'succeeded';
-			// 	state.cvId = action.payload.id;
-			// 	state.personal = {
-			// 		title: '',
-			// 		first_name: '',
-			// 		last_name: '',
-			// 		job_title: '',
-			// 		address: '',
-			// 		phone_number: '',
-			// 		email: '',
-			// 		bio: ''
-			// 	};
-			// })
-			// .addCase(createCv.rejected, (state, action) => {
-			// 	state.status = 'failed';
-			// 	state.error = action.payload;
-			// })
 			.addCase(fetchInfo.pending, (state) => {
 				state.status = 'loading';
 			})

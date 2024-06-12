@@ -6,8 +6,8 @@ const ExperienceForm = ({ currentIndex, experience, handleInputChange, handleAdd
         handleAddExperience(e);
     };
     return (
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4 '>
-            <div className="input-container">
+        <form onSubmit={handleSubmit} className='mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6'>
+            <div className="sm:col-span-3">
                 <label htmlFor={`job_title-${currentIndex}`} className="label-primary">
                     Job title
                 </label>
@@ -22,7 +22,7 @@ const ExperienceForm = ({ currentIndex, experience, handleInputChange, handleAdd
                     className="input-primary"
                 />
             </div>
-            <div className="input-container">
+            <div className="sm:col-span-3">
                 <label htmlFor={`company_name-${currentIndex}`} className="label-primary">
                     Company Name
                 </label>
@@ -37,7 +37,7 @@ const ExperienceForm = ({ currentIndex, experience, handleInputChange, handleAdd
                     className="input-primary"
                 />
             </div>
-            <div className="input-container">
+            <div className="sm:col-span-3">
                 <label htmlFor={`location-${currentIndex}`} className="label-primary">
                     Company Location
                 </label>
@@ -52,7 +52,7 @@ const ExperienceForm = ({ currentIndex, experience, handleInputChange, handleAdd
                     className="input-primary"
                 />
             </div>
-            <div className="input-container">
+            <div className="sm:col-span-3">
                 <label htmlFor="start_date" className="label-primary">
                     Start Date
                 </label>
@@ -67,7 +67,7 @@ const ExperienceForm = ({ currentIndex, experience, handleInputChange, handleAdd
                     className="input-primary"
                 />
             </div>
-            <div className="input-container">
+            <div className="sm:col-span-3">
                 <label htmlFor="end_date" className="label-primary">
                     End Date
                 </label>

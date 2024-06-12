@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
+export const baseUrl = import.meta.env.VITE_BASE_URL;
 
 const fetchWithAuth = async (url, options = {}) => {
     const accessToken = Cookies.get('accessToken');

@@ -1,9 +1,10 @@
-import { unwrapResult } from "@reduxjs/toolkit";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/features/auth/authSlice";
 import Button from "./Button";
+import { unwrapResult } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 
 const Login = () => {
@@ -23,8 +24,9 @@ const Login = () => {
 
     const newUser = { username_or_email, password };
     try {
-      const action = await dispatch(login(newUser));
-      const result = unwrapResult(action);
+      const response = await dispatch(login(newUser));
+      const data = unwrapResult(response);
+      Cookies.set("accessToken", data.token);
       navigate("/app");
     } catch (err) {
       setError(err);
@@ -114,13 +116,16 @@ const Login = () => {
 
             {error && <div className="text-red-500">{error}</div>}
           </div>
-          <Button
-            classname=" inline-block mt-2"
-            bgColor="primary-500"
-            textColor="white"
-          >
-            Sign In
-          </Button>
+          <div className="flex flex-col gap-4">
+            <Button
+              classname=" inline-block mt-2"
+              bgColor="primary-500"
+              textColor="white"
+            >
+              Sign In
+            </Button>
+            <a href="http://localhost:8000/google/login">Login with google</a>
+          </div>
         </form>
 
         <div className="text-center">
