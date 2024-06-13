@@ -10,6 +10,7 @@ import sekil from "../../../../assets/avata.png"
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import { baseUrl } from "~/utils/api";
 
 const Personal = ({ setActiveTab, cvId }) => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const Personal = ({ setActiveTab, cvId }) => {
     url: ""
   })
 
-  const imgUrl = `http://localhost:8000/static/cv_pictures/${personal?.picture}`;
+  const imgUrl = `${baseUrl}/static/cv_pictures/${personal?.picture}`;
 
   const handleInputChange = (field, value) => {
     dispatch(setPersonalField({ field, value }));

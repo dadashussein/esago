@@ -5,6 +5,7 @@ import { login } from "../store/features/auth/authSlice";
 import Button from "./Button";
 import { unwrapResult } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
+import { baseUrl } from "~/utils/api";
 
 
 const Login = () => {
@@ -124,7 +125,7 @@ const Login = () => {
             >
               Sign In
             </Button>
-            <a href="http://localhost:8000/google/login">Login with google</a>
+            <a href={`${baseUrl}/google/login`}>Login with google</a>
           </div>
         </form>
 

@@ -66,7 +66,7 @@ const AuthenticatedRoute = ({ children }) => {
 const routes = createBrowserRouter([
   { path: "/", element: <AuthenticatedRoute><HomePage /></AuthenticatedRoute> },
   { path: "/signup", element: <Register /> },
-  { path: "/google/callback", element: <GoogleCallback /> },
+  { path: "/google/authenticate", element: <GoogleCallback /> },
   { path: "/activate", element: <ActivateUser /> },
   {
     path: "/app",

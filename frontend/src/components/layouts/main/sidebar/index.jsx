@@ -1,5 +1,6 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
 import { useContext, createContext, useState } from "react"
+import { Link } from "react-router-dom";
 
 const SidebarContext = createContext()
 
@@ -68,7 +69,7 @@ export default function Sidebar({ children, auth, logOut }) {
     )
 }
 
-export function SidebarItem({ icon, text, active, alert }) {
+export function SidebarItem({ icon, text, active, alert, to }) {
     const { expanded } = useContext(SidebarContext)
 
     return (
@@ -84,12 +85,12 @@ export function SidebarItem({ icon, text, active, alert }) {
     `}
         >
             {icon}
-            <span
+            <Link to={to}
                 className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"
                     }`}
             >
                 {text}
-            </span>
+            </Link>
             {alert && (
                 <div
                     className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${expanded ? "" : "top-2"

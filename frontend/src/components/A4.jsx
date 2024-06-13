@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Preview from './Preview';
+import { generatePDF } from '~/lib/Fileforge';
 
 const A4Component = () => {
     const [width, setWidth] = useState(0);
@@ -34,9 +35,11 @@ const A4Component = () => {
 
     return (
         <div
+            style={{ page: 'A4' }}
             className={`mx-auto border ${width > 0 && height > 0 ? `w-[${width}px] h-[${height}px]` : ''}`}
         >
             <Preview />
+            <button onClick={generatePDF}>Generate PDF</button>
         </div>
     );
 };
