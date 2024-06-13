@@ -13,6 +13,7 @@ from config.database import Engine
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI
+from config.config import configs
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -25,6 +26,8 @@ origins = [
     "http://localhost:8000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    configs.FRONTEND_URI,
+    configs.BACKEND_URI
 ]
 
 # Mount the wwwroot directory

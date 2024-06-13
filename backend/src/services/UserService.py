@@ -1,4 +1,3 @@
-import logging
 import uuid
 from datetime import timedelta, datetime
 from fastapi import Depends, File, HTTPException, Request, Response, UploadFile, status, BackgroundTasks
@@ -54,7 +53,7 @@ class UserService:
         new_user.password = get_password_hash(user.password)
 
         created_user = self.userRepo.create(new_user)
-        activation_link = f"http://127.0.0.1:8000/users/activate/{created_user.id}?token={activation_token}"
+        activation_link = f"{configs.BACKEND_URI}/users/activate/{created_user.id}?token={activation_token}"
         background_tasks.add_task(
             self.emailService.send_email,
             user.email,

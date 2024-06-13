@@ -27,8 +27,8 @@ class Configs(BaseSettings):
     SECRET_KEY: str = os.getenv("SECRET_KEY", "")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 30  # 60 minutes * 24 hours * 30 days = 30 days
     DATETIME_FORMAT: str = "%Y-%m-%dT%H:%M:%S"
-    FRONTEND_URI: str = os.getenv("FRONTEND_URI", "http://localhost:5173")
-    BACKEND_URI: str = os.getenv("BACKEND_URI", "http://localhost:8000")
+    FRONTEND_URI: str = os.getenv("FRONTEND_URI")
+    BACKEND_URI: str = os.getenv("BACKEND_URI")
 
     # database
     DB: str = os.getenv("DB", "postgresql")
