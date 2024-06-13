@@ -36,5 +36,5 @@ async def google_callback(request: Request, response:Response, user_service: Use
         access_token = user_service.google_auth(user.email, user.picture)
         # todo frontend_google_uri must come from .env
         response.set_cookie(key="salam", value=access_token['token'])
-        return RedirectResponse(url=f"{configs.FRONTEND_URI}/google/callback?access_token="+access_token['token'], status_code=308)
+        return RedirectResponse(url=f"{configs.FRONTEND_URI}/authenticate_google?access_token="+access_token['token'], status_code=308)
     raise HTTPException(status_code=404, detail="User not found")
