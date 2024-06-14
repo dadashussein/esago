@@ -2,11 +2,11 @@ from datetime import datetime, timedelta
 from http.client import HTTPException
 from typing import Tuple
 
+import bcrypt
 from fastapi import Request, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import jwt
 from passlib.context import CryptContext
-
 from config.config import configs
 from config.exceptions import AuthError
 from schemas.UserSchemas import Payload
@@ -26,12 +26,18 @@ def create_access_token(subject: Payload, expires_delta: timedelta = None) -> Tu
     return encoded_jwt, expiration_datetime
 
 
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
-
-
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    """Hash a password using bcrypt"""
+    pwd_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password=pwd_bytes, salt=salt)
+    return hashed_password.decode('utf-8')
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Check if the provided password matches the stored password (hashed)"""
+    password_byte_enc = plain_password.encode('utf-8')
+    hashed_password_bytes = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(password=password_byte_enc, hashed_password=hashed_password_bytes)
 
 
 def decode_jwt(token: str) -> dict:
