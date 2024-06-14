@@ -17,7 +17,7 @@ RUN python -m venv test && \
 # Copy source code
 
 COPY ./src /code
-
+RUN mkdir -p /code/wwwroot
 # Expose port
 EXPOSE 8000
 
