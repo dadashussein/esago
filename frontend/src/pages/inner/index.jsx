@@ -1,6 +1,5 @@
 import Dashboard from "~/components/Dashboard";
 
-
 export default function Inner() {
   return (
     <>
@@ -8,6 +7,5 @@ export default function Inner() {
         <Dashboard />
       </div>
     </>
-
   );
 }

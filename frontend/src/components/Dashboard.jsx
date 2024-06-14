@@ -3,14 +3,37 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createCv, deleteCv, fetchCv } from "~/store/features/resume/resumeSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { motion } from "framer-motion";
-import sas from "../assets/sas.jpg"
+import { Tilt } from 'react-next-tilt';
 
+const Modal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  const handleBackdropClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
+  };
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
+      onClick={handleBackdropClick}
+    >
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg relative">
+        <button onClick={onClose} className="absolute top-2 right-2">
+
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+};
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cv = useSelector((state) => state.resumes.cv);
+  
   const [cvTitle, setCvTitle] = useState("");
   const [showInput, setShowInput] = useState(false);
   const auth = useSelector((state) => state.auth.currentUser);
@@ -31,7 +54,7 @@ const Dashboard = () => {
 
     const action = await dispatch(createCv({ title: cvTitle }));
     const resultAction = unwrapResult(action);
-    //console.log("result", resultAction);
+    console.log("result", resultAction);
 
     navigate(`${resultAction.id}`);
     setCvTitle("");
@@ -47,69 +70,95 @@ const Dashboard = () => {
   };
 
   const handleDownload = (cvId) => {
-
     console.log(`Downloading CV with ID: ${cvId}`);
   };
 
   const handlePreview = (cvId) => {
-
     console.log(`Previewing CV with ID: ${cvId}`);
+  };
+
+  const handleInputKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleCreate();
+    }
   };
 
   return (
     <main className="flex-1 p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-bold">Hi, {auth?.username}</h2>
-        <button
-          onClick={() => setShowInput(!showInput)}
-          className="bg-green-200 text-green-700 font-semibold py-2 px-4 rounded-full"
-        >
-          {showInput ? "Cancel" : "Create New Cv"}
-        </button>
+      <div>
+        <h3 className="text-2xl font-bold text-[#000] dark:text-white mb-4">
+          Let&apos;s check your resume!
+        </h3>
+        <p className="mb-8 text-[#000] dark:text-white">
+          There are a lot of templates for your resume.
+        </p>
+        <div></div>
       </div>
-      <motion.div
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: showInput ? 1 : 0, height: showInput ? "auto" : 0 }}
-        className="overflow-hidden mb-8"
-      >
-        <div className="flex items-center">
-          <input
-            type="text"
-            value={cvTitle}
-            onChange={handleInputChange}
-            placeholder="Enter CV Title"
-            className="border border-gray-300 p-2 rounded mr-2 flex-1"
-          />
-          <button
-            onClick={handleCreate}
-            className="bg-green-200 text-green-700 font-semibold py-2 px-4 rounded-full"
+      <div className="flex flex-col gap-4">
+        <Tilt width={"14rem"}>
+          <div
+            className="w-[14rem] h-[20rem] flex items-center relative justify-center
+             dark:border-[#686D76] dark:text-white  border border-black shadow-xl"
+            onClick={() => setShowInput(true)}
           >
-            Create
-          </button>
-        </div>
-      </motion.div>
-      <h3 className="text-2xl font-bold mb-4">Let&apos;s check your resume!</h3>
-      <p className="text-gray-500 mb-8">There are a lot of templates for your resume.</p>
-      <div className="grid grid-cols-4 gap-6">
-        {cv.map((item) => (
-          <div key={item.id} className="relative  w-[300px]  bg-yellow-100 p-6 rounded-lg group">
-            <img src={sas} alt="cv" className="w-full h-40 object-cover rounded-lg" />
-            <p className="text-center font-semibold mt-4">{item.title}</p>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileHover={{ opacity: 1 }}
-              className="absolute inset-0  bg-opacity-75 flex flex-col justify-center items-center space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-12 cursor-pointer"
             >
-              <button onClick={() => handleDownload(item.id)} className="bg-blue-500 text-white py-1 px-3 rounded">Download</button>
-              <button onClick={() => handleEdit(item.id)} className="bg-green-500 text-white py-1 px-3 rounded">Edit</button>
-              <button onClick={() => handlePreview(item.id)} className="bg-yellow-500 text-white py-1 px-3 rounded">Preview</button>
-              <button onClick={() => handleDelete(item.id)} className="bg-red-500 text-white py-1 px-3 rounded">Delete</button>
-            </motion.div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 4.5v15m7.5-7.5h-15"
+              />
+            </svg>
           </div>
-        ))}
+        </Tilt>
+
+        <div className="w-[14rem] h-[20rem] flex items-center justify-center
+         dark:border-[#686D76] dark:text-white  border border-black shadow-xl">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </div>
+        {/* show last cvs */}
+        
       </div>
+
+      {/* Modal for creating CV */}
+      <Modal isOpen={showInput} onClose={() => setShowInput(false)}>
+        <h2 className="text-xl  dark:text-white font-bold mb-4">Create New CV</h2>
+        <input
+          type="text"
+          value={cvTitle}
+          onChange={handleInputChange}
+          onKeyPress={handleInputKeyPress}
+          className="input-primary w-full p-2 mb-4"
+          placeholder="Enter CV title"
+        />
+        <button onClick={handleCreate} className="text-white button-primary w-full">
+          Create CV
+        </button>
+      </Modal>
     </main>
   );
 };
 
 export default Dashboard;
+
+
+

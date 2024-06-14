@@ -1,15 +1,15 @@
-import "./template1.css"
+import "./template1.css";
 const Template1 = () => {
-    return (
-        <div>
-            <div className="cv">
-                <div className="cv__header">
-                    <div className="header__name">
-                        <h1>Dadash</h1>
-                        <h1>Huseynzade</h1>
-                    </div>
-                </div>
-                {/* <div className="cv-header">
+  return (
+    <div>
+      <div className="cv">
+        <div className="cv__header">
+          <div className="header__name">
+            <h1>Dadash</h1>
+            <h1>Huseynzade</h1>
+          </div>
+        </div>
+        {/* <div className="cv-header">
                         <h1>{name}</h1>
                     </div>
                     <div className="cv-body">
@@ -25,9 +25,9 @@ const Template1 = () => {
                             <h3>123 456 789</h3>
                         </div>
                     </div> */}
-            </div>
-        </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default Template1
+export default Template1;

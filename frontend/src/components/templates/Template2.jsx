@@ -94,9 +94,7 @@ const Template2 = ({
           </div>
         </div>
         {/* END Experience */}
-
       </div>
-      
     </div>
   );
 };

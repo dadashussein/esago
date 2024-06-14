@@ -11,7 +11,6 @@ import { fetchExperience } from "~/store/features/experience/experienceThunks";
 import { getSkills } from "~/store/features/skills/skillsThunks";
 import A4Component from "./A4";
 
-
 const CreateCv = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [finished, setFinished] = useState(false);
@@ -25,7 +24,7 @@ const CreateCv = () => {
   useEffect(() => {
     dispatch(fetchEducation({ cvId }));
     dispatch(fetchExperience({ cvId }));
-    dispatch(getSkills({ cvId }))
+    dispatch(getSkills({ cvId }));
   }, [dispatch, cvId]);
 
   const handleBack = () => {
@@ -36,7 +35,6 @@ const CreateCv = () => {
     }
   };
 
-
   const handleSubmit = () => {
     if (activeTab === 3) {
       setFinished(true);
@@ -44,7 +42,6 @@ const CreateCv = () => {
       setActiveTab((prev) => prev + 1);
     }
   };
-
 
   const tabs = [
     {
@@ -78,7 +75,10 @@ const CreateCv = () => {
               key={index}
               onClick={() => setActiveTab(index)}
               className={`flex border-b-4 w-full text-gray-900 dark:text-[#D4D4D4]    items-center justify-center  cursor-pointer 
-                ${activeTab === index ? "border-b-2 border-primary-500 dark:border-primary-400" : ""
+                ${
+                  activeTab === index
+                    ? "border-b-2 border-primary-500 dark:border-primary-400"
+                    : ""
                 }`}
             >
               {tab.name}
@@ -87,12 +87,15 @@ const CreateCv = () => {
         </div>
         <div className="px-4 py-2">{tabs[activeTab].component}</div>
         <div className="absolute bottom-[50px] right-[50px] flex  gap-4">
-          <button className="  button-primary bg-primary-300 text-primary-500 " onClick={handleBack}>
+          <button
+            className="  button-primary bg-primary-300 text-primary-500 "
+            onClick={handleBack}
+          >
             Back
           </button>
-          <button onClick={handleSubmit} className=" button-primary ">{
-            finished ? "Submit" : "Next"
-          }</button>
+          <button onClick={handleSubmit} className=" button-primary ">
+            {finished ? "Submit" : "Next"}
+          </button>
         </div>
       </div>
       {/* right side */}

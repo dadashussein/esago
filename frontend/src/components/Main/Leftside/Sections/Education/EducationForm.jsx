@@ -48,7 +48,7 @@ const EducationForm = ({
     ]) {
       const error = validateField(
         field,
-        education[currentIndex]?.[field] || ""
+        education[currentIndex]?.[field] || "",
       );
       if (error) {
         newErrors[field] = error;

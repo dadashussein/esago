@@ -5,7 +5,7 @@ import {
   postInfo,
   setPersonalField,
 } from "../../../../store/features/personal/personalSlice";
-import sekil from "../../../../assets/avata.png"
+import sekil from "../../../../assets/avata.png";
 
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
@@ -17,16 +17,14 @@ const Personal = ({ setActiveTab, cvId }) => {
   const personal = useSelector((state) => state.personal.personal);
   const [avatar, setAvatar] = useState({
     file: null,
-    url: ""
-  })
+    url: "",
+  });
 
   const imgUrl = `${baseUrl}/static/cv_pictures/${personal?.picture}`;
 
   const handleInputChange = (field, value) => {
     dispatch(setPersonalField({ field, value }));
   };
-
-
 
   const handleSendAndNext = async () => {
     try {
@@ -47,20 +45,16 @@ const Personal = ({ setActiveTab, cvId }) => {
       const file = e.target.files[0];
       setAvatar({
         file: file,
-        url: URL.createObjectURL(file)
+        url: URL.createObjectURL(file),
       });
 
       dispatch(patchPhoto({ cvId, file }));
     }
-  }
-
-
+  };
 
   return (
     <div className="border-gray-900/10  relative">
-      <h1 className="section-title ">
-        Personal Details
-      </h1>
+      <h1 className="section-title ">Personal Details</h1>
       <p className="section-description">
         Get started with the basics: your name and contact information.
       </p>
@@ -81,9 +75,11 @@ const Personal = ({ setActiveTab, cvId }) => {
           </div>
           <div className="sm:col-span-3">
             <label htmlFor="avatar" className="flex label-primary items-center">
-              <img className="w-12 h-12 object-contain rounded  -xl" src={
-                avatar.url || personal?.picture ? imgUrl : sekil
-              } alt="avatar" />
+              <img
+                className="w-12 h-12 object-contain rounded  -xl"
+                src={avatar.url || personal?.picture ? imgUrl : sekil}
+                alt="avatar"
+              />
               <p>Upload an image</p>
             </label>
             <input
@@ -170,12 +166,15 @@ const Personal = ({ setActiveTab, cvId }) => {
                 value={personal?.bio || ""}
                 placeholder="Write down your bio"
               />
-              <button onClick={handleSendAndNext} type="submit" className="p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md">
+              <button
+                onClick={handleSendAndNext}
+                type="submit"
+                className="p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
+              >
                 <IoMdAdd />
               </button>
             </div>
           </div>
-
         </div>
       )}
     </div>

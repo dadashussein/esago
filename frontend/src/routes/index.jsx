@@ -12,7 +12,7 @@ import ActivateUser from "~/pages/ActivateUser";
 import Cookies from "js-cookie";
 import Loading from "~/components/Loading";
 
-const getAccessToken = () => Cookies.get('accessToken');
+const getAccessToken = () => Cookies.get("accessToken");
 const isAuthenticated = () => !!getAccessToken();
 
 const ProtectedRoute = ({ children }) => {
@@ -64,7 +64,14 @@ const AuthenticatedRoute = ({ children }) => {
 };
 
 const routes = createBrowserRouter([
-  { path: "/", element: <AuthenticatedRoute><HomePage /></AuthenticatedRoute> },
+  {
+    path: "/",
+    element: (
+      <AuthenticatedRoute>
+        <HomePage />
+      </AuthenticatedRoute>
+    ),
+  },
   { path: "/signup", element: <Register /> },
   { path: "/google/authenticate", element: <GoogleCallback /> },
   { path: "/activate", element: <ActivateUser /> },

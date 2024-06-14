@@ -16,9 +16,7 @@ const Education = ({ setActiveTab, cvId }) => {
   return (
     <div className="border-gray-900/10  relative">
       <div className="flex items-center justify-between">
-        <h2 className="section-title ">
-          Education
-        </h2>
+        <h2 className="section-title ">Education</h2>
         <div className="col-span-full flex">
           <button
             type="button"

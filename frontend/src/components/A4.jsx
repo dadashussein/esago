@@ -1,47 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import Preview from './Preview';
-import { generatePDF } from '~/lib/Fileforge';
+import React, { useState, useEffect } from "react";
+import Preview from "./Preview";
+import { generatePDF } from "~/lib/Fileforge";
 
 const A4Component = () => {
-    const [width, setWidth] = useState(0);
-    const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
 
-    useEffect(() => {
-        const handleResize = () => {
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
+  useEffect(() => {
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
 
+      const a4Width = 210;
+      const a4Height = 297;
 
-            const a4Width = 210;
-            const a4Height = 297;
+      const scale = Math.min(windowWidth / a4Width, windowHeight / a4Height);
 
+      setWidth(a4Width * scale);
+      setHeight(a4Height * scale);
+    };
 
-            const scale = Math.min(
-                windowWidth / a4Width,
-                windowHeight / a4Height
-            );
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
-            setWidth(a4Width * scale);
-            setHeight(a4Height * scale);
-        };
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-        handleResize();
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    return (
-        <div
-            style={{ page: 'A4' }}
-            className={`mx-auto border ${width > 0 && height > 0 ? `w-[${width}px] h-[${height}px]` : ''}`}
-        >
-            <Preview />
-            <button onClick={generatePDF}>Generate PDF</button>
-        </div>
-    );
+  return (
+    <div
+      style={{ page: "A4" }}
+      className={`mx-auto border ${width > 0 && height > 0 ? `w-[${width}px] h-[${height}px]` : ""}`}
+    >
+      <Preview />
+      <button onClick={generatePDF}>Generate PDF</button>
+    </div>
+  );
 };
 
 export default A4Component;

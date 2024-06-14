@@ -12,12 +12,18 @@ const Footer = () => {
           <h1 className="text-[20px] font-[500]">Resources</h1>
           <p className="opacity-[0.8] font-[400] text-[16px]">Templates</p>
           <p className="opacity-[0.8] font-[400] text-[16px]">Resume | CV</p>
-          <p className="opacity-[0.8] font-[400] text-[16px]">Resume filtering</p>
+          <p className="opacity-[0.8] font-[400] text-[16px]">
+            Resume filtering
+          </p>
         </div>
         <div>
           <h1 className="text-[20px] font-[500]">Products</h1>
-          <p className="opacity-[0.8] font-[400] text-[16px]">Premium Subscription</p>
-          <p className="opacity-[0.8] font-[400] text-[16px]">Resume filtering Subscription</p>
+          <p className="opacity-[0.8] font-[400] text-[16px]">
+            Premium Subscription
+          </p>
+          <p className="opacity-[0.8] font-[400] text-[16px]">
+            Resume filtering Subscription
+          </p>
         </div>
         <div>
           <h1 className="text-[20px] font-[500]">Support</h1>
@@ -28,7 +34,9 @@ const Footer = () => {
       </div>
       <hr />
       <div className="flex justify-between mt-8 font-[400] text-white">
-        <div><span>© 2024 Esago, All Rights Reserved</span></div>
+        <div>
+          <span>© 2024 Esago, All Rights Reserved</span>
+        </div>
         <div className="flex gap-8">
           <span>Terms & conditions</span>
           <span>Privacy Policy</span>

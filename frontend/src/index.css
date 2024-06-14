@@ -15,7 +15,6 @@ html {
   box-sizing: border-box;
 }
 
-
 html {
   scroll-behavior: smooth;
 }
@@ -25,41 +24,37 @@ li {
   list-style: none;
 }
 
-
 @layer components {
-
   .input-container {
-    @apply flex flex-col items-start justify-center gap-[6px]
+    @apply flex flex-col items-start justify-center gap-[6px];
   }
 
   .input-primary {
     @apply block w-full  focus:outline focus:outline-primary-500
      bg-[#FAFAFA] dark:bg-[#31363F] rounded-md border px-3 py-2 
-     text-gray-900 shadow-sm sm:text-sm dark:text-[#b2b7c1] dark:border-[#686D76] dark:focus:outline-none
-     
+     text-gray-900 shadow-sm sm:text-sm dark:text-[#b2b7c1] dark:border-[#686D76] dark:focus:outline-none;
   }
 
   .section-title {
-    @apply font-semibold lg:text-[40px] text-[20px] text-gray-900 dark:text-[#D4D4D4]
+    @apply font-semibold lg:text-[40px] text-[20px] text-gray-900 dark:text-[#D4D4D4];
   }
   .section-description {
-    @apply text-sm mb-4 dark:text-[#D4D4D4] text-gray-950
+    @apply text-sm mb-4 dark:text-[#D4D4D4] text-gray-950;
   }
 
   .label-primary {
-    @apply block text-[12px]  text-gray-900 dark:text-[#D4D4D4]
+    @apply block text-[12px]  text-gray-900 dark:text-[#D4D4D4];
   }
 
   .button-primary {
-    @apply  text-white px-4 py-2 rounded-md shadow-md dark:bg-primary-400 bg-primary-500
+    @apply text-white px-4 py-2 rounded-md shadow-md dark:bg-primary-400 bg-primary-500;
   }
 
   .landing-container {
-    @apply flex flex-col items-center justify-center h-screen
+    @apply flex flex-col items-center justify-center h-screen;
   }
 
   .landing-title {
-    @apply text-4xl font-bold text-gray-900
+    @apply text-4xl font-bold text-gray-900;
   }
-
 }

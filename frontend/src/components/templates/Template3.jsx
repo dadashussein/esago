@@ -11,8 +11,6 @@ const Template3 = ({ education, experience, personal, img, skills }) => {
   } = personal;
 
   return (
-
-
     <div className="bg-white ">
       {/* header  start*/}
 
@@ -20,7 +18,7 @@ const Template3 = ({ education, experience, personal, img, skills }) => {
         <div className="flex items-center gap-4 p-2">
           <img
             className="rounded-full w-32 h-32 object-cover"
-            src={img && img || avatar}
+            src={(img && img) || avatar}
             alt=""
           />
           <div className="">
@@ -87,7 +85,10 @@ const Template3 = ({ education, experience, personal, img, skills }) => {
             <div className="border-b-2"></div>
             <div className="flex flex-wrap gap-2">
               {skills?.map((skill) => (
-                <span key={skill.id} className="bg-gray-200 text-gray-500 text-[11px] px-2 py-1 rounded">
+                <span
+                  key={skill.id}
+                  className="bg-gray-200 text-gray-500 text-[11px] px-2 py-1 rounded"
+                >
                   {skill.name}
                 </span>
               ))}
@@ -109,9 +110,7 @@ const Template3 = ({ education, experience, personal, img, skills }) => {
                 <div>
                   <div>
                     <h2 className="text-[12px]">{exp.company_name}</h2>
-                    <p className="text-[11px] text-blue-500">
-                      {exp.location}
-                    </p>
+                    <p className="text-[11px] text-blue-500">{exp.location}</p>
                   </div>
                   <p className=" text-[11px] text-gray-500">{exp.job_title}</p>
                   <p className="text-[10px] text-gray-500   break-all whitespace-pre-wrap italic">
@@ -125,7 +124,6 @@ const Template3 = ({ education, experience, personal, img, skills }) => {
       </div>
       {/* body end */}
     </div>
-
   );
 };
 

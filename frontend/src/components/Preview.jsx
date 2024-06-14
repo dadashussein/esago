@@ -11,7 +11,6 @@ const Preview = () => {
   const skills = useSelector((state) => state.skills.skills);
   let imgURl = `${baseUrl}/static/cv_pictures/${personal?.picture}`;
 
-
   return (
     <>
       {/* <Template3
