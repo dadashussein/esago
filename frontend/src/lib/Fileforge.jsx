@@ -15,27 +15,28 @@ export const generatePDF = async () => {
                 </div>
             </>
         );
-        const pdfOptions = {
-            url: "https://api.pdfendpoint.com/v1/convert",
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer pdfe_live_bae617c9c642e7951d81ff4a458ebe180b5e"
-            },
-            data: JSON.stringify({
-                html: HTML,
-                sandbox: false,
-                orientation: "vertical",
-                page_size: "A4",
-                margin_top: "2cm",
-                margin_bottom: "2cm",
-                margin_left: "2cm",
-                margin_right: "2cm"
-            })
-        };
-        const response = await axios(pdfOptions);
-        const downloadLink = response.data.data.url
-        window.open(downloadLink, "_blank");
+        console.log(HTML);
+        // const pdfOptions = {
+        //     url: "https://api.pdfendpoint.com/v1/convert",
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json",
+        //         "Authorization": "Bearer pdfe_live_bae617c9c642e7951d81ff4a458ebe180b5e"
+        //     },
+        //     data: JSON.stringify({
+        //         html: HTML,
+        //         sandbox: false,
+        //         orientation: "vertical",
+        //         page_size: "A4",
+        //         margin_top: "2cm",
+        //         margin_bottom: "2cm",
+        //         margin_left: "2cm",
+        //         margin_right: "2cm"
+        //     })
+        // };
+        // const response = await axios(pdfOptions);
+        // const downloadLink = response.data.data.url
+        // window.open(downloadLink, "_blank");
     } catch (error) {
         console.error(error);
     }
