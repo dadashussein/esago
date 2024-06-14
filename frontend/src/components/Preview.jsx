@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import Template3 from "./templates/Template3";
 import { baseUrl } from "~/utils/api";
-import Template5 from "./templates/Template5";
 
 const Preview = () => {
   const education = useSelector((state) => state.education.education);
@@ -13,21 +12,21 @@ const Preview = () => {
 
   return (
     <>
-      {/* <Template3
+      <Template3
         img={imgURl}
         personal={personal}
         education={education}
         experience={experience}
         skills={skills}
-      /> */}
-      <Template5
+      />
+      {/* <Template5
         img={imgURl}
         personal={personal}
         education={education}
         experience={experience}
         skills={skills}
 
-      />
+      /> */}
     </>
   );
 };
