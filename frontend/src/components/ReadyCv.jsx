@@ -1,9 +1,18 @@
-import React from "react";
+import { useEffect } from "react";
 import "./a4.css";
-import Preview from "./Preview";
 import { MapInteractionCSS } from "react-map-interaction";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllCv } from "~/store/features/resume/resumeSlice";
+import Preview from "./Preview";
+const ReadyCv = ({ cvId }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAllCv({ cvId }));
+  }, [dispatch, cvId]);
 
-const A4Component = ({ activeTemplate, setActiveTemplate }) => {
+  const allCv = useSelector((state) => state.resumes.allCv);
+  console.log(allCv);
+
   return (
     <MapInteractionCSS
       showControls
@@ -20,14 +29,11 @@ const A4Component = ({ activeTemplate, setActiveTemplate }) => {
     >
       <div className="page">
         <div className="subpage">
-          <Preview
-            activeTemplate={activeTemplate}
-            setActiveTemplate={setActiveTemplate}
-          />
+          <Preview />
         </div>
       </div>
     </MapInteractionCSS>
   );
 };
 
-export default A4Component;
+export default ReadyCv;

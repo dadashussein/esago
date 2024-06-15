@@ -1,15 +1,14 @@
 import avatar from "../../assets/avatar.jpg";
-const Template2 = ({
-  education,
-  experience,
-  name,
-  phone,
-  adress,
-  email,
-  jobtitle,
-  lastname,
-  bio,
-}) => {
+const Template2 = ({ education, experience, personal, img, skills }) => {
+  const {
+    first_name,
+    last_name,
+    job_title,
+    address,
+    phone_number,
+    email,
+    bio,
+  } = personal;
   return (
     <div className=" min-w-[320px] bg-white text-gray-800">
       {/* Info */}
@@ -19,12 +18,12 @@ const Template2 = ({
           <div className="p-5 text-left md:col-span-2 md:text-right">
             <img
               className="inline-block md:w-2/3"
-              src={avatar}
+              src={img}
               alt="My portrait"
             />
             <div className="mt-5 space-y-2">
-              <p>{adress}</p>
-              <p>{phone}</p>
+              <p>{address}</p>
+              <p>{phone_number}</p>
               <p>
                 <a
                   className="font-medium text-black underline hover:text-black/75"
@@ -37,9 +36,9 @@ const Template2 = ({
             </div>
           </div>
           <div className="p-5 md:col-span-4">
-            <h1 className="text-xl font-semibold">{jobtitle}</h1>
+            <h1 className="text-xl font-semibold">{job_title}</h1>
             <h2 className="text-5xl font-bold leading-tight">
-              {name} {lastname}
+              {first_name} {last_name}
             </h2>
             <div className="my-5 h-1 rounded bg-indigo-500"></div>
             <p className="text-lg leading-relaxed text-slate-600">{bio}</p>

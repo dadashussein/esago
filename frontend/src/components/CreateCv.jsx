@@ -5,7 +5,6 @@ import Personal from "./Main/Leftside/Sections/Personal";
 import Education from "./Main/Leftside/Sections/Education";
 import Experience from "./Main/Leftside/Sections/Experience";
 import Skill from "./Main/Leftside/Sections/Skill";
-import Preview from "./Preview";
 import { fetchEducation } from "~/store/features/education/educationThunks";
 import { fetchExperience } from "~/store/features/experience/experienceThunks";
 import { getSkills } from "~/store/features/skills/skillsThunks";
@@ -14,12 +13,11 @@ import A4Component from "./A4";
 const CreateCv = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [finished, setFinished] = useState(false);
-  console.log(finished);
+  const [activeTemplate, setActiveTemplate] = useState(2);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cvId } = useParams();
-
-  console.log(activeTab);
 
   useEffect(() => {
     dispatch(fetchEducation({ cvId }));
@@ -61,14 +59,11 @@ const CreateCv = () => {
       component: <Skill cvId={cvId} setActiveTab={setActiveTab} />,
     },
   ];
-  useEffect(() => {
-    localStorage.setItem("currentSection", activeTab);
-  }, [activeTab]);
 
   return (
-    <div className="flex lg:flex-row sm:flex-col items-center  ">
+    <div className="flex lg:flex-row sm:flex-col  items-center  ">
       {/* leftide */}
-      <div className="lg:w-1/2 h-screen relative px-4 py-8  m-1 drop-shadow-xl dark:bg-[#232429] bg-white">
+      <div className="lg:w-1/2  h-screen relative px-4 py-8  drop-shadow-xl dark:bg-[#232429] bg-white">
         <div className="flex gap-2">
           {tabs.map((tab, index) => (
             <div
@@ -99,9 +94,20 @@ const CreateCv = () => {
         </div>
       </div>
       {/* right side */}
-      <div className="w-1/2 h-screen">
-        <A4Component />
+      <div className="w-1/2 bg-gray-500 h-screen  hidden sm:block">
+        <A4Component
+          cvId={cvId}
+          activeTemplate={activeTemplate}
+          setActiveTemplate={setActiveTemplate}
+        />
       </div>
+      <button
+        className="absolute px-2 py-1 bg-primary-500 text-white
+       rounded-lg bottom-12 right-60"
+        onClick={() => setActiveTemplate((prev) => (prev === 7 ? 2 : prev + 1))}
+      >
+        Change Template
+      </button>
     </div>
   );
 };

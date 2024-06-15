@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-export const baseUrl = "http://localhost:8000"
+export const baseUrl = "http://localhost:8000";
 
 const fetchWithAuth = async (url, options = {}) => {
   const accessToken = Cookies.get("accessToken");

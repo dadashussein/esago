@@ -1,41 +1,28 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createCv, deleteCv, fetchCv } from "~/store/features/resume/resumeSlice";
+import {
+  createCv,
+  deleteCv,
+  fetchCv,
+} from "~/store/features/resume/resumeSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { Tilt } from 'react-next-tilt';
+import { Tilt } from "react-next-tilt";
 
-const Modal = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
-
-  const handleBackdropClick = (event) => {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  };
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
-      onClick={handleBackdropClick}
-    >
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg relative">
-        <button onClick={onClose} className="absolute top-2 right-2">
-
-        </button>
-        {children}
-      </div>
-    </div>
-  );
-};
+import { Plus } from "lucide-react";
+import Modal from "react-modal";
+import ReadyCv from "./ReadyCv";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cv = useSelector((state) => state.resumes.cv);
-  
+
   const [cvTitle, setCvTitle] = useState("");
+  const [cvId, setCvId] = useState(null);
   const [showInput, setShowInput] = useState(false);
+  const [selectedCv, setSelectedCv] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const auth = useSelector((state) => state.auth.currentUser);
 
   useEffect(() => {
@@ -55,7 +42,7 @@ const Dashboard = () => {
     const action = await dispatch(createCv({ title: cvTitle }));
     const resultAction = unwrapResult(action);
     console.log("result", resultAction);
-
+    setCvId(resultAction.id);
     navigate(`${resultAction.id}`);
     setCvTitle("");
     setShowInput(false);
@@ -65,16 +52,19 @@ const Dashboard = () => {
     navigate(`${cvId}`);
   };
 
-  const handleInputChange = (event) => {
-    setCvTitle(event.target.value);
-  };
-
   const handleDownload = (cvId) => {
     console.log(`Downloading CV with ID: ${cvId}`);
   };
 
   const handlePreview = (cvId) => {
+    setSelectedCv(cvId);
+    setCvId(cvId);
     console.log(`Previewing CV with ID: ${cvId}`);
+    setIsModalOpen(true);
+  };
+
+  const handleInputChange = (event) => {
+    setCvTitle(event.target.value);
   };
 
   const handleInputKeyPress = (event) => {
@@ -83,11 +73,27 @@ const Dashboard = () => {
     }
   };
 
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedCv(null);
+  };
+
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+
   return (
     <main className="flex-1 p-4">
       <div>
         <h3 className="text-2xl font-bold text-[#000] dark:text-white mb-4">
-          Let&apos;s check your resume!
+          Let's check your resume!
         </h3>
         <p className="mb-8 text-[#000] dark:text-white">
           There are a lot of templates for your resume.
@@ -95,53 +101,51 @@ const Dashboard = () => {
         <div></div>
       </div>
       <div className="flex flex-col gap-4">
-        <Tilt width={"14rem"}>
-          <div
-            className="w-[14rem] h-[20rem] flex items-center relative justify-center
-             dark:border-[#686D76] dark:text-white  border border-black shadow-xl"
-            onClick={() => setShowInput(true)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-12 cursor-pointer"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
+        <div className="flex gap-4">
+          <div>
+            <Tilt width={"10rem"}>
+              <div
+                className="w-[10rem] h-[16rem] flex items-center relative justify-center
+                dark:border-[#686D76] dark
+                border border-black shadow-xl"
+                onClick={() => setShowInput(true)}
+              >
+                <Plus />
+              </div>
+            </Tilt>
           </div>
-        </Tilt>
-
-        <div className="w-[14rem] h-[20rem] flex items-center justify-center
-         dark:border-[#686D76] dark:text-white  border border-black shadow-xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
+          <div className="flex gap-2 flex-wrap">
+            {cv.map((item) => (
+              <div
+                key={item.id}
+                className="w-[10rem] h-[16rem] flex flex-col items-center justify-center
+                dark:border-[#686D76] dark:text-white border border-black shadow-xl"
+              >
+                <p className="text-white">{item.title}</p>
+                <button
+                  className="mt-2 p-1 bg-blue-500 text-white rounded"
+                  onClick={() => handlePreview(item.id)}
+                >
+                  View
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
-        {/* show last cvs */}
-        
+        <div className="w-[10rem] h-[16rem] flex items-center justify-center dark:border-[#686D76] dark:text-white border border-black shadow-xl">
+          templates
+        </div>
       </div>
 
       {/* Modal for creating CV */}
-      <Modal isOpen={showInput} onClose={() => setShowInput(false)}>
-        <h2 className="text-xl  dark:text-white font-bold mb-4">Create New CV</h2>
+      <Modal
+        isOpen={showInput}
+        style={customStyles}
+        onRequestClose={() => setShowInput(false)}
+      >
+        <h2 className="text-xl  dark:text-white font-bold mb-4">
+          Create New CV
+        </h2>
         <input
           type="text"
           value={cvTitle}
@@ -150,15 +154,67 @@ const Dashboard = () => {
           className="input-primary w-full p-2 mb-4"
           placeholder="Enter CV title"
         />
-        <button onClick={handleCreate} className="text-white button-primary w-full">
+        <button
+          onClick={handleCreate}
+          className="text-white button-primary w-full"
+        >
           Create CV
         </button>
+      </Modal>
+
+      {/* Modal for viewing and actions */}
+      <Modal
+        isOpen={isModalOpen}
+        style={{
+          content: {
+            width: "80%",
+            left: "20%",
+            right: "0",
+            background: "#fff",
+            top: "0%",
+            bottom: "0%",
+          },
+        }}
+        onRequestClose={closeModal}
+      >
+        {selectedCv && (
+          <div className="relative">
+            <h2 className="text-xl dark:text-white font-bold mb-4">
+              {cv.find((item) => item.id === selectedCv).title}
+            </h2>
+            {/* <Document file={`/path/to/pdf/${selectedCv}.pdf`}>
+              <Page pageNumber={1} />
+            </Document> */}
+            {/* <img className="top-20 absolute" src={dad} alt="" /> */}
+            <div className="top-20 border absolute">
+              <ReadyCv cvId={cvId} />
+            </div>
+            {/* <Preview /> */}
+            <div className="flex gap-4 mt-4">
+              <button
+                onClick={() => handleEdit(selectedCv)}
+                className="btn-primary"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => handleDownload(selectedCv)}
+                className="button-secondary"
+              >
+                Download
+              </button>
+              <button
+                onClick={() => handleDelete(selectedCv)}
+                className="button-danger"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        )}
       </Modal>
     </main>
   );
 };
 
 export default Dashboard;
-
-
-

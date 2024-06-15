@@ -11,6 +11,7 @@ import ActivateUser from "~/pages/ActivateUser";
 
 import Cookies from "js-cookie";
 import Loading from "~/components/Loading";
+import Login from "~/components/Login";
 
 const getAccessToken = () => Cookies.get("accessToken");
 const isAuthenticated = () => !!getAccessToken();
@@ -73,6 +74,7 @@ const routes = createBrowserRouter([
     ),
   },
   { path: "/signup", element: <Register /> },
+  { path: "/login", element: <Login /> },
   { path: "/google/authenticate", element: <GoogleCallback /> },
   { path: "/activate", element: <ActivateUser /> },
   {

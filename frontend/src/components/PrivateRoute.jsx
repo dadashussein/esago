@@ -1,8 +1,8 @@
-import React from "react";
+import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ element: Element, ...rest }) => {
-  const isAuthenticated = !!localStorage.getItem("accessToken");
+  const isAuthenticated = !!Cookies.get("accessToken");
   return isAuthenticated ? <Element {...rest} /> : <Navigate to="/" />;
 };
 

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { all } from "axios";
 import fetchWithAuth from "~/utils/api";
 
 export const createCv = createAsyncThunk("cv/cvCreate", async ({ title }) => {
@@ -22,6 +23,14 @@ export const fetchCVById = createAsyncThunk(
   },
 );
 
+export const fetchAllCv = createAsyncThunk(
+  "cvs/fetchAllCv",
+  async ({ cvId }) => {
+    const data = await fetchWithAuth(`/cvs/all/${cvId}`);
+    return data;
+  },
+);
+
 export const deleteCv = createAsyncThunk("resume/cvDelete", async ({ id }) => {
   await fetchWithAuth(`/cvs/${id}`, { method: "DELETE" });
   return id;
@@ -29,6 +38,7 @@ export const deleteCv = createAsyncThunk("resume/cvDelete", async ({ id }) => {
 
 const initialState = {
   cv: [],
+  allCv: [],
   status: "idle",
 };
 
@@ -45,6 +55,9 @@ const resumeSlice = createSlice({
       })
       .addCase(fetchCVById.fulfilled, (state, action) => {
         state.cv = action.payload;
+      })
+      .addCase(fetchAllCv.fulfilled, (state, action) => {
+        state.allCv = action.payload;
       });
   },
 });

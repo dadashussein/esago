@@ -34,7 +34,7 @@ const Login = () => {
   };
 
   return (
-    <section className="w-full h-screen justify-center gap-8 flex items-center  ">
+    <section className="w-full h-screen justify-center gap-8 flex items-center  bg-[#EFF2F9] relative dark:bg-[#1C1C1E] dark:text-white ">
       <div
         className="bg-primary-300 h-[600px] gap-24 hidden  md:flex flex-col rounded-2xl
         justify-center items-center max-w-[500px]
