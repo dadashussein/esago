@@ -39,6 +39,8 @@ docker-compose up
 Create a .env file for your project. Here's an example .env file:
 
 ```env
+GOOGLE_CLIENT_ID={"your-client-id"}
+GOOGLE_CLIENT_SECRET={"your-client-secret"}
 SECRET_KEY={"secret-key"}
 ALGORITHM="HS256"
 DB=postgresql
