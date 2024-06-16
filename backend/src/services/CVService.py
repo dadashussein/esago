@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException, UploadFile
 from schemas.ResumeSchema import ResumeSchema
 from models.models import CV, Education
 from repositories.CVRepository import CVRepository
-from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVSchemaAll, CVUpdateSchema
+from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVAllSchema, CVUpdateSchema
 from schemas.EducationSchemas import EducationCreate, EducationSchema
 from schemas.ExperienceSchemas import ExperienceSchema
 from schemas.LanguageSchemas import LanguageSchema
@@ -20,7 +20,7 @@ class CVService:
         cvs = self.cv_repo.get_all_cvs(user_id)
         return [CVSchema.model_validate(cv) for cv in cvs]
 
-    def get_cv_all(self,cv_id:int, user_id: UUID) -> List[CVSchemaAll]:
+    def get_cv_all(self,cv_id:int, user_id: UUID) -> List[CVAllSchema]:
         cv = self.cv_repo.get_cv_all(cv_id, user_id)
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
@@ -30,7 +30,7 @@ class CVService:
         cv_dict['skill'] = [SkillSchema.model_validate(skill) for skill in cv.skills]
         cv_dict['language'] = [LanguageSchema.model_validate(language) for language in cv.languages]
         cv_dict['resume'] = [ResumeSchema.model_validate(resume) for resume in cv.resumes]
-        return CVSchemaAll.model_validate(cv_dict)
+        return CVAllSchema.model_validate(cv_dict)
 
 
     def get_cv_by_id(self, cv_id: int, user_id: UUID) -> CVSchema:
@@ -55,7 +55,7 @@ class CVService:
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
         self.cv_repo.delete(cv_id)
-        return {"message": "CV created successfully"}
+        return {"message": "CV deleted successfully"}
 
     def update_cv(self, update_data: CVUpdateSchema, user_id: UUID) -> bool:
         cv = self.get_cv_by_id(update_data.id, user_id)

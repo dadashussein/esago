@@ -7,7 +7,7 @@ from repositories.ResumeRepository import ResumeRepository
 from config.mapper import map_schema_to_model
 from models.models import CV, Education, Resume
 from repositories.CVRepository import CVRepository
-from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVSchemaAll, CVUpdateSchema
+from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVAllSchema, CVUpdateSchema
 from schemas.EducationSchemas import EducationCreate, EducationSchema
 from schemas.ExperienceSchemas import ExperienceSchema
 from schemas.LanguageSchemas import LanguageSchema

@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from schemas.ResumeSchema import ResumeSchema
 from schemas.EducationSchemas import EducationSchema
 from schemas.ExperienceSchemas import ExperienceSchema
@@ -9,7 +9,7 @@ from schemas.SkillSchemas import SkillSchema
 
 class CVSchema(BaseModel):
     id: int
-    title: Optional[str]
+    title: str
     first_name: Optional[str]
     last_name: Optional[str]
     address: Optional[str]
@@ -20,12 +20,11 @@ class CVSchema(BaseModel):
     email: Optional[str]
 
     class Config:
-        
         from_attributes=True
 
-class CVSchemaAll(BaseModel):
+class CVAllSchema(BaseModel):
     id: int
-    title: Optional[str]
+    title: str
     first_name: Optional[str]
     last_name: Optional[str]
     address: Optional[str]
@@ -45,26 +44,26 @@ class CVSchemaAll(BaseModel):
         from_attributes=True
 
 class CVCreateSchema(BaseModel):
-    title: str
-    first_name: str
-    last_name: str
-    address: str
-    phone_number: str
-    bio: str
-    email: str
-    job_title: str
+    title: str = Field(..., example="My first cv")
+    first_name: str = Field(..., example="John")
+    last_name: str = Field(..., example="Doe")
+    address: str = Field(..., example="1234 Elm St, Springfield, IL 62701")
+    phone_number: str = Field(..., example="217-555-5555")
+    bio: str = Field(..., example="I am a software engineer with 5 years of experience.")
+    email: str = Field(..., example="example@example.com")
+    job_title: str = Field(..., example="Software Engineer")
 
 
 class CVUpdateSchema(BaseModel):
-    id: int
-    title: Optional[str]
-    first_name: Optional[str]
-    last_name: Optional[str]
-    address: Optional[str]
-    phone_number: Optional[str]
-    bio: Optional[str]
-    email: Optional[str]
-    job_title: Optional[str]
+    id: int = Field(..., example=1)
+    title: Optional[str] = Field(None, example="My first cv")
+    first_name: Optional[str] = Field(None, example="John")
+    last_name: Optional[str] = Field(None, example="Doe")
+    address: Optional[str] = Field(None, example="1234 Elm St, Springfield, IL 62701")
+    phone_number: Optional[str] = Field(None, example="217-555-5555")
+    bio: Optional[str] = Field(None, example="I am a software engineer with 5 years of experience.")
+    email: Optional[str] = Field(None, example="example2@example.com")
+    job_title: Optional[str] = Field(None, example="Software Engineer")
 
 class CVFirstSchema(BaseModel):
-    title: str
+    title: str = Field(..., example="My first cv")

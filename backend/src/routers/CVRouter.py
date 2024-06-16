@@ -1,7 +1,7 @@
 """CV routers"""
 from fastapi import APIRouter, Depends, File, UploadFile, status
 from config.security import JWTBearer, get_current_user_id
-from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVSchemaAll, CVUpdateSchema
+from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVAllSchema, CVUpdateSchema
 from services.CVService import CVService
 
 
@@ -43,7 +43,7 @@ def get_all_cv(
 
 @router.get(
     "/all/{cv_id}",
-    response_model=CVSchemaAll,
+    response_model=CVAllSchema,
     status_code=status.HTTP_200_OK,
     summary="Get all details of a CV by its ID",
 )
