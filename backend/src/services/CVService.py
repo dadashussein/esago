@@ -2,10 +2,10 @@ from typing import List
 from uuid import UUID
 from fastapi import Depends, HTTPException, UploadFile
 from schemas.ResumeSchema import ResumeSchema
-from models.models import CV, Education
+from models.models import CV
 from repositories.CVRepository import CVRepository
 from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVAllSchema, CVUpdateSchema
-from schemas.EducationSchemas import EducationCreate, EducationSchema
+from schemas.EducationSchemas import EducationSchema
 from schemas.ExperienceSchemas import ExperienceSchema
 from schemas.LanguageSchemas import LanguageSchema
 from schemas.SkillSchemas import SkillSchema
@@ -40,11 +40,12 @@ class CVService:
         return CVSchema.model_validate(cv)
 
     def create_empty_cv(self, title:CVFirstSchema, user_id:UUID):
-        self.cv_repo.create(CV(user_id=user_id, title=title.title))
-        return {"message": "CV created successfully"}
+        cv = CV(user_id=user_id, title=title.title)
+        self.cv_repo.create(cv)
+        return {"id": cv.id, "message": "CV created successfully"}
 
     def create_cv(self, cv_data: CVCreateSchema, user_id: UUID) -> CVSchema:
-        cv_data_dict = cv_data.dict()
+        cv_data_dict = cv_data.model_dump()
         cv_data_dict['user_id'] = user_id
         cv = CV(**cv_data_dict)
         self.cv_repo.create(cv)

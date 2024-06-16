@@ -20,7 +20,7 @@ class SkillService:
         return SkillSchema.model_validate(skill)
 
     def create_skill_cv(self, skill_data: SkillCreate, cv_id: int, user_id: UUID) -> SkillSchema:
-        skill_data_dict = skill_data.dict()
+        skill_data_dict = skill_data.model_dump()
         skill_data_dict['cv_id'] = cv_id
         skill = Skill(**skill_data_dict)
         self.skillRepo.create(skill)

@@ -1,8 +1,8 @@
 from typing import Optional
 from pydantic import BaseModel, Field
+from schemas.ExperienceSchemas import ExperienceSchema
 from schemas.ResumeSchema import ResumeSchema
 from schemas.EducationSchemas import EducationSchema
-from schemas.ExperienceSchemas import ExperienceSchema
 from schemas.LanguageSchemas import LanguageSchema
 from schemas.SkillSchemas import SkillSchema
 

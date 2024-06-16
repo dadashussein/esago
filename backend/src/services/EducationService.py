@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status
 from models.models import Education
 from repositories.EducationRepository import EducationRepository
 from uuid import UUID
-from schemas.EducationSchemas import EducationCreate, EducationSchema, EducationUpdate
+from schemas.EducationSchemas import EducationCreateSchema, EducationSchema, EducationUpdateSchema
 
 class EducationService:
     def __init__(self, education_repo: EducationRepository = Depends()):
@@ -18,14 +18,14 @@ class EducationService:
             raise HTTPException(status_code=404, detail="Education not found")
         return EducationSchema.model_validate(education)
 
-    def create_education_cv(self, education_data: EducationCreate, cv_id: int, user_id: UUID) -> dict:
-        education_data_dict = education_data.dict()
+    def create_education_cv(self, education_data: EducationCreateSchema, cv_id: int, user_id: UUID) -> dict:
+        education_data_dict = education_data.model_dump()
         education_data_dict['cv_id'] = cv_id
         education = Education(**education_data_dict)
         self.education_repo.create(education)
         return {"message": "Education created successfully"}
     
-    def update_education_cv(self, education_data: EducationUpdate, cv_id: int, user_id: UUID) -> dict:
+    def update_education_cv(self, education_data: EducationUpdateSchema, cv_id: int, user_id: UUID) -> dict:
         education = self.education_repo.get_education_by_id(education_data.id, cv_id, user_id)
         if education is None:
             raise HTTPException(status_code=404, detail="Education not found")

@@ -20,7 +20,7 @@ class LanguageService:
         return LanguageSchema.model_validate(language)
 
     def create_language_cv(self, language_data: LanguageCreate, cv_id: int, user_id: UUID) -> LanguageSchema:
-        language_data_dict = language_data.dict()
+        language_data_dict = language_data.model_dump()
         language_data_dict['cv_id'] = cv_id
         language = Language(**language_data_dict)
         self.languageRepo.create(language)

@@ -5,7 +5,7 @@ from services.ResumeSerivce import ResumeService
 from config.security import JWTBearer, get_current_user_id
 from models.models import User
 from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVUpdateSchema
-from schemas.EducationSchemas import EducationCreate
+from schemas.EducationSchemas import EducationCreateSchema
 from services.CVService import CVService
 
 router = APIRouter(dependencies=[Depends(JWTBearer())])

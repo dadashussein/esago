@@ -348,7 +348,7 @@
 					"response": []
 				},
 				{
-					"name": "EducationUpdateCv",
+					"name": "EducationUpdateSchemaCv",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -440,7 +440,7 @@
 					"response": []
 				},
 				{
-					"name": "ExperienceUpdateCv",
+					"name": "ExperienceUpdateSchemaCv",
 					"request": {
 						"method": "PUT",
 						"header": [],

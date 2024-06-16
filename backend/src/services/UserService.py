@@ -33,7 +33,7 @@ class UserService:
         if db_user.is_google and user.password == None:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google or you need set a password to your account")
         delattr(db_user, "password")
-        payload = Payload(sub=str(str(db_user.id)), email=db_user.email).dict()
+        payload = Payload(sub=str(str(db_user.id)), email=db_user.email).model_dump()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(payload, token_lifespan)
         return { "token": access_token }
@@ -109,7 +109,7 @@ class UserService:
         if user is None:
             user = User(email=email,username=email, profile_picture=picture_url , is_active=True, is_google=True)
             self.userRepo.create(user)
-        payload = Payload(sub=str(str(user.id)), email=user.email).dict()
+        payload = Payload(sub=str(str(user.id)), email=user.email).model_dump()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(payload, token_lifespan)
         return { "token": access_token }

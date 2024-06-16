@@ -1,29 +1,33 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import date
 from typing import Optional
 
-class ExperienceBase(BaseModel):
+class ExperienceSchema(BaseModel):
     job_title: Optional[str]
     company_name: Optional[str]
     location: Optional[str]
     description: Optional[str]
-    start_date: Optional[date]
-    end_date: Optional[date]
-    
-    class Config:
-        
-        from_attributes=True
-
-class ExperienceCreate(ExperienceBase):
-    job_title: str
-    company_name: str
     start_date: date
     end_date: date
-
-class ExperienceUpdate(ExperienceBase):
-    id: int
-
-class ExperienceSchema(ExperienceBase):
     id: int
     cv_id: int
-        
+
+    class Config:
+        from_attributes=True
+
+class ExperienceCreateSchema(BaseModel):
+    job_title: Optional[str] = Field(..., example="Software Developer")
+    company_name: Optional[str] = Field(..., example="Google")
+    location: Optional[str] = Field(..., example="Mountain View, CA")
+    description: Optional[str] = Field(..., example="Worked on the Google Search Engine")
+    start_date: Optional[date] = Field(..., example="2020-01-01")
+    end_date: Optional[date] = Field(..., example="2021-01-01")
+
+class ExperienceUpdateSchema(BaseModel):
+    id: int = Field(..., example=1)
+    job_title: Optional[str] = Field(..., example="Software Developer")
+    company_name: Optional[str] = Field(..., example="Google")
+    location: Optional[str] = Field(..., example="Mountain View, CA")
+    description: Optional[str] = Field(..., example="Worked on the Google Search Engine")
+    start_date: Optional[date] = Field(..., example="2020-01-01")
+    end_date: Optional[date] = Field(..., example="2021-01-01")

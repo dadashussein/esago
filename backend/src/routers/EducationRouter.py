@@ -1,8 +1,7 @@
 """Education routers"""
 from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session
 from config.security import JWTBearer, get_current_user_id
-from schemas.EducationSchemas import EducationCreate, EducationUpdate, EducationSchema
+from schemas.EducationSchemas import  EducationCreateSchema, EducationSchema, EducationUpdateSchema
 from services.EducationService import EducationService
 
 
@@ -49,7 +48,7 @@ def get_all_educations_cv(
     summary="Create education",
 )
 def create_education_cv(
-    education_request: EducationCreate,
+    education_request: EducationCreateSchema,
     cv_id: int,
     user_id: int = Depends(get_current_user_id),
     education_service: EducationService = Depends(),
@@ -66,7 +65,7 @@ def create_education_cv(
     summary="Update education",
 )
 def update_education_cv(
-    education_request: EducationUpdate,
+    education_request: EducationUpdateSchema,
     cv_id: int,
     user_id: int = Depends(get_current_user_id),
     education_service: EducationService = Depends(),
