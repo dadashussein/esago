@@ -1,6 +1,6 @@
 import uuid
 from datetime import timedelta, datetime
-from fastapi import Depends, File, HTTPException, Request, Response, UploadFile, status, BackgroundTasks
+from fastapi import Depends, File, HTTPException, UploadFile, status, BackgroundTasks
 from pydantic import ValidationError
 from services.FileService import FileService
 from config.config import configs
@@ -30,23 +30,21 @@ class UserService:
         self._validate_password(user.password, db_user.password)
         if not db_user.is_active:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is not activated")
-        if db_user.is_google and user.password == None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google or you need set a password to your account")
+        if db_user.is_google and user.password is None:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google or set a password")
         delattr(db_user, "password")
-        payload = Payload(sub=str(str(db_user.id)), email=db_user.email).model_dump()
+        payload = Payload(sub=str(db_user.id), email=db_user.email).model_dump()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(payload, token_lifespan)
-        return { "token": access_token }
+        return {"token": access_token}
 
     async def register(self, user: UserRegisterSchema, background_tasks: BackgroundTasks):
         if self.userRepo.get_where(username=user.username) or self.userRepo.get_where(email=user.email):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username or email already exists")
-
         activation_token = str(uuid.uuid4())
         new_user = User(**user.dict(exclude_none=True), is_active=False, activation_token=activation_token,
                         activation_expire=datetime.now() + timedelta(minutes=5))
         new_user.password = get_password_hash(user.password)
-
         self.userRepo.create(new_user)
         activation_link = f"{configs.BACKEND_URI}/users/activate/{new_user.id}?token={activation_token}"
         background_tasks.add_task(
@@ -83,7 +81,6 @@ class UserService:
         user = self.userRepo.get(userId)
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-
         try:
             user_schema = UserSchema(**user.to_dict())
         except ValidationError as e:
@@ -102,14 +99,14 @@ class UserService:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
         filename = await FileService.upload(file, configs.UPLOAD_PROFILE_DIR)
         self.userRepo.update(user.id, {"profile_picture": filename})
-    
+        return {"message": "Profile picture updated successfully"}
 
-    def google_auth(self, email:str, picture_url:str):
+    def google_auth(self, email: str, picture_url: str):
         user = self.userRepo.get_where(email=email)
         if user is None:
-            user = User(email=email,username=email, profile_picture=picture_url , is_active=True, is_google=True)
+            user = User(email=email, username=email, profile_picture=picture_url, is_active=True, is_google=True)
             self.userRepo.create(user)
-        payload = Payload(sub=str(str(user.id)), email=user.email).model_dump()
+        payload = Payload(sub=str(user.id), email=user.email).model_dump()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(payload, token_lifespan)
-        return { "token": access_token }
+        return {"token": access_token}

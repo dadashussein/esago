@@ -46,6 +46,7 @@ class CV(Base):
     job_title = Column(sqlalchemy.String, nullable=True, default=None)
     email = Column(sqlalchemy.String, nullable=True, default=None)
     picture = Column(sqlalchemy.String, nullable=True, default=None)
+    template_id = Column(sqlalchemy.Integer, nullable=True, default=1)
 
     educations = relationship('Education', back_populates='cv', cascade="all, delete-orphan")
     experiences = relationship('Experience', back_populates='cv', cascade="all, delete-orphan")

@@ -41,13 +41,10 @@ class UserLoginSchema(BaseModel):
     username_or_email: str
     password: str
 
-        
-
 
 class Payload(BaseModel):
     sub: str
     email: str
-
 
 
 class UserSchema(BaseModel):

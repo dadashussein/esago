@@ -18,6 +18,7 @@ class CVSchema(BaseModel):
     job_title: Optional[str]
     picture: Optional[str]
     email: Optional[str]
+    template_id: Optional[int]
 
     class Config:
         from_attributes=True
@@ -33,6 +34,7 @@ class CVAllSchema(BaseModel):
     job_title: Optional[str]
     picture: Optional[str]
     email: Optional[str]
+    template_id: Optional[int]
 
     education: Optional[list[EducationSchema]]
     experience: Optional[list[ExperienceSchema]]
@@ -52,6 +54,7 @@ class CVCreateSchema(BaseModel):
     bio: str = Field(..., example="I am a software engineer with 5 years of experience.")
     email: str = Field(..., example="example@example.com")
     job_title: str = Field(..., example="Software Engineer")
+    template_id: int = Field(..., example=1)
 
 
 class CVUpdateSchema(BaseModel):
@@ -64,6 +67,7 @@ class CVUpdateSchema(BaseModel):
     bio: Optional[str] = Field(None, example="I am a software engineer with 5 years of experience.")
     email: Optional[str] = Field(None, example="example2@example.com")
     job_title: Optional[str] = Field(None, example="Software Engineer")
+    template_id: Optional[int] = Field(None, example=1)
 
 class CVFirstSchema(BaseModel):
     title: str = Field(..., example="My first cv")
