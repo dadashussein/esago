@@ -1,21 +1,21 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class LanguageBase(BaseModel):
+
+class LanguageCreateSchema(BaseModel):
     name: Optional[str]
     proficiency: Optional[str]
 
-class LanguageCreate(LanguageBase):
+class LanguageUpdateSchema(BaseModel):
+    id: int
+    name: Optional[str]
+    proficiency: Optional[str]
+
+class LanguageSchema(BaseModel):
+    id: int
+    cv_id: int
     name: str
     proficiency: str
 
-class LanguageUpdate(LanguageBase):
-    id: int
-
-class LanguageSchema(LanguageBase):
-    id: int
-    cv_id: int
-
     class Config:
-        
         from_attributes = True

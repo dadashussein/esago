@@ -1,24 +1,18 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class SkillBase(BaseModel):
+
+class SkillCreateSchema(BaseModel):
     name: Optional[str]
-    #level: Optional[str]
 
-    class config:
-        from_attributes = True
-
-class SkillCreate(SkillBase):
-    name: str
-    #level: str
-
-class SkillUpdate(SkillBase):
+class SkillUpdateSchema(BaseModel):
     id: int
+    name: Optional[str]
 
-class SkillSchema(SkillBase):
+class SkillSchema(BaseModel):
     id: int
     cv_id: int
+    name: Optional[str]
 
     class Config:
-        
         from_attributes = True
