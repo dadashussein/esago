@@ -73,7 +73,5 @@ class CVService:
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
         filename = await FileService.upload(file, configs.CV_PICTURE_FOLDER)
-        print("=====================================")
-        print(filename)
         self.cv_repo.update(cv_id, {"picture": filename})
         return True
