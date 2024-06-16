@@ -2,6 +2,7 @@ from dataclasses import asdict
 from typing import List
 from uuid import UUID
 from fastapi import Depends, HTTPException, UploadFile
+from schemas.ResumeSchema import ResumeSchema
 from config.mapper import map_schema_to_model
 from models.models import CV, Education
 from repositories.CVRepository import CVRepository
@@ -31,9 +32,9 @@ class CVService:
         cv_dict['experience'] = [ExperienceSchema.model_validate(experience) for experience in cv.experiences]
         cv_dict['skill'] = [SkillSchema.model_validate(skill) for skill in cv.skills]
         cv_dict['language'] = [LanguageSchema.model_validate(language) for language in cv.languages]
+        cv_dict['resume'] = [ResumeSchema.model_validate(resume) for resume in cv.resumes]
         response.append(CVSchemaAll(**cv_dict))
         return response
-
 
 
     def get_cv_by_id(self, cv_id: int, user_id: UUID) -> CVSchema:

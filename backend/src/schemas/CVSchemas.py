@@ -1,6 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel
-
+from schemas.ResumeSchema import ResumeSchema
 from schemas.EducationSchemas import EducationSchema
 from schemas.ExperienceSchemas import ExperienceSchema
 from schemas.LanguageSchemas import LanguageSchema
@@ -39,9 +39,9 @@ class CVSchemaAll(BaseModel):
     experience: Optional[list[ExperienceSchema]]
     skill: Optional[list[SkillSchema]]
     language: Optional[list[LanguageSchema]]
+    resume: Optional[list[ResumeSchema]]
 
     class Config:
-        
         from_attributes=True
 
 class CVCreateSchema(BaseModel):
