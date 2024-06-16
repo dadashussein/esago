@@ -1,7 +1,7 @@
 from typing import Generic, Type, TypeVar
 from uuid import UUID
 from sqlalchemy.orm import Session
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from config.database import get_db_connection
 from models.BaseModel import Base
 
@@ -20,29 +20,24 @@ class BaseRepository(Generic[ModelType, IdType]):
     def get_all(self) -> list[ModelType]:
         return self.db.query(self.model).all()
 
+    def get_where(self, **kwargs) -> ModelType:
+        return self.db.query(self.model).filter_by(**kwargs).first()
+
     def create(self, obj: ModelType) -> ModelType:
         self.db.add(obj)
         self.db.commit()
         self.db.refresh(obj)
-        return obj
 
     def update(self, id: Type[IdType], updates: dict) -> ModelType:
         self.db.query(self.model).filter_by(id=id).update(updates)
         self.db.commit()
-        return self.get(id)
     
     def update_by(self, model: ModelType) -> ModelType:
         self.db.query(self.model).filter_by(id=model.id).update(model)
         self.db.commit()
-        return self.get(model.id)
 
     def delete(self, id: Type[IdType]) -> bool:
         obj = self.get(id)
         if obj:
             self.db.delete(obj)
             self.db.commit()
-            return True
-        return False
-
-    def get_where(self, **kwargs) -> ModelType:
-        return self.db.query(self.model).filter_by(**kwargs).first()

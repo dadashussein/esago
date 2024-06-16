@@ -1,9 +1,7 @@
-from dataclasses import asdict
 from typing import List
 from uuid import UUID
 from fastapi import Depends, HTTPException, UploadFile
 from schemas.ResumeSchema import ResumeSchema
-from config.mapper import map_schema_to_model
 from models.models import CV, Education
 from repositories.CVRepository import CVRepository
 from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVSchemaAll, CVUpdateSchema
@@ -26,15 +24,13 @@ class CVService:
         cv = self.cv_repo.get_cv_all(cv_id, user_id)
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
-        response = []
         cv_dict = cv.__dict__
         cv_dict['education'] = [EducationSchema.model_validate(education) for education in cv.educations]
         cv_dict['experience'] = [ExperienceSchema.model_validate(experience) for experience in cv.experiences]
         cv_dict['skill'] = [SkillSchema.model_validate(skill) for skill in cv.skills]
         cv_dict['language'] = [LanguageSchema.model_validate(language) for language in cv.languages]
         cv_dict['resume'] = [ResumeSchema.model_validate(resume) for resume in cv.resumes]
-        response.append(CVSchemaAll(**cv_dict))
-        return response
+        return CVSchemaAll.model_validate(cv_dict)
 
 
     def get_cv_by_id(self, cv_id: int, user_id: UUID) -> CVSchema:
@@ -44,30 +40,31 @@ class CVService:
         return CVSchema.model_validate(cv)
 
     def create_empty_cv(self, title:CVFirstSchema, user_id:UUID):
-        cv = self.cv_repo.create(CV(user_id=user_id, title=title.title))
-        return cv
+        self.cv_repo.create(CV(user_id=user_id, title=title.title))
+        return {"message": "CV created successfully"}
 
     def create_cv(self, cv_data: CVCreateSchema, user_id: UUID) -> CVSchema:
         cv_data_dict = cv_data.dict()
         cv_data_dict['user_id'] = user_id
         cv = CV(**cv_data_dict)
-        cv = self.cv_repo.create(cv)
-        return CVSchema.model_validate(cv)
+        self.cv_repo.create(cv)
+        return {"message": "CV created successfully"}
 
     def delete_cv(self, cv_id: int, user_id: UUID) -> CVSchema:
         cv = self.get_cv_by_id(cv_id, user_id)
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
-        return self.cv_repo.delete(cv_id)
-    
+        self.cv_repo.delete(cv_id)
+        return {"message": "CV created successfully"}
+
     def update_cv(self, update_data: CVUpdateSchema, user_id: UUID) -> bool:
         cv = self.get_cv_by_id(update_data.id, user_id)
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
     
         update_data_dict = update_data.dict(exclude_unset=True)
-        updated_cv = self.cv_repo.update(update_data.id, update_data_dict)
-        return CVSchema.model_validate(updated_cv) 
+        self.cv_repo.update(update_data.id, update_data_dict)
+        return {"message": "CV updated successfully"}
     
     async def upload_picture(self, cv_id: int, user_id: UUID, file: UploadFile) -> bool:
         cv = self.get_cv_by_id(cv_id, user_id)
@@ -75,4 +72,4 @@ class CVService:
             raise HTTPException(status_code=404, detail="CV not found")
         filename = await FileService.upload(file, configs.CV_PICTURE_FOLDER)
         self.cv_repo.update(cv_id, {"picture": filename})
-        return True
+        return {"message": "Picture uploaded successfully"}

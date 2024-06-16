@@ -35,13 +35,8 @@ class UserService:
         delattr(db_user, "password")
         payload = Payload(sub=str(str(db_user.id)), email=db_user.email).dict()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
-        access_token, expiration_datetime = create_access_token(payload, token_lifespan)
-
-        return {
-            "token": access_token,
-            "expiration": expiration_datetime,
-            "user": db_user
-        }
+        access_token = create_access_token(payload, token_lifespan)
+        return { "token": access_token }
 
     async def register(self, user: UserRegisterSchema, background_tasks: BackgroundTasks):
         if self.userRepo.get_where(username=user.username) or self.userRepo.get_where(email=user.email):
@@ -52,8 +47,8 @@ class UserService:
                         activation_expire=datetime.now() + timedelta(minutes=5))
         new_user.password = get_password_hash(user.password)
 
-        created_user = self.userRepo.create(new_user)
-        activation_link = f"{configs.BACKEND_URI}/users/activate/{created_user.id}?token={activation_token}"
+        self.userRepo.create(new_user)
+        activation_link = f"{configs.BACKEND_URI}/users/activate/{new_user.id}?token={activation_token}"
         background_tasks.add_task(
             self.emailService.send_email,
             user.email,
@@ -61,8 +56,7 @@ class UserService:
             f"Click on the link to activate your account: {activation_link}",
             True
         )
-        delattr(created_user, "password")
-        return created_user
+        return {"message": "User created successfully"}
 
     def activate_user(self, user_id: uuid.UUID, token: str):
         user = self.userRepo.get(user_id)
@@ -74,10 +68,7 @@ class UserService:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid token")
         if user.activation_expire < datetime.now():
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Token expired")
-
-        updated_user = self.userRepo.update(user.id, {"is_active": True, "activation_token": None})
-        delattr(updated_user, "password")
-        return UserSchema.model_validate(updated_user)
+        self.userRepo.update(user.id, {"is_active": True, "activation_token": None})
 
     def get_current_user(self, token: str) -> User:
         payload = decode_jwt(token)
@@ -97,7 +88,6 @@ class UserService:
             user_schema = UserSchema(**user.to_dict())
         except ValidationError as e:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
-
         return user_schema
 
     def get_all_resumes_user(self, userId: uuid.UUID):
@@ -111,10 +101,7 @@ class UserService:
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
         filename = await FileService.upload(file, configs.UPLOAD_PROFILE_DIR)
-        updated_user = self.userRepo.update(user.id, {"profile_picture": filename})
-        delattr(updated_user, "password")
-        return UserSchema.model_validate(updated_user)
-
+        self.userRepo.update(user.id, {"profile_picture": filename})
     
 
     def google_auth(self, email:str, picture_url:str):
@@ -124,10 +111,5 @@ class UserService:
             self.userRepo.create(user)
         payload = Payload(sub=str(str(user.id)), email=user.email).dict()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
-        access_token, expiration_datetime = create_access_token(payload, token_lifespan)
-
-        return {
-            "token": access_token,
-            "expiration": expiration_datetime,
-            "user": user
-        }
+        access_token = create_access_token(payload, token_lifespan)
+        return { "token": access_token }

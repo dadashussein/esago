@@ -26,8 +26,5 @@ class ResumeService:
             raise HTTPException(status_code=404, detail="CV not found")
         
         filepath = await FileService.upload(file, configs.UPLOAD_RESUME_DIR)
-        print("===============================")
-        print(filepath)
         resume = Resume(cv_id=cv_id, path=filepath)
         self.resume_repo.create(resume)
-        return resume.path

@@ -1,45 +1,31 @@
 from datetime import date
-from pydantic import BaseModel
-
+from pydantic import BaseModel, Field
+from typing import Optional
 
 class EducationCreate(BaseModel):
-    school_name: str
-    location: str
-    description: str
-    degree: str
-    field_of_study: str
-    start_date: date
-    end_date: date
-
-    class Config:
-        
-        from_attributes=True
+    school_name: str = Field(..., example="Harvard University")
+    degree: str = Field(..., example="Bachelor of Science")
+    field_of_study: str = Field(..., example="Computer Science")
+    start_date: str = Field(..., example="2020-09-01")
+    end_date: Optional[str] = Field(None, example="2024-05-31")
+    description: Optional[str] = Field(None, example="Studied advanced algorithms and data structures.")
 
 class EducationUpdate(BaseModel):
+    school_name: Optional[str] = Field(None, example="Harvard University")
+    degree: Optional[str] = Field(None, example="Bachelor of Science")
+    field_of_study: Optional[str] = Field(None, example="Computer Science")
+    start_date: Optional[str] = Field(None, example="2020-09-01")
+    end_date: Optional[str] = Field(None, example="2024-05-31")
+    description: Optional[str] = Field(None, example="Studied advanced algorithms and data structures.")
+
+class EducationSchema(BaseModel):
     id: int
-    school_name: str
-    location: str
-    description: str
-    degree: str
-    field_of_study: str
-    start_date: date
-    end_date: date
+    school_name: Optional[str]
+    degree: Optional[str]
+    field_of_study: Optional[str]
+    start_date: Optional[date]
+    end_date: Optional[date]
+    description: Optional[str]
 
     class Config:
-        
-        from_attributes=True
-
-class EducationSchema(EducationCreate):
-    id: int
-    school_name: str
-    location: str
-    description: str
-    degree: str
-    field_of_study: str
-    start_date: date
-    end_date: date
-
-    class Config:
-        
-        from_attributes=True
-        
+        from_attributes = True

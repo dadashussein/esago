@@ -23,19 +23,17 @@ class LanguageService:
         language_data_dict = language_data.dict()
         language_data_dict['cv_id'] = cv_id
         language = Language(**language_data_dict)
-        language = self.languageRepo.create(language)
-        return LanguageSchema.model_validate(language)
+        self.languageRepo.create(language)
     
     def update_language_cv(self, language_data: LanguageUpdate, cv_id: int, user_id: UUID) -> LanguageSchema:
         language = self.languageRepo.get_language_by_id(language_data.id, cv_id, user_id)
         if language is None:
             raise HTTPException(status_code=404, detail="Language not found")
         language_data_dict = language_data.dict(exclude_unset=True)
-        updated_language = self.languageRepo.update(language_data.id, language_data_dict)
-        return LanguageSchema.model_validate(updated_language)
+        self.languageRepo.update(language_data.id, language_data_dict)
     
     def delete_language_cv(self, language_id: int, cv_id: int, user_id: UUID) -> LanguageSchema:
         language = self.languageRepo.get_language_by_id(language_id, cv_id, user_id)
         if language is None:
             raise HTTPException(status_code=404, detail="Language not found")
-        return self.languageRepo.delete(language_id)
+        self.languageRepo.delete(language_id)
