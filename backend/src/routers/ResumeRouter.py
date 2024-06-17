@@ -11,7 +11,7 @@ from services.CVService import CVService
 router = APIRouter(dependencies=[Depends(JWTBearer())])
 
 @router.post(
-    "/upload-resume",
+    "/upload",
     status_code=status.HTTP_201_CREATED,
     summary="Upload resume",
 )

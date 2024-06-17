@@ -39,6 +39,10 @@ class Configs(BaseSettings):
     DB_ENGINE: str = os.getenv("DB_ENGINE", "postgresql")
     DB_DATABASE: str = os.getenv("DB_DATABASE")
 
+    #Redis
+    REDIS_HOST: str = os.getenv("REDIS_HOST")
+    REDIS_PORT: int = int(os.getenv("REDIS_PORT", "6379"))
+
     # email
     EMAIL_USERNAME: str = os.getenv("EMAIL_USERNAME")
     EMAIL_PASSWORD: str = os.getenv("EMAIL_PASSWORD")
