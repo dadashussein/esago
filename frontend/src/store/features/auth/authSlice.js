@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import Cookies from "js-cookie";
-import fetchWithAuth, { baseUrl } from "~/utils/api";
+import axiosInstance from "~/utils/api";
 const initialState = {
   currentUser: undefined,
   isLoading: false,
@@ -11,32 +10,35 @@ export const register = createAsyncThunk(
   "auth/register",
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.post(`${baseUrl}/users/register`, userData);
+      const response = await axiosInstance.post("/users/register", userData);
       return response.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data.detail);
+      return thunkAPI.rejectWithValue(err.message);
     }
   },
 );
+
 export const login = createAsyncThunk(
   "auth/login",
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.post(`${baseUrl}/users/login`, userData);
+      const response = await axiosInstance.post("/users/login", userData);
+      //Cookies.set("accessToken", response.data.accessToken);
       return response.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data.detail);
+      return thunkAPI.rejectWithValue(err.message);
     }
   },
 );
+
 export const getCurrentUser = createAsyncThunk(
   "auth/getCurrentUser",
   async (_, thunkAPI) => {
     try {
-      const data = await fetchWithAuth("/users/me");
-      return data;
+      const response = await axiosInstance.get("/users/me");
+      return response.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data.detail);
+      return thunkAPI.rejectWithValue(err.message);
     }
   },
 );
@@ -44,6 +46,7 @@ export const getCurrentUser = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   Cookies.remove("accessToken");
 });
+
 const authSlice = createSlice({
   name: "auth",
   initialState,

@@ -58,7 +58,7 @@ const Template7 = ({ img, personal, education, experience, skills }) => {
             <div>
               <h1 className="uppercase text-[20px] text-gray-600">Education</h1>
               <div className="flex flex-col gap-4">
-                {education.map((edu, index) => (
+                {education && education.length > 0 && education.map((edu, index) => (
                   <div key={index}>
                     <h1 className="font-bold">
                       {edu.school_name}{" "}
@@ -78,7 +78,7 @@ const Template7 = ({ img, personal, education, experience, skills }) => {
             <div>
               <h1 className="uppercase text-[20px]  text-gray-600">Skills</h1>
               <div className="flex flex-wrap mt-4 gap-2">
-                {skills?.map((skill) => (
+                {skills && skills.length > 0 && skills.map((skill) => (
                   <span
                     key={skill.id}
                     className="bg-gray-200 text-gray-500  px-2 py-1 rounded"
@@ -97,7 +97,7 @@ const Template7 = ({ img, personal, education, experience, skills }) => {
                 Experience
               </h1>
               <div className="flex flex-col gap-4">
-                {experience.map((exp, index) => (
+                {experience && experience.length > 0 && experience.map((exp, index) => (
                   <div key={index}>
                     <h1 className="font-bold">
                       {exp.company_name}{" "}

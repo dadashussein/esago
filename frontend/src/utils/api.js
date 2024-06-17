@@ -1,26 +1,37 @@
+import axios from "axios";
 import Cookies from "js-cookie";
 
 export const baseUrl = "http://localhost:8000";
 
-const fetchWithAuth = async (url, options = {}) => {
-  const accessToken = Cookies.get("accessToken");
-  const response = await fetch(`${baseUrl}${url}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-      ...options.headers,
-    },
-  });
+const axiosInstance = axios.create({
+  baseURL: baseUrl,
+});
 
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(
-      error.detail || "An error occurred while making the request",
-    );
-  }
 
-  return response.json();
-};
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const accessToken = Cookies.get("accessToken");
+    if (accessToken) {
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
-export default fetchWithAuth;
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response) {
+      const errorMessage =
+        error.response.data.detail ||
+        "An error occurred while making the request";
+      return Promise.reject(new Error(errorMessage));
+    }
+    return Promise.reject(error);
+  },
+);
+
+export default axiosInstance;

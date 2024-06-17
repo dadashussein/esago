@@ -1,5 +1,3 @@
-import { useState } from "react";
-import Login from "./Login";
 import landingPhoto from "../assets/landing.avif";
 import Tilt from "react-next-tilt";
 import { useNavigate } from "react-router-dom";

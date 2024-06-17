@@ -8,15 +8,17 @@ import {
 } from "~/store/features/resume/resumeSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Tilt } from "react-next-tilt";
-
 import { Plus } from "lucide-react";
-import Modal from "react-modal";
+
 import ReadyCv from "./ReadyCv";
+import Modal from "./Modal";
+
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cv = useSelector((state) => state.resumes.cv);
+  console.log(cv);
 
   const [cvTitle, setCvTitle] = useState("");
   const [cvId, setCvId] = useState(null);
@@ -31,7 +33,9 @@ const Dashboard = () => {
 
   const handleDelete = (cvId) => {
     dispatch(deleteCv({ id: cvId }));
-    console.log(`Deleting CV with ID: ${cvId}`);
+    if (cvId === selectedCv) {
+      setIsModalOpen(false);
+    }
   };
 
   const handleCreate = async () => {
@@ -47,6 +51,7 @@ const Dashboard = () => {
     setCvTitle("");
     setShowInput(false);
   };
+
 
   const handleEdit = (cvId) => {
     navigate(`${cvId}`);
@@ -78,16 +83,6 @@ const Dashboard = () => {
     setSelectedCv(null);
   };
 
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-    },
-  };
 
   return (
     <main className="flex-1 p-4">
@@ -137,59 +132,33 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Modal for creating CV */}
-      <Modal
-        isOpen={showInput}
-        style={customStyles}
-        onRequestClose={() => setShowInput(false)}
-      >
-        <h2 className="text-xl  dark:text-white font-bold mb-4">
-          Create New CV
-        </h2>
-        <input
-          type="text"
-          value={cvTitle}
-          onChange={handleInputChange}
-          onKeyPress={handleInputKeyPress}
-          className="input-primary w-full p-2 mb-4"
-          placeholder="Enter CV title"
-        />
-        <button
-          onClick={handleCreate}
-          className="text-white button-primary w-full"
-        >
-          Create CV
-        </button>
-      </Modal>
+      {showInput && (
+        <div className="mt-4">
+          <input
+            type="text"
+            className="w-full p-2 border border-gray-300 dark:border-[#686D76] dark:bg-[#2E2E2E] dark:text-white"
+            placeholder="Enter CV title"
+            value={cvTitle}
+            onChange={handleInputChange}
+            onKeyPress={handleInputKeyPress}
+          />
+          <button
+            onClick={handleCreate}
+            className="btn-primary mt-2"
+          >
+            Create
+          </button>
+        </div>
+      )}
 
-      {/* Modal for viewing and actions */}
-      <Modal
-        isOpen={isModalOpen}
-        style={{
-          content: {
-            width: "80%",
-            left: "20%",
-            right: "0",
-            background: "#fff",
-            top: "0%",
-            bottom: "0%",
-          },
-        }}
-        onRequestClose={closeModal}
-      >
+
+      <Modal open={isModalOpen} onClose={closeModal}>
+
         {selectedCv && (
-          <div className="relative">
-            <h2 className="text-xl dark:text-white font-bold mb-4">
-              {cv.find((item) => item.id === selectedCv).title}
-            </h2>
-            {/* <Document file={`/path/to/pdf/${selectedCv}.pdf`}>
-              <Page pageNumber={1} />
-            </Document> */}
-            {/* <img className="top-20 absolute" src={dad} alt="" /> */}
-            <div className="top-20 border absolute">
+          <div className="relative ">
+            <div className="top-20 border">
               <ReadyCv cvId={cvId} />
             </div>
-            {/* <Preview /> */}
             <div className="flex gap-4 mt-4">
               <button
                 onClick={() => handleEdit(selectedCv)}
@@ -209,10 +178,16 @@ const Dashboard = () => {
               >
                 Delete
               </button>
+              <h2 className="text-xl dark:text-white font-bold mb-4">
+                {cv.find((item) => item.id === selectedCv)?.title}
+              </h2>
             </div>
           </div>
         )}
+
       </Modal>
+
+
     </main>
   );
 };

@@ -4,35 +4,66 @@ import { MapInteractionCSS } from "react-map-interaction";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCv } from "~/store/features/resume/resumeSlice";
 import Preview from "./Preview";
+import Template7 from "./templates/Template7";
+import Resume from "./templates/TestRes";
+import Loading from "./Loading";
+
 const ReadyCv = ({ cvId }) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchAllCv({ cvId }));
   }, [dispatch, cvId]);
 
   const allCv = useSelector((state) => state.resumes.allCv);
-  console.log(allCv);
+  const loading = useSelector((state) => state.resumes.loading);
+  const error = useSelector((state) => state.resumes.error);
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!allCv) {
+    return <div>No data available</div>;
+  }
+
+  const {
+    first_name,
+    last_name,
+    address,
+    bio,
+    education,
+    email,
+    experience,
+    job_title,
+    phone_number,
+    skill,
+  } = allCv;
 
   return (
-    <MapInteractionCSS
-      showControls
-      defaultValue={{
-        scale: 0.6,
-        translation: { x: 30, y: 20 },
-      }}
-      minScale={0.5}
-      maxScale={3}
-      translationBounds={{
-        xMax: 400,
-        yMax: 200,
-      }}
-    >
-      <div className="page">
-        <div className="subpage">
-          <Preview />
-        </div>
+    <div className="page">
+      <div className="subpage">
+        <Template7
+          loading={loading}
+          personal={{
+            first_name,
+            last_name,
+            address,
+            bio,
+            email,
+            job_title,
+            phone_number,
+          }}
+          education={education}
+          experience={experience}
+          skill={skill}
+        />
       </div>
-    </MapInteractionCSS>
+    </div>
   );
 };
 

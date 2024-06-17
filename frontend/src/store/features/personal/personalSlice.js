@@ -1,16 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
-import fetchWithAuth, { baseUrl } from "~/utils/api";
+
+import axiosInstance from "~/utils/api";
 
 export const postInfo = createAsyncThunk(
   "personal/postInfo",
   async ({ info, cvId }, thunkAPI) => {
     try {
-      const data = await fetchWithAuth(`/cvs`, {
-        method: "PUT",
-        body: JSON.stringify({ ...info, id: cvId }),
-      });
-      return data;
+      const response = await axiosInstance.put("/cvs", { ...info, id: cvId });
+      return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message || "Something went wrong");
     }
@@ -20,28 +17,34 @@ export const postInfo = createAsyncThunk(
 export const fetchInfo = createAsyncThunk(
   "personal/fetchInfo",
   async (cvId) => {
-    const data = await fetchWithAuth(`/cvs/${cvId}`);
-    return data;
+    try {
+      const response = await axiosInstance.get(`/cvs/${cvId}`);
+      return response.data;
+    } catch (err) {
+      return err.message;
+    }
   },
 );
 
 export const patchPhoto = createAsyncThunk(
   "personal/patchPhoto",
-  async ({ cvId, file }) => {
+  async ({ cvId, file }, thunkAPI) => {
     const formData = new FormData();
     formData.append("file", file);
+
     try {
-      const accessToken = Cookies.get("accessToken");
-      const response = await fetch(`${baseUrl}/cvs/${cvId}/picture`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const response = await axiosInstance.patch(
+        `/cvs/${cvId}/picture`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-        body: formData,
-      });
-      return response;
+      );
+      return response.data;
     } catch (err) {
-      console.log(err);
+      return thunkAPI.rejectWithValue(err.message || "Something went wrong");
     }
   },
 );

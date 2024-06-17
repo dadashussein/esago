@@ -1,4 +1,5 @@
-import { createBrowserRouter, Navigate, useLocation } from "react-router-dom";
+/* eslint-disable react-refresh/only-export-components */
+import { createBrowserRouter, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Inner from "../pages/inner";
 import HomePage from "../pages/home/HomePage";
@@ -7,8 +8,7 @@ import MainLayout from "~/components/layouts/main";
 import Templates from "~/components/Templates";
 import CreateCv from "~/components/CreateCv";
 import GoogleCallback from "~/pages/GoogleCallback";
-import ActivateUser from "~/pages/ActivateUser";
-
+import ActivateUser from "~/pages/ActivateUser"
 import Cookies from "js-cookie";
 import Loading from "~/components/Loading";
 import Login from "~/components/Login";
@@ -73,8 +73,22 @@ const routes = createBrowserRouter([
       </AuthenticatedRoute>
     ),
   },
-  { path: "/signup", element: <Register /> },
-  { path: "/login", element: <Login /> },
+  {
+    path: "/signup",
+    element: (
+      <AuthenticatedRoute>
+        <Register />
+      </AuthenticatedRoute>
+    ),
+  },
+  {
+    path: "/login",
+    element: (
+      <AuthenticatedRoute>
+        <Login />
+      </AuthenticatedRoute>
+    ),
+  },
   { path: "/google/authenticate", element: <GoogleCallback /> },
   { path: "/activate", element: <ActivateUser /> },
   {

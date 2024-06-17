@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import fetchWithAuth from "~/utils/api";
+import axiosInstance from "~/utils/api";
 
 export const postEducation = createAsyncThunk(
   "education/addEducation",
   async ({ cvId, education }, thunkAPI) => {
     try {
-      const data = await fetchWithAuth(`/educations/${cvId}`, {
-        method: "POST",
-        body: JSON.stringify(education),
-      });
-      return data;
+      const response = await axiosInstance.post(
+        `/educations/${cvId}`,
+        education,
+      );
+      return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.detail);
     }
@@ -20,8 +20,8 @@ export const fetchEducation = createAsyncThunk(
   "education/fetchEducation",
   async ({ cvId }, thunkAPI) => {
     try {
-      const data = await fetchWithAuth(`/educations/${cvId}`);
-      return data;
+      const response = await axiosInstance.get(`/educations/${cvId}`);
+      return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.detail);
     }
@@ -31,7 +31,7 @@ export const fetchEducation = createAsyncThunk(
 export const deleteEducation = createAsyncThunk(
   "education/deleteEducation",
   async ({ cvId, id }) => {
-    await fetchWithAuth(`/educations/${cvId}/${id}`, { method: "DELETE" });
+    await axiosInstance.delete(`/educations/${cvId}/${id}`);
     return id;
   },
 );
@@ -39,10 +39,7 @@ export const deleteEducation = createAsyncThunk(
 export const updateEducation = createAsyncThunk(
   "education/updateEducation",
   async ({ id, education }) => {
-    const data = await fetchWithAuth(`/educations/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(education),
-    });
-    return data;
+    const response = await axiosInstance.put(`/educations/${id}`, education);
+    return response.data;
   },
 );

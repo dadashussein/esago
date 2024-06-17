@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import fetchWithAuth from "~/utils/api";
+import axiosInstance from "~/utils/api";
 
 export const postExperience = createAsyncThunk(
   "experience/addExperience",
   async ({ cvId, experience }, thunkAPI) => {
     try {
-      const data = await fetchWithAuth(`/experiences/${cvId}`, {
-        method: "POST",
-        body: JSON.stringify(experience),
-      });
-      return data;
+      const response = await axiosInstance.post(
+        `/experiences/${cvId}`,
+        experience,
+      );
+      return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.detail);
     }
@@ -20,8 +20,8 @@ export const fetchExperience = createAsyncThunk(
   "experience/fetchExperience",
   async ({ cvId }, thunkAPI) => {
     try {
-      const data = await fetchWithAuth(`/experiences/${cvId}`);
-      return data;
+      const response = await axiosInstance.get(`/experiences/${cvId}`);
+      return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.detail);
     }
@@ -31,7 +31,7 @@ export const fetchExperience = createAsyncThunk(
 export const deleteExperience = createAsyncThunk(
   "experience/deleteExperience",
   async ({ cvId, id }) => {
-    await fetchWithAuth(`/experiences/${cvId}/${id}`, { method: "DELETE" });
+    await axiosInstance.delete(`/experiences/${cvId}/${id}`);
     return id;
   },
 );
@@ -39,10 +39,7 @@ export const deleteExperience = createAsyncThunk(
 export const updateExperience = createAsyncThunk(
   "experience/updateExperience",
   async ({ id, experience }) => {
-    const data = await fetchWithAuth(`/experiences/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(experience),
-    });
-    return data;
+    const response = await axiosInstance.put(`/experiences/${id}`, experience);
+    return response.data;
   },
 );

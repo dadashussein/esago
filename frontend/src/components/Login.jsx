@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/features/auth/authSlice";
-import Button from "./Button";
 import { unwrapResult } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { baseUrl } from "~/utils/api";
@@ -91,7 +90,7 @@ const Login = () => {
         <div className="text-center">
           <div className=" space-y-2">
             <h3 className="text-gray-800 dark:text-white text-2xl font-bold sm:text-3xl">
-              Welcome again to Esago CV and resume maker platform
+              Welcome again to Esago CV and resume maker platform&apos;s
             </h3>
             <p className="text-gray-800 dark:text-white">
               Don't have an account?{" "}
