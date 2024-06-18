@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import "./a4.css";
-import { MapInteractionCSS } from "react-map-interaction";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCv } from "~/store/features/resume/resumeSlice";
-import Preview from "./Preview";
-import Template7 from "./templates/Template7";
+
 import Resume from "./templates/TestRes";
 import Loading from "./Loading";
+import Template3 from "./templates/Template3";
+import Template5 from "./templates/Template5";
 
 const ReadyCv = ({ cvId }) => {
   const dispatch = useDispatch();
@@ -19,6 +19,7 @@ const ReadyCv = ({ cvId }) => {
   const loading = useSelector((state) => state.resumes.loading);
   const error = useSelector((state) => state.resumes.error);
 
+  console.log(allCv);
   if (loading) {
     return <Loading />;
   }
@@ -42,26 +43,63 @@ const ReadyCv = ({ cvId }) => {
     job_title,
     phone_number,
     skill,
+    template_id,
   } = allCv;
 
   return (
     <div className="page">
       <div className="subpage">
-        <Template7
-          loading={loading}
-          personal={{
-            first_name,
-            last_name,
-            address,
-            bio,
-            email,
-            job_title,
-            phone_number,
-          }}
-          education={education}
-          experience={experience}
-          skill={skill}
-        />
+        {template_id === 1 && (
+          <Template3
+            loading={loading}
+            personal={{
+              first_name,
+              last_name,
+              address,
+              bio,
+              email,
+              job_title,
+              phone_number,
+            }}
+            education={education}
+            experience={experience}
+            skill={skill}
+          />
+        )}
+        {template_id === 2 && (
+          <Template5
+            loading={loading}
+            personal={{
+              first_name,
+              last_name,
+              address,
+              bio,
+              email,
+              job_title,
+              phone_number,
+            }}
+            education={education}
+            experience={experience}
+            skill={skill}
+          />
+        )}
+        {template_id === 3 && (
+          <Resume
+            loading={loading}
+            personal={{
+              first_name,
+              last_name,
+              address,
+              bio,
+              email,
+              job_title,
+              phone_number,
+            }}
+            education={education}
+            experience={experience}
+            skill={skill}
+          />
+        )}
       </div>
     </div>
   );

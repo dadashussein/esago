@@ -10,7 +10,7 @@ export const createCv = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 export const fetchCv = createAsyncThunk(
@@ -22,7 +22,7 @@ export const fetchCv = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 export const fetchCVById = createAsyncThunk(
@@ -34,7 +34,7 @@ export const fetchCVById = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 export const fetchAllCv = createAsyncThunk(
@@ -46,7 +46,7 @@ export const fetchAllCv = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 export const deleteCv = createAsyncThunk(
@@ -58,7 +58,7 @@ export const deleteCv = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 const initialState = {

@@ -41,15 +41,17 @@ const Template5 = ({ img, personal, education }) => {
           <div className="education">
             <h3 className="title">Education</h3>
             <ul>
-              {education.map((edu, index) => (
-                <li key={index}>
-                  <h5>
-                    {edu.start_date} / {edu.end_date}
-                  </h5>
-                  <h4>{edu.degree}</h4>
-                  <h4>{edu.school_name}</h4>
-                </li>
-              ))}
+              {education &&
+                education.length > 0 &&
+                education.map((edu, index) => (
+                  <li key={index}>
+                    <h5>
+                      {edu.start_date} / {edu.end_date}
+                    </h5>
+                    <h4>{edu.degree}</h4>
+                    <h4>{edu.school_name}</h4>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>

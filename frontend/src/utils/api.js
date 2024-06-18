@@ -7,7 +7,6 @@ const axiosInstance = axios.create({
   baseURL: baseUrl,
 });
 
-
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = Cookies.get("accessToken");

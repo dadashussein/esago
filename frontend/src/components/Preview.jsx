@@ -11,6 +11,8 @@ const Preview = ({ activeTemplate, cvId }) => {
   const education = useSelector((state) => state.education.education);
   const experience = useSelector((state) => state.experience.experience);
   const personal = useSelector((state) => state.personal.personal);
+  const { template_id } = personal;
+
   const skills = useSelector((state) => state.skills.skills);
   let imgURl = `${baseUrl}/static/cv_pictures/${personal?.picture}`;
   const { compileToHtml, loading, error } = useCompileHtml({ cvId });
@@ -18,7 +20,7 @@ const Preview = ({ activeTemplate, cvId }) => {
   const handleGenerate = () => {
     compileToHtml(
       <Tailwind>
-        {activeTemplate === 3 && (
+        {activeTemplate === 1 && (
           <Template3
             img={imgURl}
             personal={personal}
@@ -27,7 +29,7 @@ const Preview = ({ activeTemplate, cvId }) => {
             skills={skills}
           />
         )}
-        {activeTemplate === 5 && (
+        {activeTemplate === 2 && (
           <Template5
             img={imgURl}
             personal={personal}
@@ -36,7 +38,7 @@ const Preview = ({ activeTemplate, cvId }) => {
             skills={skills}
           />
         )}
-        {activeTemplate === 6 &&
+        {activeTemplate === 3 &&
           <Resume img={imgURl}
             personal={personal}
             education={education}
@@ -48,7 +50,7 @@ const Preview = ({ activeTemplate, cvId }) => {
 
   return (
     <div>
-      {activeTemplate === 3 && (
+      {template_id === 1 && (
         <Template3
           img={imgURl}
           personal={personal}
@@ -57,7 +59,7 @@ const Preview = ({ activeTemplate, cvId }) => {
           skills={skills}
         />
       )}
-      {activeTemplate === 5 && (
+      {template_id === 2 && (
         <Template5
           img={imgURl}
           personal={personal}
@@ -66,7 +68,7 @@ const Preview = ({ activeTemplate, cvId }) => {
           skills={skills}
         />
       )}
-      {activeTemplate === 6 && (
+      {template_id === 3 && (
 
         <Resume img={imgURl}
           personal={personal}
@@ -75,9 +77,9 @@ const Preview = ({ activeTemplate, cvId }) => {
           skills={skills} />
       )}
 
-      <button onClick={handleGenerate}>
+      {/* <button onClick={handleGenerate}>
         {loading ? "Generating..." : "Generate"}
-      </button>
+      </button> */}
 
     </div>
   );

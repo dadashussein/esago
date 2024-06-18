@@ -131,6 +131,25 @@ async def upload_picture(
     return await cv_service.upload_picture(cv_id, user_id, file)
 
 
+@router.patch(
+    "/{cv_id}/template/{template_id}",
+    response_model=dict,
+    status_code=status.HTTP_200_OK,
+    summary="Update the template ID of a CV",
+
+)
+async def update_template_id(
+    cv_id: int,
+    template_id: int,
+    user_id: int = Depends(get_current_user_id),
+    cv_service: CVService = Depends(),
+):
+    """
+    Update the template ID of a CV.
+    """
+    return cv_service.update_template_id(cv_id, template_id, user_id)
+
+
 @router.delete(
     "/{cv_id}",
     response_model=dict,

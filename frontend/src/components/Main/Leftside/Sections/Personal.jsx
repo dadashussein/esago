@@ -12,9 +12,10 @@ import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { baseUrl } from "~/utils/api";
 
-const Personal = ({ setActiveTab, cvId }) => {
+const Personal = ({ setActiveTab, cvId, activeTemplate }) => {
   const dispatch = useDispatch();
   const personal = useSelector((state) => state.personal.personal);
+  //console.log(personal);
   const [avatar, setAvatar] = useState({
     file: null,
     url: "",
@@ -51,6 +52,11 @@ const Personal = ({ setActiveTab, cvId }) => {
       dispatch(patchPhoto({ cvId, file }));
     }
   };
+
+  //handle template change
+  useEffect(() => {
+    dispatch(setPersonalField({ field: "template_id", value: activeTemplate }));
+  }, [activeTemplate, dispatch]);
 
   return (
     <div className="border-gray-900/10  relative">

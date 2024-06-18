@@ -8,7 +8,7 @@ import MainLayout from "~/components/layouts/main";
 import Templates from "~/components/Templates";
 import CreateCv from "~/components/CreateCv";
 import GoogleCallback from "~/pages/GoogleCallback";
-import ActivateUser from "~/pages/ActivateUser"
+import ActivateUser from "~/pages/ActivateUser";
 import Cookies from "js-cookie";
 import Loading from "~/components/Loading";
 import Login from "~/components/Login";

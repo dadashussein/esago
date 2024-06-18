@@ -27,7 +27,7 @@ export default function MainLayout() {
           <SidebarItem to="/app" icon={<LayoutDashboard />} text="Dashboard" />
           <SidebarItem to="template" icon={<Layers />} text="Template" />
         </SideBar>
-        <main className="flex-1   bg-gray-100 dark:bg-[#31363F] ">
+        <main className="flex-1  bg-gray-100 dark:bg-[#31363F] ">
           {isLoading && <Loading />}
           <Outlet />
         </main>

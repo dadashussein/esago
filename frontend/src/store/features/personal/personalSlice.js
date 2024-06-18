@@ -33,15 +33,11 @@ export const patchPhoto = createAsyncThunk(
     formData.append("file", file);
 
     try {
-      const response = await axiosInstance.patch(
-        `/cvs/${cvId}/picture`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+      const response = await axiosInstance.patch(`/cvs/${cvId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-      );
+      });
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message || "Something went wrong");
@@ -61,6 +57,7 @@ const initialState = {
     phone_number: "",
     email: "",
     bio: "",
+    template_id: 1,
   },
 };
 

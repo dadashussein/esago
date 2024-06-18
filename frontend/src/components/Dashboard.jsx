@@ -13,12 +13,10 @@ import { Plus } from "lucide-react";
 import ReadyCv from "./ReadyCv";
 import Modal from "./Modal";
 
-
 const Dashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cv = useSelector((state) => state.resumes.cv);
-  console.log(cv);
 
   const [cvTitle, setCvTitle] = useState("");
   const [cvId, setCvId] = useState(null);
@@ -52,7 +50,6 @@ const Dashboard = () => {
     setShowInput(false);
   };
 
-
   const handleEdit = (cvId) => {
     navigate(`${cvId}`);
   };
@@ -82,7 +79,6 @@ const Dashboard = () => {
     setIsModalOpen(false);
     setSelectedCv(null);
   };
-
 
   return (
     <main className="flex-1 p-4">
@@ -142,18 +138,13 @@ const Dashboard = () => {
             onChange={handleInputChange}
             onKeyPress={handleInputKeyPress}
           />
-          <button
-            onClick={handleCreate}
-            className="btn-primary mt-2"
-          >
+          <button onClick={handleCreate} className="btn-primary mt-2">
             Create
           </button>
         </div>
       )}
 
-
       <Modal open={isModalOpen} onClose={closeModal}>
-
         {selectedCv && (
           <div className="relative ">
             <div className="top-20 border">
@@ -184,10 +175,7 @@ const Dashboard = () => {
             </div>
           </div>
         )}
-
       </Modal>
-
-
     </main>
   );
 };
