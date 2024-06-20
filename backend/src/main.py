@@ -1,6 +1,7 @@
 from alembic import command
 from alembic.config import Config
 from fastapi import FastAPI
+from fastapi.templating import Jinja2Templates
 from routers.UserRouter import router as user_router
 from routers.CVRouter import router as cv_router
 from routers.EducationRouter import router as education_router
@@ -20,7 +21,7 @@ from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
 Base.metadata.create_all(bind=Engine)
-
+templates = Jinja2Templates(directory="templates")
 origins = [
     configs.FRONTEND_URI,
     configs.BACKEND_URI

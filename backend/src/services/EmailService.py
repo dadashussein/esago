@@ -9,7 +9,7 @@ from config.config import configs
 
 class EmailService:
     @staticmethod
-    def send_email(to_address, subject, body, is_html=False, attachments=None):
+    def send_email(to_address, subject, body, is_html=True, attachments=None):
         try:
             msg = MIMEMultipart()
             msg['From'] = configs.EMAIL_FROM

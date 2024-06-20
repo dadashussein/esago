@@ -16,7 +16,7 @@ class User(Base):
     is_google = Column(sqlalchemy.Boolean, default=False)
     profile_picture = Column(sqlalchemy.String, nullable=True, default=None)
 
-    activation_token = Column(sqlalchemy.String, nullable=True, default=None)
+    activation_code = Column(sqlalchemy.String, nullable=True, default=None)
     activation_expire = Column(sqlalchemy.DateTime, nullable=True, default=None)
 
     cvs = relationship('CV', back_populates='user', cascade="all, delete-orphan")

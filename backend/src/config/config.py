@@ -28,6 +28,7 @@ class Configs(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 30  # 60 minutes * 24 hours * 30 days = 30 days
     DATETIME_FORMAT: str = "%Y-%m-%dT%H:%M:%S"
     FRONTEND_URI: str = os.getenv("FRONTEND_URI")
+    FRONTEND_ACTIVATION_URI: str = os.getenv("FRONTEND_ACTIVATION_URI")
     BACKEND_URI: str = os.getenv("BACKEND_URI")
 
     # database

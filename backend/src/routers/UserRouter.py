@@ -44,13 +44,13 @@ async def login(
 )
 async def activate_user(
     user_id: str,
-    token: str,
+    code: str,
     user_service: UserService = Depends()
 ):
     """
         Activate a user account using the provided token.
     """
-    return user_service.activate_user(user_id, token)
+    return user_service.activate_user(user_id, code)
 
 @router.patch(
     "/changepicture",

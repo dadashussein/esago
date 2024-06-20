@@ -1,6 +1,7 @@
 import uuid
 from datetime import timedelta, datetime
 from fastapi import Depends, File, HTTPException, UploadFile, status, BackgroundTasks
+from fastapi.templating import Jinja2Templates
 from pydantic import ValidationError
 from services.FileService import FileService
 from config.config import configs
@@ -11,6 +12,7 @@ from config.security import get_password_hash, verify_password, create_access_to
 from services.EmailService import EmailService
 
 class UserService:
+    templates = Jinja2Templates(directory="D:\#\esago\\backend\src\\templates")
     def __init__(self, userRepo: UserRepository = Depends(), emailService: EmailService = Depends()):
         self.userRepo = userRepo
         self.emailService = emailService
@@ -41,32 +43,39 @@ class UserService:
     async def register(self, user: UserRegisterSchema, background_tasks: BackgroundTasks):
         if self.userRepo.get_where(username=user.username) or self.userRepo.get_where(email=user.email):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username or email already exists")
-        activation_token = str(uuid.uuid4())
-        new_user = User(**user.dict(exclude_none=True), is_active=False, activation_token=activation_token,
-                        activation_expire=datetime.now() + timedelta(minutes=5))
+        
+        activation_code = str(uuid.uuid4())[:6]
+        new_user = User(
+            **user.model_dump(exclude_none=True),
+            is_active=False,
+            activation_code=activation_code,
+            activation_expire=datetime.now() + timedelta(minutes=5)
+        )
         new_user.password = get_password_hash(user.password)
         self.userRepo.create(new_user)
-        activation_link = f"{configs.BACKEND_URI}/users/activate/{new_user.id}?token={activation_token}"
-        background_tasks.add_task(
-            self.emailService.send_email,
-            user.email,
-            "Activate your account",
-            f"Click on the link to activate your account: {activation_link}",
-            True
+        
+        activation_link = f"{configs.FRONTEND_ACTIVATION_URI}?user_id={new_user.id}"
+        email_content = self.templates.get_template("email_template.html").render(
+            activation_code=activation_code, 
+            activation_link=activation_link
         )
+        
+        background_tasks.add_task(self.emailService.send_email, user.email, "Activate your account", email_content)
+        
         return {"message": "User created successfully"}
 
-    def activate_user(self, user_id: uuid.UUID, token: str):
+    def activate_user(self, user_id: uuid.UUID, code: str):
         user = self.userRepo.get(user_id)
         if user is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
         if user.is_active:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Account already activated")
-        if user.activation_token != token:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid token")
+        if user.activation_code != code:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid code")
         if user.activation_expire < datetime.now():
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Token expired")
-        self.userRepo.update(user.id, {"is_active": True, "activation_token": None})
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="code expired")
+        self.userRepo.update(user.id, {"is_active": True, "activation_code": None})
+        return {"message": "Account activated successfully"}
 
     def get_current_user(self, token: str) -> User:
         payload = decode_jwt(token)
