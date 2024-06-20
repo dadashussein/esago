@@ -15,11 +15,14 @@ RUN python -m venv test && \
     pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Copy source code
-
 COPY ./src /code
-RUN mkdir -p /code/wwwroot
+
 # Expose port
 EXPOSE 8000
+
+# Run important commands
+RUN playwright install
+RUN mkdir -p /code/wwwroot
 
 # Set environment variables
 ENV PYTHONPATH=/src

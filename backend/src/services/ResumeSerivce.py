@@ -1,10 +1,12 @@
 from uuid import UUID
-from fastapi import Depends, HTTPException, UploadFile
+from fastapi import Depends, HTTPException, Response, UploadFile
+from schemas.ResumeSchema import HTMLContent
 from services.CVService import CVService
 from repositories.ResumeRepository import ResumeRepository
 from models.models import Resume
 from services.FileService import FileService
 from config.config import configs
+from playwright.async_api import async_playwright
 
 class ResumeService:
     def __init__(self, resume_repo: ResumeRepository = Depends(), cv_service: CVService = Depends()):
@@ -19,3 +21,14 @@ class ResumeService:
         filepath = await FileService.upload(file, configs.UPLOAD_RESUME_DIR)
         resume = Resume(cv_id=cv_id, path=filepath)
         self.resume_repo.create(resume)
+
+    async def generate_resume(self, html: HTMLContent):
+        async with async_playwright() as p:
+            browser = await p.chromium.launch(headless=False)
+            page = await browser.new_page()
+            await page.set_content(html.html, wait_until="load")
+
+            pdf_buffer = await page.pdf(format="A4", print_background=True)
+            await browser.close()
+        return Response(content=pdf_buffer, media_type="application/pdf", headers={"Content-Disposition": "attachment; filename=resume.pdf"})
+

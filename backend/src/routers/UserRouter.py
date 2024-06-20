@@ -28,6 +28,7 @@ async def register(
 @router.post(
     "/login",
     summary="User login",
+    response_model=dict
 )
 async def login(
     user: UserLoginSchema,

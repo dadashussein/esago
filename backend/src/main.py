@@ -21,7 +21,6 @@ from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
 Base.metadata.create_all(bind=Engine)
-templates = Jinja2Templates(directory="templates")
 origins = [
     configs.FRONTEND_URI,
     configs.BACKEND_URI

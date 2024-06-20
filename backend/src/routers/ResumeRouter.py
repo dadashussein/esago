@@ -1,4 +1,5 @@
 """CV Routers"""
+import asyncio
 from fastapi import APIRouter, Depends, File, UploadFile, status
 from schemas.ResumeSchema import HTMLContent
 from services.ResumeSerivce import ResumeService
@@ -22,3 +23,17 @@ async def upload_resume(
         Upload a resume file for a specific user. Optionally associates the file with a CV ID.
     """
     return await resume_service.upload_file(user_id, cv_id, file)
+
+
+@router.post(
+    "/generate",
+    summary="Generate resume",
+)
+def generate_resume(
+    html: HTMLContent,
+    resume_service: ResumeService = Depends(),
+):
+    """
+        Generate a PDF resume from HTML content.
+    """
+    return asyncio.run(resume_service.generate_resume(html))

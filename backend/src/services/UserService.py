@@ -12,7 +12,7 @@ from config.security import get_password_hash, verify_password, create_access_to
 from services.EmailService import EmailService
 
 class UserService:
-    templates = Jinja2Templates(directory="D:\#\esago\\backend\src\\templates")
+    templates = Jinja2Templates(directory="templates")
     def __init__(self, userRepo: UserRepository = Depends(), emailService: EmailService = Depends()):
         self.userRepo = userRepo
         self.emailService = emailService
