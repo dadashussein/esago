@@ -7,12 +7,13 @@ from services.FileService import FileService
 from config.config import configs
 from models.models import User
 from repositories.UserRepository import UserRepository
-from schemas.UserSchemas import UserGoogleSchema, UserRegisterSchema, UserLoginSchema, Payload, UserSchema
+from schemas.UserSchemas import UserRegisterSchema, UserLoginSchema, Payload, UserSchema
 from config.security import get_password_hash, verify_password, create_access_token, decode_jwt
 from services.EmailService import EmailService
+import os
 
 class UserService:
-    templates = Jinja2Templates(directory="templates")
+    templates = Jinja2Templates(directory=os.path.join(os.getcwd(), "templates"))
     def __init__(self, userRepo: UserRepository = Depends(), emailService: EmailService = Depends()):
         self.userRepo = userRepo
         self.emailService = emailService
@@ -55,14 +56,14 @@ class UserService:
         self.userRepo.create(new_user)
         
         activation_link = f"{configs.FRONTEND_ACTIVATION_URI}?user_id={new_user.id}"
-        email_content = self.templates.get_template("email_template.html").render(
+        email_content = UserService.templates.get_template("email_template.html").render(
             activation_code=activation_code, 
             activation_link=activation_link
         )
         
         background_tasks.add_task(self.emailService.send_email, user.email, "Activate your account", email_content)
         
-        return {"message": "User created successfully"}
+        return {"message": "User created successfully", "data": new_user.id}
 
     def activate_user(self, user_id: uuid.UUID, code: str):
         user = self.userRepo.get(user_id)
@@ -75,7 +76,10 @@ class UserService:
         if user.activation_expire < datetime.now():
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="code expired")
         self.userRepo.update(user.id, {"is_active": True, "activation_code": None})
-        return {"message": "Account activated successfully"}
+        payload = Payload(sub=str(user.id), email=user.email).model_dump()
+        token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
+        access_token = create_access_token(payload, token_lifespan)
+        return {"access_token": access_token}
 
     def get_current_user(self, token: str) -> User:
         payload = decode_jwt(token)

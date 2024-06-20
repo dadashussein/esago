@@ -89,7 +89,7 @@ const routes = createBrowserRouter([
       </AuthenticatedRoute>
     ),
   },
-  { path: "/google/authenticate", element: <GoogleCallback /> },
+  { path: "/authenticate_google", element: <GoogleCallback /> },
   { path: "/activate", element: <ActivateUser /> },
   {
     path: "/app",

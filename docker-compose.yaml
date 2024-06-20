@@ -41,15 +41,16 @@ services:
       - esago-network
     volumes:
       - ./src:/app
-  # client:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: frontend
-  #   ports:
-  #     - "5173:5173"
-  #   networks:
-  #     - esago-network
+
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - esago-network
 volumes:
   pgdata:
 
