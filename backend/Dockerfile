@@ -1,4 +1,4 @@
-FROM python:3.12-alpine
+FROM python:3.9
 
 # Install virtualenv
 RUN pip install virtualenv
@@ -16,13 +16,9 @@ RUN python -m venv test && \
 
 # Copy source code
 COPY ./src /code
-
+RUN mkdir -p /code/wwwroot
 # Expose port
 EXPOSE 8000
-
-# Run important commands
-RUN playwright install
-RUN mkdir -p /code/wwwroot
 
 # Set environment variables
 ENV PYTHONPATH=/src

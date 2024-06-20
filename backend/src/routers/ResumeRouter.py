@@ -25,15 +25,15 @@ async def upload_resume(
     return await resume_service.upload_file(user_id, cv_id, file)
 
 
-@router.post(
-    "/generate",
-    summary="Generate resume",
-)
-def generate_resume(
-    html: HTMLContent,
-    resume_service: ResumeService = Depends(),
-):
-    """
-        Generate a PDF resume from HTML content.
-    """
-    return asyncio.run(resume_service.generate_resume(html))
+# @router.post(
+#     "/generate",
+#     summary="Generate resume",
+# )
+# def generate_resume(
+#     html: HTMLContent,
+#     resume_service: ResumeService = Depends(),
+# ):
+#     """
+#         Generate a PDF resume from HTML content.
+#     """
+#     return asyncio.run(resume_service.generate_resume(html))
