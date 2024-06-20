@@ -87,26 +87,4 @@ class CVService:
             raise HTTPException(status_code=404, detail="CV not found")
         self.cv_repo.update(cv_id, {"template_id": template_id})
         return {"message": "Template updated successfully"}
-    
-    async def generate_resume(self, content: HTMLContent):
-        html = content.html
-        if not html:
-            raise HTTPException(status_code=400, detail="HTML content is required")
 
-        try:
-            browser = await launch()
-            page = await browser.newPage()
-            await page.setContent(html, {'waitUntil': 'networkidle0'})
-
-            pdf_buffer = await page.pdf({
-                'format': 'A4',
-                'printBackground': True
-            })
-
-            await browser.close()
-
-            return Response(content=pdf_buffer, media_type="application/pdf", headers={
-                'Content-Disposition': 'attachment; filename=output.pdf',
-            })
-        except Exception as e:
-            raise HTTPException(status_code=500, detail="Internal Server Error")
