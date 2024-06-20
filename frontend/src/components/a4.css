@@ -2,8 +2,7 @@
   width: 21cm;
   min-height: 29.7cm;
   max-height: 29.7cm;
-  border: 1px solid #ccc;
-  background: red;
+  background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -22,10 +21,5 @@
     box-shadow: initial;
     background: initial;
     page-break-after: always;
-  }
-}
-
-@media (max-width: 600px) {
-  .page {
   }
 }

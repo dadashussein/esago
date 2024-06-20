@@ -1,9 +1,9 @@
-import { MdDelete } from "react-icons/md";
 import EducationForm from "./EducationForm";
 import EducationNavigation from "./EducationNavigation";
 import useEducation from "~/hooks/useEducation";
+import { GraduationCap, Trash } from "lucide-react";
 
-const Education = ({ setActiveTab, cvId }) => {
+const Education = ({ cvId }) => {
   const {
     education,
     currentIndex,
@@ -11,21 +11,25 @@ const Education = ({ setActiveTab, cvId }) => {
     handleInputChange,
     handleRemoveEducation,
     setCurrentIndex,
-  } = useEducation({ setActiveTab, cvId });
+  } = useEducation({ cvId });
+
+  
 
   return (
     <div className="border-gray-900/10  relative">
       <div className="flex items-center justify-between">
-        <h2 className="section-title ">Education</h2>
+        <h2 className="section-title ">
+          <span><GraduationCap size={"1.7rem"} /></span>
+          Education</h2>
         <div className="col-span-full flex">
           <button
             type="button"
             onClick={handleRemoveEducation}
             className="flex items-center text-gray-600 hover:text-red-500 duration-200 ease-linear"
           >
-            <MdDelete size="2rem" />
+            <Trash />
           </button>
-        </div>
+        </div>  
       </div>
       <p className="section-description">
         Add your most relevant education, including programs youre currently

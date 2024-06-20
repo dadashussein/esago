@@ -2,12 +2,10 @@ import { useSelector } from "react-redux";
 import Template3 from "./templates/Template3";
 import { baseUrl } from "~/utils/api";
 import Template5 from "./templates/Template5";
-import { Tailwind, compile } from "@fileforge/react-print";
 import Resume from "./templates/TestRes";
+import AveryTemp from "./CvTemplate/AveryTemp";
 
-import useCompileHtml from "~/hooks/useCompileHtml";
-
-const Preview = ({ activeTemplate, cvId }) => {
+const Preview = () => {
   const education = useSelector((state) => state.education.education);
   const experience = useSelector((state) => state.experience.experience);
   const personal = useSelector((state) => state.personal.personal);
@@ -15,12 +13,11 @@ const Preview = ({ activeTemplate, cvId }) => {
 
   const skills = useSelector((state) => state.skills.skills);
   let imgURl = `${baseUrl}/static/cv_pictures/${personal?.picture}`;
-  const { compileToHtml, loading, error } = useCompileHtml({ cvId });
 
-  const handleGenerate = () => {
-    compileToHtml(
-      <Tailwind>
-        {activeTemplate === 1 && (
+  return (
+    <>
+      <div className="">
+        {template_id === 1 && (
           <Template3
             img={imgURl}
             personal={personal}
@@ -29,7 +26,7 @@ const Preview = ({ activeTemplate, cvId }) => {
             skills={skills}
           />
         )}
-        {activeTemplate === 2 && (
+        {template_id === 2 && (
           <Template5
             img={imgURl}
             personal={personal}
@@ -38,50 +35,22 @@ const Preview = ({ activeTemplate, cvId }) => {
             skills={skills}
           />
         )}
-        {activeTemplate === 3 &&
+        {template_id === 3 && (
           <Resume img={imgURl}
             personal={personal}
             education={education}
             experience={experience}
-            skills={skills} />}
-      </Tailwind>
-    );
-  };
-
-  return (
-    <div>
-      {template_id === 1 && (
-        <Template3
-          img={imgURl}
-          personal={personal}
-          education={education}
-          experience={experience}
-          skills={skills}
-        />
-      )}
-      {template_id === 2 && (
-        <Template5
-          img={imgURl}
-          personal={personal}
-          education={education}
-          experience={experience}
-          skills={skills}
-        />
-      )}
-      {template_id === 3 && (
-
-        <Resume img={imgURl}
-          personal={personal}
-          education={education}
-          experience={experience}
-          skills={skills} />
-      )}
-
-      {/* <button onClick={handleGenerate}>
-        {loading ? "Generating..." : "Generate"}
-      </button> */}
-
-    </div>
+            skills={skills} />
+        )}
+        {template_id === 4 && (
+          <AveryTemp img={imgURl}
+            personal={personal}
+            education={education}
+            experience={experience}
+            skills={skills} />
+        )}
+      </div>
+    </>
   );
 };
 

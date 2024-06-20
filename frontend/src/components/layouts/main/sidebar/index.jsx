@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const SidebarContext = createContext();
 
 export default function Sidebar({ children, auth, logOut }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded] = useState(false);
   const [dropdown, setDropdown] = useState(false);
 
   return (
@@ -16,19 +16,18 @@ export default function Sidebar({ children, auth, logOut }) {
       >
         <div className="p-4 pb-2 flex justify-between items-center">
           <p
-            className={`overflow-hidden dark:text-gray-400 transition-all ${
-              expanded ? "w-32" : "w-0"
-            }`}
+            className={`overflow-hidden dark:text-gray-400 transition-all ${expanded ? "w-32" : "w-0"
+              }`}
           >
             Esago
           </p>
-          <button
+          {/* <button
             onClick={() => setExpanded((curr) => !curr)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 hover:dark:bg-gray-600
                         dark:bg-darkColor-1 dark:text-white"
           >
             {expanded ? <ChevronFirst /> : <ChevronLast />}
-          </button>
+          </button> */}
         </div>
 
         <SidebarContext.Provider value={{ expanded }}>
@@ -92,27 +91,24 @@ export function SidebarItem({ icon, text, active, alert, to }) {
         relative flex items-center py-2 px-3 my-1
         font-medium rounded-md cursor-pointer
         transition-opacity group z-50
-        ${
-          active
-            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800 "
-            : "hover:bg-indigo-50 text-gray-600 dark:text-gray-400 dark:hover:bg-darkColor-1"
+        ${active
+          ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800 "
+          : "hover:bg-indigo-50 text-gray-600 dark:text-gray-400 dark:hover:bg-darkColor-1"
         }
     `}
     >
       {icon}
       <Link
         to={to}
-        className={`overflow-hidden transition-all ${
-          expanded ? "w-52 ml-3" : "w-0"
-        }`}
+        className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"
+          }`}
       >
         {text}
       </Link>
       {alert && (
         <div
-          className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
-            expanded ? "" : "top-2"
-          }`}
+          className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${expanded ? "" : "top-2"
+            }`}
         />
       )}
 

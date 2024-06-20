@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteSkill, postSkills } from "~/store/features/skills/skillsThunks";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { DraftingCompass } from "lucide-react";
 
 export default function Skill({ cvId }) {
   const dispatch = useDispatch();
@@ -24,9 +25,11 @@ export default function Skill({ cvId }) {
 
   return (
     <div className="">
-      <h1 className="section-title ">Most relevant skill</h1>
+      <h1 className="section-title ">
+        <span><DraftingCompass size={"1.7rem"} /></span>
+        Skills</h1>
       <div className="">
-        <div className="flex flex-col gap-2 my-4">
+        <div className="flex flex-col gap-2  my-4">
           <input
             type="text"
             value={currentSkill}
@@ -38,7 +41,7 @@ export default function Skill({ cvId }) {
             Add Skill
           </button>
         </div>
-        <ul className="dark:text-white text-gray-900" ref={animationParent}>
+        <ul className="dark:text-white text-gray-900 h-[20rem] border" ref={animationParent}>
           {skills.map((skill, index) => (
             <li key={index} className="flex justify-between items-center">
               <p>{skill.name}</p>
