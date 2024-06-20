@@ -6,3 +6,7 @@ class ResumeSchema(BaseModel):
 
     class Config:
         from_attributes=True
+
+
+class HTMLContent(BaseModel):
+    html: str

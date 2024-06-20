@@ -1,7 +1,7 @@
 from typing import List
 from uuid import UUID
-from fastapi import Depends, HTTPException, UploadFile
-from schemas.ResumeSchema import ResumeSchema
+from fastapi import Depends, HTTPException, Response, UploadFile
+from schemas.ResumeSchema import HTMLContent, ResumeSchema
 from models.models import CV
 from repositories.CVRepository import CVRepository
 from schemas.CVSchemas import CVCreateSchema, CVFirstSchema, CVSchema, CVAllSchema, CVUpdateSchema
@@ -11,6 +11,7 @@ from schemas.LanguageSchemas import LanguageSchema
 from schemas.SkillSchemas import SkillSchema
 from services.FileService import FileService
 from config.config import configs
+from pyppeteer import launch
 
 
 class CVService:
@@ -86,3 +87,26 @@ class CVService:
             raise HTTPException(status_code=404, detail="CV not found")
         self.cv_repo.update(cv_id, {"template_id": template_id})
         return {"message": "Template updated successfully"}
+    
+    async def generate_resume(self, content: HTMLContent):
+        html = content.html
+        if not html:
+            raise HTTPException(status_code=400, detail="HTML content is required")
+
+        try:
+            browser = await launch()
+            page = await browser.newPage()
+            await page.setContent(html, {'waitUntil': 'networkidle0'})
+
+            pdf_buffer = await page.pdf({
+                'format': 'A4',
+                'printBackground': True
+            })
+
+            await browser.close()
+
+            return Response(content=pdf_buffer, media_type="application/pdf", headers={
+                'Content-Disposition': 'attachment; filename=output.pdf',
+            })
+        except Exception as e:
+            raise HTTPException(status_code=500, detail="Internal Server Error")
