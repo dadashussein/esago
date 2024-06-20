@@ -1,7 +1,7 @@
 from typing import Generic, Type, TypeVar
 from uuid import UUID
 from sqlalchemy.orm import Session
-from fastapi import Depends, HTTPException
+from fastapi import Depends
 from config.database import get_db_connection
 from models.BaseModel import Base
 

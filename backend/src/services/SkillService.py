@@ -24,7 +24,8 @@ class SkillService:
         skill_data_dict['cv_id'] = cv_id
         skill = Skill(**skill_data_dict)
         self.skillRepo.create(skill)
-        return { "message": "Skill created successfully" }
+        return { "message": "Skill created successfully",
+                 "data": skill_data_dict }
     
     def update_skill_cv(self, skill_data: SkillUpdateSchema, cv_id: int, user_id: UUID) -> dict:
         skill = self.skillRepo.get_skill_by_id(skill_data.id, cv_id, user_id)
