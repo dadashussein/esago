@@ -24,6 +24,22 @@ li {
   list-style: none;
 }
 
+#scrollbar1::-webkit-scrollbar {
+  width: 10px;
+}
+
+#scrollbar1::-webkit-scrollbar-track {
+  border-radius: 8px;
+  background-color: #e7e7e7;
+  border: 1px solid #cacaca;
+}
+#scrollbar1::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+border: 3px solid transparent;
+ background-clip: content-box;
+  background-color: #999999;
+}
+
 @layer components {
   .input-container {
     @apply flex flex-col items-start justify-center gap-[6px];
@@ -36,7 +52,7 @@ li {
   }
 
   .section-title {
-    @apply font-semibold lg:text-[40px] text-[20px] text-gray-900 dark:text-[#D4D4D4];
+    @apply font-semibold lg:text-[30px] flex items-center gap-4 text-[20px] text-gray-900 dark:text-[#D4D4D4];
   }
   .section-description {
     @apply text-sm mb-4 dark:text-[#D4D4D4] text-gray-950;

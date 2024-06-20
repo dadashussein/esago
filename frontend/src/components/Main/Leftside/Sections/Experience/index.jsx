@@ -1,9 +1,9 @@
 import useExperience from "~/hooks/useExperience";
 import ExperienceForm from "./ExperienceForm";
 import ExperienceNav from "./ExperienceNav";
-import { MdDelete } from "react-icons/md";
+import { BriefcaseBusiness, Trash } from "lucide-react";
 
-const Experience = ({ setActiveTab, cvId }) => {
+const Experience = ({ cvId }) => {
   const {
     experience,
     currentIndex,
@@ -11,19 +11,21 @@ const Experience = ({ setActiveTab, cvId }) => {
     handleInputChange,
     handleAddExperience,
     setCurrentIndex,
-  } = useExperience({ setActiveTab, cvId });
+  } = useExperience({ cvId });
 
   return (
     <div className="border-gray-900/10 relative">
       <div className="flex items-center justify-between">
-        <h2 className="section-title">Experience</h2>
+        <h2 className="section-title">
+          <span><BriefcaseBusiness size={"1.7rem"} /></span>
+          Experience</h2>
         <div className="col-span-full flex">
           <button
             type="button"
             onClick={handleRemoveExperience}
             className="flex items-center text-gray-600 hover:text-red-500 duration-200 ease-linear"
           >
-            <MdDelete size="2rem" />
+            <Trash />
           </button>
         </div>
       </div>

@@ -37,6 +37,7 @@ const Dashboard = () => {
   };
 
   const handleCreate = async () => {
+    console.log("clicked");
     if (cvTitle.trim() === "") {
       return;
     }

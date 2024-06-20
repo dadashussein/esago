@@ -13,6 +13,16 @@ export default {
         neytral: { 500: "#FAFAFA" },
         "bg-primary": "#F9FBFA",
       },
+      screens: {
+        'sm': '640px',
+        // => @media (min-width: 640px) { ... }
+
+        'md': '995px',
+        // => @media (min-width: 1024px) { ... }
+
+        'lg': '1042px',
+        // => @media (min-width: 1280px) { ... }
+      },
     },
   }
 };

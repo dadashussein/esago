@@ -88,9 +88,9 @@ const Template3 = ({ education, experience, personal, img, skills }) => {
             <div className="flex flex-wrap gap-2">
               {skills &&
                 skills.length > 0 &&
-                skills?.map((skill) => (
+                skills?.map((skill,index) => (
                   <span
-                    key={skill.id}
+                    key={index}
                     className="bg-gray-200 text-gray-500 text-[11px] px-2 py-1 rounded"
                   >
                     {skill.name}
