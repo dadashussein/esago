@@ -4,6 +4,8 @@ import { compile } from "@fileforge/react-print";
 import ReactDOMServer from 'react-dom/server';
 
 
+const pdfUrl = import.meta.env.VITE_PDF_URL;
+
 const useCompileHtml = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -13,7 +15,7 @@ const useCompileHtml = () => {
     setError(null);
     try {
       const html = await compile(component);
-      const response = await axios.post("http://localhost:3001/generate-pdf", { html }, {
+      const response = await axios.post(pdfUrl, { html }, {
         responseType: 'blob',
       });
       const pdfBlob = new Blob([response.data], { type: 'application/pdf' });

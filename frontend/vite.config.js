@@ -6,19 +6,19 @@ import * as path from "path"
 export default defineConfig({
   base: "/",
   plugins: [react()],
-  // preview: {
-  //   port: 5173,
-  //   strictPort: true,
-  // },
+  preview: {
+    port: 5173,
+    strictPort: true,
+  },
   resolve: {
     alias: {
       '~': path.resolve(__dirname, 'src'),
     },
   },
-  // server: {
-  //   port: 5173,
-  //   strictPort: true,
-  //   host: true,
-  //   origin: "http://0.0.0.0:5173",
-  // },
+  server: {
+    port: 5173,
+    strictPort: true,
+    host: true,
+    origin: "http://0.0.0.0:5173",
+  },
 })
