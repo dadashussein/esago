@@ -26,8 +26,8 @@ services:
       - DB_PORT=5432
       - DB_DATABASE=esagodb
       - ALGORITHM="HS256"
-      - FRONTEND_URI=http://localhost:5173
-      - BACKEND_URI=https://13.49.156.148:8000
+      - FRONTEND_URI=https://esago.alfinx.com
+      - BACKEND_URI=https://esago.alfinx.com/api
       - EMAIL_PORT=587
       - EMAIL_USERNAME=rufetalliyev2@gmail.com
       - EMAIL_FROM=rufetalliyev2@gmail.com
@@ -41,7 +41,6 @@ services:
       - esago-network
     volumes:
       - ./src:/app
-
   client:
     build:
       context: ./frontend

@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.12-alpine
 
 # Install virtualenv
 RUN pip install virtualenv
@@ -15,6 +15,7 @@ RUN python -m venv test && \
     pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Copy source code
+
 COPY ./src /code
 RUN mkdir -p /code/wwwroot
 # Expose port
