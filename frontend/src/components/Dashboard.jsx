@@ -23,7 +23,7 @@ const Dashboard = () => {
   const [showInput, setShowInput] = useState(false);
   const [selectedCv, setSelectedCv] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const auth = useSelector((state) => state.auth.currentUser);
+
 
   useEffect(() => {
     dispatch(fetchCv());
@@ -44,7 +44,6 @@ const Dashboard = () => {
 
     const action = await dispatch(createCv({ title: cvTitle }));
     const resultAction = unwrapResult(action);
-    console.log("result", resultAction);
     setCvId(resultAction.id);
     navigate(`${resultAction.id}`);
     setCvTitle("");
@@ -62,7 +61,6 @@ const Dashboard = () => {
   const handlePreview = (cvId) => {
     setSelectedCv(cvId);
     setCvId(cvId);
-    console.log(`Previewing CV with ID: ${cvId}`);
     setIsModalOpen(true);
   };
 
@@ -82,7 +80,7 @@ const Dashboard = () => {
   };
 
   return (
-    <main className="flex-1 p-4">
+    <main className="flex-1  sm:p-1 p-4">
       <div>
         <h3 className="text-2xl font-bold text-[#000] dark:text-white mb-4">
           Let's check your resume!

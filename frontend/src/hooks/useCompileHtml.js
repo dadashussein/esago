@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { compile } from "@fileforge/react-print";
+import ReactDOMServer from 'react-dom/server';
 
 
 const useCompileHtml = () => {
@@ -20,6 +21,7 @@ const useCompileHtml = () => {
       window.open(url, "_blank");
     } catch (err) {
       setError(err);
+      console.log(err);
     } finally {
       setLoading(false);
     }

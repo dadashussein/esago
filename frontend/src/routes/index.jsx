@@ -12,6 +12,7 @@ import ActivateUser from "~/pages/ActivateUser";
 import Cookies from "js-cookie";
 import Loading from "~/components/Loading";
 import Login from "~/components/Login";
+import Four04page from "~/components/Four04page";
 
 const getAccessToken = () => Cookies.get("accessToken");
 const isAuthenticated = () => !!getAccessToken();
@@ -104,7 +105,7 @@ const routes = createBrowserRouter([
       { path: ":cvId", element: <CreateCv /> },
     ],
   },
-  { path: "*", element: <h1>404</h1> },
+  { path: "*", element: <Four04page /> },
 ]);
 
 export default routes;

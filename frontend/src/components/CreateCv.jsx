@@ -14,14 +14,14 @@ import A4Component from "./A4";
 import useCompileHtml from "~/hooks/useCompileHtml";
 import { store } from "~/store/store";
 import { Tailwind } from "@fileforge/react-print";
-import { ChevronFirst, FolderDown, Home } from "lucide-react";
+import { ChevronFirst, ChevronLast, FolderDown, Home } from "lucide-react";
 
 
 
 
 const CreateCv = () => {
   const activeTemplate = useSelector((state) => state.templates.activeTemplate);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cvId } = useParams();
@@ -49,7 +49,7 @@ const CreateCv = () => {
   return (
     <div className="flex h-screen bg-white flex-col md:flex-row  ">
       {/* Left Side */}
-      <div className={`relative w-2/5 dark:bg-[#232429] ${expanded ? "w-2/5" : "w-2.5/5"} `}>
+      <div className={`relative sm:w-full  dark:bg-[#232429] ${expanded ? "lg:w-2/5" : "lg:w-1/2"}  `}>
         <div id="scrollbar1" className="p-4  flex flex-col gap-6 h-full overflow-y-scroll scroll-smooth">
           <Personal cvId={cvId}
             activeTemplate={activeTemplate} />
@@ -63,7 +63,7 @@ const CreateCv = () => {
 
       </div>
       {/* center*/}
-      <div className={`relative border transition duration-150  hidden md:block ${expanded ? "w-2/5" : "w-2.5/5"}`}>
+      <div className={`relative transition duration-150  hidden md:block  ${expanded ? "w-2/5" : "w-1/2"} `}>
         <MapInteractionCSS
           showControls
           defaultValue={{ scale: 0.6, translation: { x: 30, y: 20 } }}
@@ -91,13 +91,15 @@ const CreateCv = () => {
         <button
           onClick={() => setExpanded(!expanded)}
           className="absolute top-1/2
-           -right-4 p-1 bg-white rounded-full"><ChevronFirst />  </button>
+           p-1 right-0 bg-white rounded-full">
+          {expanded ? <ChevronLast size={"1.2rem"} /> : <ChevronFirst size={"1.2rem"} />}
+        </button>
       </div>
 
       {/* Right Side */}
       <div className={`
-          w-1/5 transition-all duration-300 ease-out    ${expanded ? "block" : "hidden"}  bg-white
-          `}>
+          border-2  ${expanded ? "w-1/5 " : "hidden"}
+        `}>
         <Templates cvId={cvId} />
       </div>
     </div>

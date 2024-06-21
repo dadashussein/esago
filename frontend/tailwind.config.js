@@ -14,7 +14,7 @@ export default {
         "bg-primary": "#F9FBFA",
       },
       screens: {
-        'sm': '640px',
+        'sm': '414px',
         // => @media (min-width: 640px) { ... }
 
         'md': '995px',

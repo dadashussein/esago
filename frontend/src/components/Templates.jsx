@@ -39,7 +39,6 @@ const Templates = ({ cvId }) => {
   const personal = useSelector((state) => state.personal.personal);
   const { template_id } = personal;
 
-  console.log(template_id);
 
   const handleTemplate = async (id) => {
     try {
@@ -55,7 +54,7 @@ const Templates = ({ cvId }) => {
   }, [template_id, dispatch]);
 
   return (
-    <div className="p-2 h-screen">
+    <div className="p-2 ">
       <h1 className="section-title ">
         <span>{<Paintbrush />}</span>
         Templates
