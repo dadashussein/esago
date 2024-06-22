@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import {
   addExperience,
   removeExperience,
   setExperienceField,
-} from "~/store/features/experience/experienceSlice";
+} from "@/store/features/experience/experienceSlice";
 import {
   deleteExperience,
   postExperience,
-} from "~/store/features/experience/experienceThunks";
+} from "@/store/features/experience/experienceThunks";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const useExperience = ({ cvId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);

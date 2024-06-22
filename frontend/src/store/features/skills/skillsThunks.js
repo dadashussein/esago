@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "~/utils/api";
+import axiosInstance from "@/utils/api";
 
 export const postSkills = createAsyncThunk(
   "skills/addSkill",
   async ({ skillName, cvId }, thunkAPI) => {
     try {
       const response = await axiosInstance.post(`/skills/${cvId}`, skillName);
-      return response.data;
+      return response.data["data"];
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.detail);
     }

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import axiosInstance from "~/utils/api";
+import axiosInstance from "@/utils/api";
 const initialState = {
   currentUser: undefined,
   isLoading: false,

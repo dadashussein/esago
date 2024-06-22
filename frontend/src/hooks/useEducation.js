@@ -1,15 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-
-import {
-  deleteEducation,
-  postEducation,
-} from "~/store/features/education/educationThunks";
 import {
   addEducation,
   removeEducation,
   setEducationField,
-} from "~/store/features/education/educationSlice";
+} from "@/store/features/education/educationSlice";
+import {
+  deleteEducation,
+  postEducation,
+} from "@/store/features/education/educationThunks";
 
 const useEducation = ({ cvId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);

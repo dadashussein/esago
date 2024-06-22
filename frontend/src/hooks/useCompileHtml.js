@@ -1,8 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { compile } from "@fileforge/react-print";
-import ReactDOMServer from 'react-dom/server';
-
+import ReactDOMServer from "react-dom/server";
 
 const pdfUrl = import.meta.env.VITE_PDF_URL;
 
@@ -15,10 +14,14 @@ const useCompileHtml = () => {
     setError(null);
     try {
       const html = await compile(component);
-      const response = await axios.post(pdfUrl, { html }, {
-        responseType: 'blob',
-      });
-      const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+      const response = await axios.post(
+        pdfUrl,
+        { html },
+        {
+          responseType: "blob",
+        },
+      );
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(pdfBlob);
       window.open(url, "_blank");
     } catch (err) {

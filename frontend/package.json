@@ -11,7 +11,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fileforge/client": "^0.1.15",
     "@fileforge/react-print": "^0.1.141",
     "@formkit/auto-animate": "^0.8.2",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -21,39 +20,30 @@
     "@react-oauth/google": "^0.12.1",
     "@react-spring/web": "^9.7.3",
     "@reduxjs/toolkit": "^2.2.5",
-    "@tanstack/react-query": "^5.44.0",
     "axios": "^1.7.2",
-    "flowbite": "^2.3.0",
-    "framer-motion": "^11.2.6",
+    "file-entry-cache": "^9.0.0",
+    "flat-cache": "^5.0.0",
+    "framer-motion": "^11.2.11",
     "js-cookie": "^3.0.5",
     "ldrs": "^1.0.2",
-    "lucide-react": "^0.394.0",
-    "react": "^18.2.0",
+    "lucide-react": "^0.396.0",
+    "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-icons": "^5.2.1",
-    "react-loader-spinner": "^6.1.6",
     "react-map-interaction": "^2.1.0",
     "react-next-tilt": "^0.4.3",
     "react-redux": "^9.1.2",
     "react-router-dom": "^6.23.1",
     "react-top-loading-bar": "^2.3.1",
-    "reactive-button": "^1.3.15"
+    "sucrase": "^3.35.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.66",
-    "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jest": "^28.5.0",
-    "eslint-plugin-react": "^7.34.1",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
     "postcss": "^8.4.38",
     "prettier": "^3.3.2",
-    "tailwindcss": "^3.4.3",
-    "vite": "^5.2.0"
+    "tailwindcss": "^3.4.4",
+    "vite": "^5.3.1"
   }
 }

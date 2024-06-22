@@ -1,19 +1,18 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createBrowserRouter, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Inner from "../pages/inner";
-import HomePage from "../pages/home/HomePage";
-import Register from "../components/Register";
-import MainLayout from "~/components/layouts/main";
-import Templates from "~/components/Templates";
-import CreateCv from "~/components/CreateCv";
-import GoogleCallback from "~/pages/GoogleCallback";
-import ActivateUser from "~/pages/ActivateUser";
 import Cookies from "js-cookie";
-import Loading from "~/components/Loading";
-import Login from "~/components/Login";
-import Four04page from "~/components/Four04page";
-
+import Loading from "@/components/common/Loading";
+import HomePage from "@/pages/home/HomePage";
+import Register from "@/components/auth/Register";
+import Login from "@/components/auth/Login";
+import GoogleCallback from "@/pages/GoogleCallback";
+import ActivateUser from "@/pages/ActivateUser";
+import MainLayout from "@/layouts/MainLayout";
+import Inner from "@/pages/inner";
+import Templates from "@/components/cv/Templates";
+import CreateCv from "@/components/cv/CreateCv";
+import Four04page from "@/pages/Four04page";
 const getAccessToken = () => Cookies.get("accessToken");
 const isAuthenticated = () => !!getAccessToken();
 

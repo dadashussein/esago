@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosInstance from "~/utils/api";
+import axiosInstance from "@/utils/api";
 
 const initialState = {
   status: "idle",
