@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local development environment
+.env
+myenv/
+wwwroot/
+versions/
+/test
+/test2
+
+
+# IDE files
+.vscode/
+.idea/
+
+# Dependency directories
+venv/
+env/
+env.bak/
+
+# Build files
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+
+<<<<<<< Updated upstream
+# Miscellaneous
+*.swp
+.DS_Store
+=======
+# Dependency directories
+lib/
+lib64/
+>>>>>>> Stashed changes

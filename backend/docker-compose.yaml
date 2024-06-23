@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: on-failure
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Password!$2
+      POSTGRES_DB: esagodb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data2
+    networks:
+      - esago-network
+
+  webapi:
+    build: 
+      context: ./src
+      dockerfile: Dockerfile
+    restart: no
+    command: uvicorn main:app --host=0.0.0.0 --port 8000 --reload
+    environment:
+      - DB=postgresql
+      - DB_USER=admin
+      - DB_PASSWORD=Password!$2
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=esagodb
+      - ALGORITHM="HS256"
+      - FRONTEND_URI=http://localhost:5173
+      - BACKEND_URI=https://13.49.156.148:8000
+      - EMAIL_PORT=587
+      - EMAIL_USERNAME=rufetalliyev2@gmail.com
+      - EMAIL_FROM=rufetalliyev2@gmail.com
+      - EMAIL_TLS=True
+      - EMAIL_HOST=smtp.gmail.com
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    networks:
+      - esago-network
+    volumes:
+      - ./src:/app
+    
+volumes:
+  pgdata:
+
+networks:
+  esago-network:
+    driver: bridge
