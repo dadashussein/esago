@@ -7,7 +7,7 @@ const Avatars = ({ auth, logOut }) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <div className="flex items-center justify-center border ">
+        <div className="flex items-center justify-center ">
           <Avatar.Root className="bg-blackA1 inline-flex h-[45px] w-[45px] select-none items-center justify-center overflow-hidden rounded-full align-middle">
             <Avatar.Image
               className="h-full w-full rounded-[inherit] object-cover"

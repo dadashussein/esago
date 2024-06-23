@@ -1,48 +1,24 @@
 const Footer = () => {
   return (
-    <footer className="h-[384px] px-[200px] sticky py-[80px] flex-shrink-0 w-full bg-darkPrimary-800">
-      <div className="grid grid-cols-5 items-center   justify-center gap-[20px] mb-8  text-white">
-        <div>
-          <h1 className="text-[60px] font-[500] ">ESAGO</h1>{" "}
-          <p className="text-[18px] opacity-[0.8] font-[400]">
-            Holberton Azerbaijan portfolio project
-          </p>
-        </div>
-        <div className="ml-8">
-          <h1 className="text-[20px] font-[500]">Resources</h1>
-          <p className="opacity-[0.8] font-[400] text-[16px]">Templates</p>
-          <p className="opacity-[0.8] font-[400] text-[16px]">Resume | CV</p>
-          <p className="opacity-[0.8] font-[400] text-[16px]">
-            Resume filtering
-          </p>
-        </div>
-        <div>
-          <h1 className="text-[20px] font-[500]">Products</h1>
-          <p className="opacity-[0.8] font-[400] text-[16px]">
-            Premium Subscription
-          </p>
-          <p className="opacity-[0.8] font-[400] text-[16px]">
-            Resume filtering Subscription
-          </p>
-        </div>
-        <div>
-          <h1 className="text-[20px] font-[500]">Support</h1>
-          <p className="opacity-[0.8] font-[400] text-[16px]">FAQ’s</p>
-          <p className="opacity-[0.8] font-[400] text-[16px]">Contact US</p>
-        </div>
-        <div>Translate</div>
-      </div>
-      <hr />
-      <div className="flex justify-between mt-8 font-[400] text-white">
-        <div>
-          <span>© 2024 Esago, All Rights Reserved</span>
-        </div>
-        <div className="flex gap-8">
-          <span>Terms & conditions</span>
-          <span>Privacy Policy</span>
+    <footer className="w-full py-14  text-white bg-darkPrimary-800">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl  mx-auto">
+          <a href="https://pagedone.io/" className="flex justify-center ">
+            Esago
+          </a>
+          <ul className="text-lg   flex items-center justify-center flex-col gap-7 md:flex-row md:gap-12 transition-all duration-500 py-16 mb-10 border-b border-gray-200">
+            <li><a href="#">Esago</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#" >Resources</a></li>
+            <li><a href="#" >Blogs</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+
+          <span className="text-lg text-center block">©<a href="https://pagedone.io/">Esago</a> 2024, All rights reserved.</span>
         </div>
       </div>
     </footer>
+
   );
 };
 

@@ -1,14 +1,12 @@
 import { fetchAllCv } from "@/store/features/resume/resumeSlice";
 import { useEffect } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../common/Loading";
 import { baseUrl } from "@/utils/api";
 import Template3 from "./templates/Template3";
 import Template7 from "./templates/Template7";
 import Resume from "./templates/TestRes";
 import AveryTemp from "./templates/AveryTemp";
-
+import BarLoading from "../common/BarLoading";
 
 const ReadyCv = ({ cvId }) => {
   const dispatch = useDispatch();
@@ -21,9 +19,7 @@ const ReadyCv = ({ cvId }) => {
   const loading = useSelector((state) => state.resumes.loading);
   const error = useSelector((state) => state.resumes.error);
 
-  if (loading) {
-    return <Loading />;
-  }
+
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -49,82 +45,85 @@ const ReadyCv = ({ cvId }) => {
   } = allCv;
   let imgURl = `${baseUrl}/static/cv_pictures/${picture}`;
   return (
-    <div className="page">
-      <div className="subpage">
-        {template_id === 1 && (
-          <Template3
-            img={imgURl}
-            loading={loading}
-            personal={{
-              first_name,
-              last_name,
-              address,
-              bio,
-              email,
-              job_title,
-              phone_number,
-            }}
-            education={education}
-            experience={experience}
-            skill={skill}
-          />
-        )}
-        {template_id === 2 && (
-          <Template7
-            loading={loading}
-            img={imgURl}
-            personal={{
-              first_name,
-              last_name,
-              address,
-              bio,
-              email,
-              job_title,
-              phone_number,
-            }}
-            education={education}
-            experience={experience}
-            skill={skill}
-          />
-        )}
-        {template_id === 3 && (
-          <Resume
-            img={imgURl}
-            loading={loading}
-            personal={{
-              first_name,
-              last_name,
-              address,
-              bio,
-              email,
-              job_title,
-              phone_number,
-            }}
-            education={education}
-            experience={experience}
-            skill={skill}
-          />
-        )}
-        {template_id === 4 && (
-          <AveryTemp
-            img={imgURl}
-            loading={loading}
-            personal={{
-              first_name,
-              last_name,
-              address,
-              bio,
-              email,
-              job_title,
-              phone_number,
-            }}
-            education={education}
-            experience={experience}
-            skill={skill}
-          />
-        )}
+    <>
+      <BarLoading isLoading={loading} />
+      <div className="page">
+        <div className="subpage">
+          {template_id === 1 && (
+            <Template3
+              img={imgURl}
+              loading={loading}
+              personal={{
+                first_name,
+                last_name,
+                address,
+                bio,
+                email,
+                job_title,
+                phone_number,
+              }}
+              education={education}
+              experience={experience}
+              skill={skill}
+            />
+          )}
+          {template_id === 2 && (
+            <Template7
+              loading={loading}
+              img={imgURl}
+              personal={{
+                first_name,
+                last_name,
+                address,
+                bio,
+                email,
+                job_title,
+                phone_number,
+              }}
+              education={education}
+              experience={experience}
+              skill={skill}
+            />
+          )}
+          {template_id === 3 && (
+            <Resume
+              img={imgURl}
+              loading={loading}
+              personal={{
+                first_name,
+                last_name,
+                address,
+                bio,
+                email,
+                job_title,
+                phone_number,
+              }}
+              education={education}
+              experience={experience}
+              skill={skill}
+            />
+          )}
+          {template_id === 4 && (
+            <AveryTemp
+              img={imgURl}
+              loading={loading}
+              personal={{
+                first_name,
+                last_name,
+                address,
+                bio,
+                email,
+                job_title,
+                phone_number,
+              }}
+              education={education}
+              experience={experience}
+              skill={skill}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

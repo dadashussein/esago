@@ -1,178 +1,80 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { Tilt } from "react-next-tilt";
-import { Plus } from "lucide-react";
-import {
-  createCv,
-  deleteCv,
-  fetchCv,
-} from "@/store/features/resume/resumeSlice";
-import Modal from "@/components/common/Modal";
+import { useSelector } from "react-redux";
+import useCv from "@/hooks/useCv";
+import CvModal from "@/components/cv/CvModal";
 import ReadyCv from "@/components/cv/ReadyCv";
+import CreateCvButton from "@/components/cv/CreateCvButton";
+import CvList from "@/components/cv/CvList";
+import cv1 from "@/assets/svgs/cv1.svg";
+import cv2 from "@/assets/svgs/cv2.svg";
+import './Dashboard.css';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const cv = useSelector((state) => state.resumes.cv);
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const {
+    cv,
+    cvTitle,
+    navigate,
+    setCvTitle,
+    selectedCv,
+    isModalOpen,
+    handleDelete,
+    handleCreate,
+    handlePreview,
+    closeModal
+  } = useCv();
 
-  const [cvTitle, setCvTitle] = useState("");
-  const [cvId, setCvId] = useState(null);
-  const [showInput, setShowInput] = useState(false);
-  const [selectedCv, setSelectedCv] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const lightColors = ["#CCFFEA", "#D0CCFF", "#FFCCD0", "#FEC"];
+  const darkColors = ["#2A3C35", "#708F82", "#C9D9D2", "#F0FFF9"];
 
-  useEffect(() => {
-    dispatch(fetchCv());
-  }, [dispatch]);
-
-  const handleDelete = (cvId) => {
-    dispatch(deleteCv({ id: cvId }));
-    if (cvId === selectedCv) {
-      setIsModalOpen(false);
-    }
-  };
-
-  const handleCreate = async () => {
-    console.log("clicked");
-    if (cvTitle.trim() === "") {
-      return;
-    }
-
-    const action = await dispatch(createCv({ title: cvTitle }));
-    const resultAction = unwrapResult(action);
-    setCvId(resultAction.id);
-    navigate(`${resultAction.id}`);
-    setCvTitle("");
-    setShowInput(false);
-  };
-
-  const handleEdit = (cvId) => {
-    navigate(`${cvId}`);
-  };
-
-  const handleDownload = (cvId) => {
-    console.log(`Downloading CV with ID: ${cvId}`);
-  };
-
-  const handlePreview = (cvId) => {
-    setSelectedCv(cvId);
-    setCvId(cvId);
-    setIsModalOpen(true);
-  };
-
-  const handleInputChange = (event) => {
-    setCvTitle(event.target.value);
-  };
-
-  const handleInputKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleCreate();
-    }
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedCv(null);
-  };
+  const exampleCv = [cv1, cv2];
 
   return (
-    <main className="flex-1  sm:p-1 p-4">
-      <div>
-        <h3 className="text-2xl font-bold text-[#000] dark:text-white mb-4">
-          Let's check your resume!
+    <main className="">
+      <div className="">
+        <h3 className="  text-lg 
+        dark:text-darkColor-text dark:bg-darkColor-menu
+        py-3 px-2 md:text-[30px]">
+          Hi, {currentUser?.username}
         </h3>
-        <p className="mb-8 text-[#000] dark:text-white">
-          There are a lot of templates for your resume.
-        </p>
-        <div></div>
+
+        <h3 className="text-lg 
+        dark:text-darkColor-text
+        md:text-[25px] py-3 px-2">
+          Welcome to your dashboard
+        </h3>
       </div>
-      <div className="flex flex-col gap-4">
+
+      <div className="flex py-3 px-4 flex-col gap-4">
         <div className="flex gap-4">
-          <div>
-            <Tilt width={"10rem"}>
-              <div
-                className="w-[10rem] h-[16rem] flex items-center relative justify-center
-                dark:border-[#686D76] dark
-                border border-black shadow-xl"
-                onClick={() => setShowInput(true)}
-              >
-                <Plus />
-              </div>
-            </Tilt>
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {cv.map((item) => (
-              <div
-                key={item.id}
-                className="w-[10rem] h-[16rem] flex flex-col items-center justify-center
-                dark:border-[#686D76] dark:text-white border border-black shadow-xl"
-              >
-                <p className="text-white">{item.title}</p>
-                <button
-                  className="mt-2 p-1 bg-blue-500 text-white rounded"
-                  onClick={() => handlePreview(item.id)}
-                >
-                  View
-                </button>
-              </div>
-            ))}
-          </div>
+          <CreateCvButton
+            cvTitle={cvTitle}
+            handleInputChange={(e) => setCvTitle(e.target.value)}
+            handleCreate={handleCreate}
+          />
         </div>
-        <div className="w-[10rem] h-[16rem] flex items-center justify-center dark:border-[#686D76] dark:text-white border border-black shadow-xl">
-          templates
-        </div>
+        <CvList
+          cv={cv}
+          lightColors={lightColors}
+          darkColors={darkColors}
+          exampleCv={exampleCv}
+          handlePreview={handlePreview}
+        />
       </div>
 
-      {showInput && (
-        <div className="mt-4">
-          <input
-            type="text"
-            className="w-full p-2 border border-gray-300 dark:border-[#686D76] dark:bg-[#2E2E2E] dark:text-white"
-            placeholder="Enter CV title"
-            value={cvTitle}
-            onChange={handleInputChange}
-            onKeyPress={handleInputKeyPress}
-          />
-          <button onClick={handleCreate} className="btn-primary mt-2">
-            Create
-          </button>
-        </div>
-      )}
-
-      <Modal open={isModalOpen} onClose={closeModal}>
+      <CvModal
+        open={isModalOpen}
+        handleEdit={(cvId) => navigate(`${cvId}`)}
+        handleDelete={handleDelete}
+        handleDownload={(cvId) => console.log(`Downloading CV with ID: ${cvId}`)}
+        selectedCv={selectedCv}
+        onClose={closeModal}
+      >
         {selectedCv && (
-          <div className="relative ">
-            <div className="top-20 border">
-              <ReadyCv cvId={cvId} />
-            </div>
-            <div className="flex gap-4 mt-4">
-              <button
-                onClick={() => handleEdit(selectedCv)}
-                className="btn-primary"
-              >
-                Edit
-              </button>
-              <button
-                onClick={() => handleDownload(selectedCv)}
-                className="button-secondary"
-              >
-                Download
-              </button>
-              <button
-                onClick={() => handleDelete(selectedCv)}
-                className="button-danger"
-              >
-                Delete
-              </button>
-              <h2 className="text-xl dark:text-white font-bold mb-4">
-                {cv.find((item) => item.id === selectedCv)?.title}
-              </h2>
-            </div>
+          <div className="relative flex flex-col items-center p-4 max-w-full overflow-auto">
+            <ReadyCv cvId={selectedCv} />
           </div>
         )}
-      </Modal>
+      </CvModal>
     </main>
   );
 };

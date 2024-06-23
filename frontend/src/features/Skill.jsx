@@ -52,8 +52,10 @@ export default function Skill({ cvId }) {
           {skills.map((skill, index) => (
             <li key={index} className="flex justify-between items-center">
               <p>{skill.name}</p>
-              <Trash2 onClick={() => handleDelete(skill.id)}
-                className="cursor-pointer" />
+              <Trash2
+                onClick={() => handleDelete(skill.id)}
+                className="cursor-pointer"
+              />
             </li>
           ))}
         </ul>
