@@ -3,9 +3,15 @@ import { FileSliders } from "lucide-react";
 import { ArrowDownToLine } from "lucide-react";
 import { X } from "lucide-react";
 
-export default function CvModal({ open, onClose, children,
+export default function CvModal({
+  open,
+  onClose,
+  children,
   selectedCv,
-  handleEdit, handleDelete, handleDownload }) {
+  handleEdit,
+  handleDelete,
+  handleDownload,
+}) {
   return (
     <div
       onClick={onClose}
@@ -28,11 +34,12 @@ export default function CvModal({ open, onClose, children,
         </button>
         {children}
       </div>
-      <div className="flex p-2 rounded-full border
+      <div
+        className="flex p-2 rounded-full border
        shadow-shadowOne 
-      justify-center bottom-20 gap-4 absolute">
-        <button
-          onClick={() => handleEdit(selectedCv)}>
+      justify-center bottom-20 gap-4 absolute"
+      >
+        <button onClick={() => handleEdit(selectedCv)}>
           <FileSliders />
         </button>
         <button onClick={() => handleDownload(selectedCv)}>

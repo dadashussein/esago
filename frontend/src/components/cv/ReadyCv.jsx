@@ -19,8 +19,6 @@ const ReadyCv = ({ cvId }) => {
   const loading = useSelector((state) => state.resumes.loading);
   const error = useSelector((state) => state.resumes.error);
 
-
-
   if (error) {
     return <div>Error: {error}</div>;
   }
