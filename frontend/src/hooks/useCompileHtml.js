@@ -1,15 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import { compile } from "@fileforge/react-print";
+// eslint-disable-next-line no-unused-vars
 import ReactDOMServer from "react-dom/server";
 
 const pdfUrl = import.meta.env.VITE_PDF_URL;
-
 const useCompileHtml = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const compileToHtml = async (component, options = {}) => {
+  const compileToHtml = async (component) => {
     setLoading(true);
     setError(null);
     try {

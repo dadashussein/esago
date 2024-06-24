@@ -6,7 +6,7 @@ import CreateCvButton from "@/components/cv/CreateCvButton";
 import CvList from "@/components/cv/CvList";
 import cv1 from "@/assets/svgs/cv1.svg";
 import cv2 from "@/assets/svgs/cv2.svg";
-import './Dashboard.css';
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -20,7 +20,7 @@ const Dashboard = () => {
     handleDelete,
     handleCreate,
     handlePreview,
-    closeModal
+    closeModal,
   } = useCv();
 
   const lightColors = ["#CCFFEA", "#D0CCFF", "#FFCCD0", "#FEC"];
@@ -31,15 +31,19 @@ const Dashboard = () => {
   return (
     <main className="">
       <div className="">
-        <h3 className="  text-lg 
+        <h3
+          className="  text-lg 
         dark:text-darkColor-text dark:bg-darkColor-menu
-        py-3 px-2 md:text-[30px]">
+        py-3 px-2 md:text-[30px]"
+        >
           Hi, {currentUser?.username}
         </h3>
 
-        <h3 className="text-lg 
+        <h3
+          className="text-lg 
         dark:text-darkColor-text
-        md:text-[25px] py-3 px-2">
+        md:text-[25px] py-3 px-2"
+        >
           Welcome to your dashboard
         </h3>
       </div>
@@ -65,7 +69,9 @@ const Dashboard = () => {
         open={isModalOpen}
         handleEdit={(cvId) => navigate(`${cvId}`)}
         handleDelete={handleDelete}
-        handleDownload={(cvId) => console.log(`Downloading CV with ID: ${cvId}`)}
+        handleDownload={(cvId) =>
+          console.log(`Downloading CV with ID: ${cvId}`)
+        }
         selectedCv={selectedCv}
         onClose={closeModal}
       >

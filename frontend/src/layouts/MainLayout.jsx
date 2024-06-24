@@ -25,18 +25,15 @@ export default function MainLayout() {
     <>
       <BarLoading isLoading={isLoading} />
       <div className="flex  w-full">
-
         <Sidebar auth={auth} logOut={handleLogout}>
-          <SidebarItem
-            to="/app"
-            icon={<LayoutDashboard />}
-            text="Dashboard"
-          />
+          <SidebarItem to="/app" icon={<LayoutDashboard />} text="Dashboard" />
           <SidebarItem to="template" icon={<Layers />} text="Template" />
         </Sidebar>
 
-        <main className="flex-1 
-         absolute left-10 md:static  dark:bg-darkColor-bg ">
+        <main
+          className="flex-1 
+         absolute left-10 md:static  dark:bg-darkColor-bg "
+        >
           <Outlet />
         </main>
       </div>

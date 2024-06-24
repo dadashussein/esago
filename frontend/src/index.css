@@ -29,13 +29,10 @@ li {
 }
 
 #scrollbar1::-webkit-scrollbar-track {
- 
   border-top-right-radius: 0;
   background-color: #e7e7e7;
-  
 }
 #scrollbar1::-webkit-scrollbar-thumb {
-
   border: 3px solid transparent;
   background-clip: content-box;
   background-color: #999999;
