@@ -53,7 +53,7 @@ class CV(Base):
     skills = relationship('Skill', back_populates='cv', cascade="all, delete-orphan")
     languages = relationship('Language', back_populates='cv', cascade="all, delete-orphan")
     resumes = relationship('Resume', back_populates='cv', cascade="all, delete-orphan")
-    others = relationship('Other', back_populates='cv', cascade="all, delete-orphan")
+    # others = relationship('Other', back_populates='cv', cascade="all, delete-orphan")
 
 
 class Resume(Base):
@@ -114,24 +114,24 @@ class Language(Base):
     cv = relationship('CV', back_populates='languages')
 
 
-class Other(Base):
-    __tablename__ = 'others'
+# class Other(Base):
+#     __tablename__ = 'others'
 
-    id = Column(sqlalchemy.Integer, primary_key=True)
-    name= Column(sqlalchemy.String, nullable=False)
-    other_items = relationship('OtherItem', back_populates='other', cascade="all, delete-orphan")
-    cv_id = Column(ForeignKey('cvs.id'))
-    cv = relationship('CV', back_populates='others')
+#     id = Column(sqlalchemy.Integer, primary_key=True)
+#     name= Column(sqlalchemy.String, nullable=False)
+#     other_items = relationship('OtherItem', back_populates='other', cascade="all, delete-orphan")
+#     cv_id = Column(ForeignKey('cvs.id'))
+#     cv = relationship('CV', back_populates='others')
 
 
-class OtherItem(Base):
-    __tablename__ = 'other_items'
+# class OtherItem(Base):
+#     __tablename__ = 'other_items'
 
-    id = Column(sqlalchemy.Integer, primary_key=True)
-    name = Column(sqlalchemy.String)
-    description = Column(sqlalchemy.String)
-    date = Column(sqlalchemy.Date)
-    webstite = Column(sqlalchemy.String)
+#     id = Column(sqlalchemy.Integer, primary_key=True)
+#     name = Column(sqlalchemy.String)
+#     description = Column(sqlalchemy.String)
+#     date = Column(sqlalchemy.Date)
+#     webstite = Column(sqlalchemy.String)
 
-    other_id = Column(ForeignKey('others.id'))
-    other = relationship('Other', back_populates='other_items')
+#     other_id = Column(ForeignKey('others.id'))
+#     other = relationship('Other', back_populates='other_items')

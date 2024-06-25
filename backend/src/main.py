@@ -9,6 +9,7 @@ from routers.ExperienceRouter import router as experience_router
 from routers.SkillRouter import router as skill_router
 from routers.LanguageRouter import router as language_router
 from routers.ResumeRouter import router as resume_router
+# from routers.OtherRouter import router as other_router
 from routers.Google import oauth_router
 from models.BaseModel import Base
 from config.database import Engine
@@ -18,6 +19,7 @@ from fastapi import FastAPI
 from config.config import configs
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
+
 
 app = FastAPI()
 Base.metadata.create_all(bind=Engine)
@@ -47,6 +49,7 @@ app.include_router(skill_router, prefix="/skills/{cv_id}", tags=["Skills"])
 app.include_router(language_router, prefix="/languages/{cv_id}", tags=["Languages"])
 app.include_router(oauth_router, prefix="", tags=["Google"])
 app.include_router(resume_router , prefix="/resumes/{cv_id}", tags=["Resume"])
+# app.include_router(other_router, prefix="/others/{cv_id}", tags=["Others"])
 
 def run_migrations():
     alembic_cfg = Config("alembic.ini")

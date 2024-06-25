@@ -1,7 +1,6 @@
 from uuid import UUID
 from fastapi import Depends
 from sqlalchemy.orm import Session
-
 from config.database import get_db_connection
 from models.models import CV, Education, Experience, Language, Skill
 from repositories.BaseRepository import BaseRepository
