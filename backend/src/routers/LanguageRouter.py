@@ -50,7 +50,7 @@ def get_all_languages_cv(
 def create_language_cv(
     language_request: LanguageCreateSchema,
     cv_id: int,
-    user_id: int = Depends(get_current_user_id),
+    user_id: str = Depends(get_current_user_id),
     language_service: LanguageService = Depends(),
 ):
     """
