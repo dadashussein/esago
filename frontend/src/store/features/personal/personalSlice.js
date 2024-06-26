@@ -108,22 +108,14 @@ const personalSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
       })
-      .addCase(patchPhoto.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(patchPhoto.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.personal = { ...state.personal, ...action.payload };
       })
       .addCase(patchPhoto.rejected, (state, action) => {
-        state.status = "failed";
         state.error = action.payload;
       })
-      .addCase(deletePhoto.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(deletePhoto.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.personal = { ...state.personal, ...action.payload };
       })
   },

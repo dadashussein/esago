@@ -29,58 +29,60 @@ const Dashboard = () => {
   const exampleCv = [cv1, cv2];
 
   return (
-    <main className="">
-      <div className="">
-        <h3
-          className="  text-lg 
+    <main className="flex h-screen  ">
+      <div className="flex-4">
+        <div className="">
+          <h3
+            className="  text-lg 
         dark:text-darkColor-text dark:bg-darkColor-menu
         py-3 px-2 md:text-[30px]"
-        >
-          Hi, {currentUser?.username}
-        </h3>
+          >
+            Hi, {currentUser?.username}
+          </h3>
 
-        <h3
-          className="text-lg 
+          <h3
+            className="text-lg 
         dark:text-darkColor-text
         md:text-[25px] py-3 px-2"
-        >
-          Welcome to your dashboard
-        </h3>
-      </div>
+          >
+            Welcome to your dashboard
+          </h3>
+        </div>
 
-      <div className="flex py-3 px-4 flex-col gap-4">
-        <div className="flex gap-4">
-          <CreateCvButton
-            cvTitle={cvTitle}
-            handleInputChange={(e) => setCvTitle(e.target.value)}
-            handleCreate={handleCreate}
+        <div className="flex py-3 px-4 flex-col gap-4">
+          <div className="flex gap-4">
+            <CreateCvButton
+              cvTitle={cvTitle}
+              handleInputChange={(e) => setCvTitle(e.target.value)}
+              handleCreate={handleCreate}
+            />
+          </div>
+          <CvList
+            cv={cv}
+            lightColors={lightColors}
+            darkColors={darkColors}
+            exampleCv={exampleCv}
+            handlePreview={handlePreview}
           />
         </div>
-        <CvList
-          cv={cv}
-          lightColors={lightColors}
-          darkColors={darkColors}
-          exampleCv={exampleCv}
-          handlePreview={handlePreview}
-        />
-      </div>
 
-      <CvModal
-        open={isModalOpen}
-        handleEdit={(cvId) => navigate(`${cvId}`)}
-        handleDelete={handleDelete}
-        handleDownload={(cvId) =>
-          console.log(`Downloading CV with ID: ${cvId}`)
-        }
-        selectedCv={selectedCv}
-        onClose={closeModal}
-      >
-        {selectedCv && (
-          <div className="relative flex flex-col items-center p-4 max-w-full overflow-auto">
-            <ReadyCv cvId={selectedCv} />
-          </div>
-        )}
-      </CvModal>
+        <CvModal
+          open={isModalOpen}
+          handleEdit={(cvId) => navigate(`${cvId}`)}
+          handleDelete={handleDelete}
+          handleDownload={(cvId) =>
+            console.log(`Downloading CV with ID: ${cvId}`)
+          }
+          selectedCv={selectedCv}
+          onClose={closeModal}
+        >
+          {selectedCv && (
+            <div className="relative flex flex-col items-center p-4 max-w-full overflow-auto">
+              <ReadyCv cvId={selectedCv} />
+            </div>
+          )}
+        </CvModal>
+      </div>
     </main>
   );
 };

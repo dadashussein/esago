@@ -50,7 +50,7 @@ const Personal = ({ cvId, activeTemplate }) => {
               type="file"
               style={{ display: "none" }}
               name="avatar"
-           
+
               onChange={handleAvatar}
             />)}
           </div>

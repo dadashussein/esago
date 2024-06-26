@@ -13,7 +13,7 @@ export default function Languages({ cvId }) {
     proficiency: "beginner",
   });
   const languages = useSelector((state) => state.languages.languages);
-  console.log(languages);
+
 
 
   const handleAdd = () => {

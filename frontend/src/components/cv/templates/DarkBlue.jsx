@@ -46,23 +46,23 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
             </div>
           </div>
           {/* Summary */}
-          <div className="pb-6 mb-2 border-solid border-b-2 border-b-cyan-100">
-            <h3 className="uppercase font-bold text-base mb-1 tracking-wide">
+          <div className="pb-6 mb-2 border-solid max-w-[14rem] break-words text-wrap  border-b-2 border-b-cyan-100">
+            <h3 className="uppercase font-bold text-base mb-1  tracking-wide">
               Summary
             </h3>
-            <p className="">{bio}</p>
+            <p className="text-wrap">{bio}</p>
           </div>
           {/* Skills */}
           <div>
             <h3 className="uppercase font-bold text-base mb-1 tracking-wide">
               Skills
             </h3>
-            {skills &&
-              skills.map((skill, index) => (
-                <ul className="list-disc list-inside" key={index}>
-                  <li>{skill.name}</li>
-                </ul>
-              ))}
+            <ul className="list-disc list-inside w-full" >
+              {skills &&
+                skills.map((skill) => (
+                  <li key={skill.id}>{skill.name}</li>
+                ))}
+            </ul>
           </div>
         </div>
       </div>

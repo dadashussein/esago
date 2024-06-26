@@ -32,6 +32,7 @@ export default {
       backgroundImage: {
         'footer-texture': 'url("@/assets/svgs/footerBg.svg")',
         'landing-texture': 'url("@/assets/svgs/landingBg.svg")',
+        "dash": 'url("@/assets/dash.jpg")',
       },
 
     },

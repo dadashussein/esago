@@ -6,11 +6,12 @@ import ReactDOMServer from "react-dom/server";
 
 const pdfUrl = import.meta.env.VITE_PDF_URL;
 const useCompileHtml = () => {
-  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState(null);
+  const [status, setStatus] = useState("idle");
 
   const compileToHtml = async (component) => {
-    setLoading(true);
+    setStatus("loading");
     setError(null);
     try {
       const html = await compile(component);
@@ -23,17 +24,18 @@ const useCompileHtml = () => {
       );
       const pdfBlob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(pdfBlob);
+      setStatus("succeeded");
       window.open(url, "_blank");
     } catch (err) {
       setError(err);
-      console.log(err);
+      setStatus("failed");
     } finally {
-      setLoading(false);
+      setStatus("idle");
     }
     console.log(component);
   };
 
-  return { compileToHtml, loading, error };
+  return { compileToHtml, status, error };
 };
 
 export default useCompileHtml;

@@ -6,7 +6,8 @@ export const postLanguages = createAsyncThunk(
     async ({ language, cvId }, thunkAPI) => {
         try {
             const response = await axiosInstance.post(`/languages/${cvId}`, language);
-            return response.data;
+            console.log(response.data);
+            return response.data["data"];
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response.data.detail);
         }
