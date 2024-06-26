@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import temp1 from "@/assets/temp1.png";
-import temp2 from "@/assets/temp2.png";
 import avery from "@/assets/aver.png";
+import darkBlue from "@/assets/darkBlue.png";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -18,18 +18,13 @@ const templates = [
   },
   {
     id: 2,
-    name: "Template 2",
-    image: temp2,
+    name: "Avery Template",
+    image: avery,
   },
   {
     id: 3,
-    name: "Template 3",
-    image: temp1,
-  },
-  {
-    id: 4,
-    name: "Avery Template",
-    image: avery,
+    name: "Dark Blue Template",
+    image: darkBlue,
   },
 ];
 

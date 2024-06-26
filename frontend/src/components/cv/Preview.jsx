@@ -1,9 +1,8 @@
 import { baseUrl } from "@/utils/api";
 import { useSelector } from "react-redux";
-import Template3 from "./templates/Template3";
-import Template7 from "./templates/Template7";
-import Resume from "./templates/TestRes";
+import Template1 from "./templates/Template1";
 import AveryTemp from "./templates/AveryTemp";
+import DarkBlue from "./templates/DarkBlue";
 
 const Preview = () => {
   const education = useSelector((state) => state.education.education);
@@ -16,9 +15,9 @@ const Preview = () => {
 
   return (
     <>
-      <div className="">
+      <div className="overflow-hidden">
         {template_id === 1 && (
-          <Template3
+          <Template1
             img={imgURl}
             personal={personal}
             education={education}
@@ -26,8 +25,9 @@ const Preview = () => {
             skills={skills}
           />
         )}
+
         {template_id === 2 && (
-          <Template7
+          <AveryTemp
             img={imgURl}
             personal={personal}
             education={education}
@@ -36,16 +36,7 @@ const Preview = () => {
           />
         )}
         {template_id === 3 && (
-          <Resume
-            img={imgURl}
-            personal={personal}
-            education={education}
-            experience={experience}
-            skills={skills}
-          />
-        )}
-        {template_id === 4 && (
-          <AveryTemp
+          <DarkBlue
             img={imgURl}
             personal={personal}
             education={education}

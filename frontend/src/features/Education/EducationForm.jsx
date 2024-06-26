@@ -1,3 +1,4 @@
+import ReactiveButton from "@/components/common/ReactiveButton";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
@@ -27,6 +28,7 @@ const validateField = (name, value) => {
 const EducationForm = ({
   currentIndex,
   education,
+  status,
   handleInputChange,
   handleAddEducation,
 }) => {
@@ -136,12 +138,15 @@ const EducationForm = ({
           {errors.description && (
             <p className="text-red-500 text-xs mt-1">{errors.description}</p>
           )}
-          <button
-            type="submit"
-            className="p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
-          >
-            <Plus />
-          </button>
+          <ReactiveButton
+            className={
+              "p-2 bg-primary-500 cursor-pointer  text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
+            }
+            disabled={status === "succeeded"}
+            icon={<Plus size={"1.2rem"} />}
+            status={status}
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </form>

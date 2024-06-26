@@ -1,63 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { useEffect, useState } from "react";
 import { Plus, UserRound } from "lucide-react";
-import {
-  fetchInfo,
-  patchPhoto,
-  postInfo,
-  setPersonalField,
-} from "@/store/features/personal/personalSlice";
-import { baseUrl } from "@/utils/api";
+import ReactiveButton from "@/components/common/ReactiveButton";
+import usePersonal from "@/hooks/usePersonal";
 
-const Personal = ({ setActiveTab, cvId, activeTemplate }) => {
-  const dispatch = useDispatch();
-  const personal = useSelector((state) => state.personal.personal);
-  const [avatar, setAvatar] = useState({
-    file: null,
-    url: "",
-  });
-
-  const imgUrl = `${baseUrl}/static/cv_pictures/${personal?.picture}`;
-
-  const handleInputChange = (field, value) => {
-    dispatch(setPersonalField({ field, value }));
-  };
-
-  const handleSendAndNext = async () => {
-    try {
-      const resultAction = await dispatch(postInfo({ info: personal, cvId }));
-      unwrapResult(resultAction);
-      setActiveTab(1);
-    } catch (error) {
-      console.error("Failed to save personal info: ", error);
-    }
-  };
-
-  useEffect(() => {
-    dispatch(fetchInfo(cvId));
-  }, [dispatch, cvId]);
-
-  const handleAvatar = async (e) => {
-    if (e.target.files[0]) {
-      const file = e.target.files[0];
-      setAvatar({
-        file: file,
-        url: URL.createObjectURL(file),
-      });
-
-      dispatch(patchPhoto({ cvId, file }));
-    }
-  };
-
-  //handle template change
-  useEffect(() => {
-    dispatch(setPersonalField({ field: "template_id", value: activeTemplate }));
-  }, [activeTemplate, dispatch]);
+const Personal = ({ cvId, activeTemplate }) => {
+  const {
+    personal,
+    avatar,
+    status,
+    imgUrl,
+    handleInputChange,
+    handleSendAndNext,
+    handleAvatar,
+  } = usePersonal(cvId, activeTemplate);
 
   return (
-    <div className="border-gray-900/10  relative">
-      <h1 className="section-title  ">
+    <div className="border-gray-900/10 relative">
+      <h1 className="section-title">
         <span>
           <UserRound size={"1.7rem"} />
         </span>
@@ -72,7 +30,7 @@ const Personal = ({ setActiveTab, cvId, activeTemplate }) => {
           <div className="">
             <label htmlFor="avatar" className="flex label-primary items-center">
               <img
-                className="w-12 h-12 object-contain rounded-full  -xl"
+                className="w-12 h-12 object-contain rounded-full -xl"
                 src={imgUrl || avatar.url}
                 alt="avatar"
               />
@@ -85,7 +43,7 @@ const Personal = ({ setActiveTab, cvId, activeTemplate }) => {
               onChange={handleAvatar}
             />
           </div>
-          <div className="mt-4 relative grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6 ">
+          <div className="mt-4 relative grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6">
             <div className="sm:col-span-3">
               <label htmlFor="firstname" className="label-primary">
                 First Name
@@ -177,13 +135,15 @@ const Personal = ({ setActiveTab, cvId, activeTemplate }) => {
                   value={personal?.bio || ""}
                   placeholder="Write down your bio"
                 />
-                <button
+                <ReactiveButton
+                  disabled={status === "succeeded"}
+                  status={status}
+                  className={
+                    "p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
+                  }
                   onClick={handleSendAndNext}
-                  type="submit"
-                  className="p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
-                >
-                  <Plus />
-                </button>
+                  icon={<Plus size={"1.2rem"} />}
+                />
               </div>
             </div>
           </div>

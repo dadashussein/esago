@@ -5,9 +5,6 @@ import { MapInteractionCSS } from "react-map-interaction";
 import { Tailwind } from "@fileforge/react-print";
 import { ChevronFirst, ChevronLast, FolderDown, Home } from "lucide-react";
 import useCompileHtml from "@/hooks/useCompileHtml";
-import { fetchEducation } from "@/store/features/education/educationThunks";
-import { fetchExperience } from "@/store/features/experience/experienceThunks";
-import { getSkills } from "@/store/features/skills/skillsThunks";
 import { store } from "@/store/store";
 import A4Component from "../A4";
 import Personal from "@/features/Personal";
@@ -15,6 +12,7 @@ import Education from "@/features/Education";
 import Experience from "@/features/Experience";
 import Skill from "@/features/Skill";
 import Templates from "./Templates";
+import { fetchAllCv } from "@/store/features/resume/resumeSlice";
 
 const CreateCv = () => {
   const activeTemplate = useSelector((state) => state.templates.activeTemplate);
@@ -25,9 +23,7 @@ const CreateCv = () => {
   const { compileToHtml, loading } = useCompileHtml({ cvId });
 
   useEffect(() => {
-    dispatch(fetchEducation({ cvId }));
-    dispatch(fetchExperience({ cvId }));
-    dispatch(getSkills({ cvId }));
+    dispatch(fetchAllCv({ cvId }));
   }, [dispatch, cvId]);
 
   const handleGenerate = () => {

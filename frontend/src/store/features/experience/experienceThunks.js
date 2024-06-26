@@ -16,18 +16,6 @@ export const postExperience = createAsyncThunk(
   },
 );
 
-export const fetchExperience = createAsyncThunk(
-  "experience/fetchExperience",
-  async ({ cvId }, thunkAPI) => {
-    try {
-      const response = await axiosInstance.get(`/experiences/${cvId}`);
-      return response.data;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data.detail);
-    }
-  },
-);
-
 export const deleteExperience = createAsyncThunk(
   "experience/deleteExperience",
   async ({ cvId, id }) => {

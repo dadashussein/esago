@@ -1,17 +1,13 @@
 import { useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
-import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { DraftingCompass, Trash2 } from "lucide-react";
+import { DraftingCompass } from "lucide-react";
 import { deleteSkill, postSkills } from "@/store/features/skills/skillsThunks";
+import { X } from "lucide-react";
 
 export default function Skill({ cvId }) {
   const dispatch = useDispatch();
   const [currentSkill, setCurrentSkill] = useState("");
   const skills = useSelector((state) => state.skills.skills);
-  const [animationParent] = useAutoAnimate();
-
   const handleAdd = () => {
     if (currentSkill.trim() !== "") {
       const skillName = { name: currentSkill };
@@ -41,24 +37,27 @@ export default function Skill({ cvId }) {
             className="input-primary"
             placeholder="Type skill"
           />
-          <button onClick={handleAdd} className="button-primary">
-            Add Skill
+          <button onClick={handleAdd} className="btnPrimary">
+            Add
           </button>
         </div>
-        <ul
-          className="dark:text-white text-gray-900 h-[20rem] border"
-          ref={animationParent}
-        >
-          {skills.map((skill, index) => (
-            <li key={index} className="flex justify-between items-center">
-              <p>{skill.name}</p>
-              <Trash2
-                onClick={() => handleDelete(skill.id)}
-                className="cursor-pointer"
-              />
-            </li>
-          ))}
-        </ul>
+        <div className="flex flex-wrap mt-4 gap-2 mb-16">
+          {skills &&
+            skills.map((skill, index) => (
+              <span
+                key={index}
+                className="bg-gray-200 border relative border-darkColor-menu text-gray-500  px-4 py-3 rounded"
+              >
+                {skill.name}
+                <span
+                  onClick={() => handleDelete(skill.id)}
+                  className="absolute cursor-pointer top-[1px] right-0"
+                >
+                  {<X size={"1rem"} />}
+                </span>
+              </span>
+            ))}
+        </div>
       </div>
     </div>
   );
