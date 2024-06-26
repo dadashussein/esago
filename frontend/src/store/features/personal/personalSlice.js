@@ -46,6 +46,18 @@ export const patchPhoto = createAsyncThunk(
   },
 );
 
+export const deletePhoto = createAsyncThunk(
+  "personal/deletePhoto",
+  async (cvId, thunkAPI) => {
+    try {
+      const response = await axiosInstance.patch(`/cvs/${cvId}/deletepicture`);
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Something went wrong");
+    }
+  },
+);
+
 const initialState = {
   status: "idle",
   error: null,
@@ -95,7 +107,25 @@ const personalSlice = createSlice({
       .addCase(postInfo.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
-      });
+      })
+      .addCase(patchPhoto.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(patchPhoto.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.personal = { ...state.personal, ...action.payload };
+      })
+      .addCase(patchPhoto.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(deletePhoto.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deletePhoto.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.personal = { ...state.personal, ...action.payload };
+      })
   },
 });
 

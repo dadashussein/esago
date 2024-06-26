@@ -13,6 +13,7 @@ import Experience from "@/features/Experience";
 import Skill from "@/features/Skill";
 import Templates from "./Templates";
 import { fetchAllCv } from "@/store/features/resume/resumeSlice";
+import Languages from "@/features/Languages";
 
 const CreateCv = () => {
   const activeTemplate = useSelector((state) => state.templates.activeTemplate);
@@ -53,6 +54,8 @@ const CreateCv = () => {
           <Experience cvId={cvId} />
           <hr />
           <Skill cvId={cvId} />
+          <hr />
+          <Languages cvId={cvId} />
         </div>
       </div>
       {/* center*/}

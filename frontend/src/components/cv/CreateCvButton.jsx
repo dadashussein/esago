@@ -8,8 +8,8 @@ const CreateCvButton = ({ cvTitle, handleInputChange, handleCreate }) => {
       <Tilt>
         <div
           className="w-[202px] h-[272px]
-                 rounded flex items-center shadow-shadowOne
-                  justify-center bg-[#FFEECC] dark:bg-darkColor-hover "
+                 rounded flex items-center border
+                  justify-center bg-gray-100 dark:bg-darkColor-hover "
         >
           <DropdownMenu.Trigger asChild>
             <div className="cursor-pointer ">

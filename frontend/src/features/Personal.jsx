@@ -1,16 +1,18 @@
 import { Plus, UserRound } from "lucide-react";
 import ReactiveButton from "@/components/common/ReactiveButton";
 import usePersonal from "@/hooks/usePersonal";
+import avata from "@/assets/avata.png";
+import { X } from "lucide-react";
 
 const Personal = ({ cvId, activeTemplate }) => {
   const {
     personal,
     avatar,
     status,
-    imgUrl,
     handleInputChange,
     handleSendAndNext,
     handleAvatar,
+    removePhoto
   } = usePersonal(cvId, activeTemplate);
 
   return (
@@ -27,21 +29,30 @@ const Personal = ({ cvId, activeTemplate }) => {
 
       {personal && (
         <>
-          <div className="">
+          <div className="relative inline-flex">
             <label htmlFor="avatar" className="flex label-primary items-center">
               <img
-                className="w-12 h-12 object-contain rounded-full -xl"
-                src={imgUrl || avatar.url}
+                className="w-20 h-20 object-contain cursor-pointer rounded-full -xl hover:opacity-80 duration-200 ease-linear"
+                src={avatar.url || avata}
                 alt="avatar"
               />
             </label>
-            <input
+
+            {avatar.url ? (
+              <button
+                onClick={removePhoto}
+                className="absolute top-0 right-0 p-1 bg-white rounded-full"
+              >
+                <X size={"1rem"} />
+              </button>
+            ) : (<input
               id="avatar"
               type="file"
               style={{ display: "none" }}
               name="avatar"
+           
               onChange={handleAvatar}
-            />
+            />)}
           </div>
           <div className="mt-4 relative grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6">
             <div className="sm:col-span-3">

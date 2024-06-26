@@ -1,7 +1,7 @@
 import { MapPin } from "lucide-react";
 import { Mail } from "lucide-react";
 import { Smartphone } from "lucide-react";
-const DarkBlue = ({ education, experience, personal, img, skills }) => {
+const DarkBlue = ({ education, experience, personal, img, skills, languages }) => {
   const {
     first_name,
     last_name,
@@ -11,7 +11,7 @@ const DarkBlue = ({ education, experience, personal, img, skills }) => {
     email,
     bio,
   } = personal;
-  console.log(img);
+
   return (
     <div className="flex w-full h-[70.2rem] bg-slate-50">
       {/* leftbar */}
@@ -125,11 +125,20 @@ const DarkBlue = ({ education, experience, personal, img, skills }) => {
           </div>
         )}
         {/* Languages */}
-        {/* <div className="mb-14 pt-1 border border-x-0 border-b-0 border-cyan-600">
-              <h3 className="tracking-wide font-medium uppercase text-base">
-                Languages
-              </h3>
-            </div> */}
+        {languages.length > 0 && (
+          <div className="mb-14 pt-1 border border-x-0 border-b-0 border-cyan-600">
+            <h3 className="tracking-wide font-medium uppercase text-base">
+              Languages
+            </h3>
+            <div>
+              {languages && languages.map((language, index) => (
+                <div key={index} className="mb-2">
+                  <span>{language.name}</span> - <span>{language.proficiency}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

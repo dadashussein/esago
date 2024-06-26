@@ -16,8 +16,6 @@ const Experience = ({ cvId }) => {
     setCurrentIndex,
   } = useExperience({ cvId });
 
-  console.log(status);
-
   return (
     <div className="border-gray-900/10 relative">
       <div className="flex items-center justify-between">
