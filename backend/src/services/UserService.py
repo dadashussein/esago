@@ -1,4 +1,5 @@
 import uuid
+import random
 from datetime import timedelta, datetime
 from fastapi import Depends, File, HTTPException, UploadFile, status, BackgroundTasks
 from fastapi.templating import Jinja2Templates
@@ -45,7 +46,7 @@ class UserService:
         if self.userRepo.get_where(username=user.username) or self.userRepo.get_where(email=user.email):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username or email already exists")
         
-        activation_code = str(uuid.uuid4())[:6]
+        activation_code = ''.join(random.choices('0123456789', k=6))
         new_user = User(
             **user.model_dump(exclude_none=True),
             is_active=False,

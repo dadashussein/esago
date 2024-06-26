@@ -17,7 +17,7 @@ export default function Sidebar({ children, auth, logOut }) {
          items-center justify-center border-r dark:border-none
             shadow-sm "
       >
-        <SidebarContext.Provider>
+        <SidebarContext.Provider value={{}}>
           <ul>{children}</ul>
         </SidebarContext.Provider>
         <Avatars auth={auth} logOut={logOut} />

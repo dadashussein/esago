@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
 import axiosInstance from "@/utils/api";
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const postInfo = createAsyncThunk(
   "personal/postInfo",
   async ({ info, cvId }, thunkAPI) => {
     try {
+      await delay(1000);
       const response = await axiosInstance.put("/cvs", { ...info, id: cvId });
       return response.data;
     } catch (err) {
@@ -68,6 +69,7 @@ const personalSlice = createSlice({
     setPersonalField: (state, action) => {
       const { field, value } = action.payload;
       state.personal[field] = value;
+      state.status = "idle";
     },
   },
   extraReducers: (builder) => {

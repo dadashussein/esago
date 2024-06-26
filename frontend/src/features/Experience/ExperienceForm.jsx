@@ -1,98 +1,120 @@
+import ReactiveButton from "@/components/common/ReactiveButton";
 import { Plus } from "lucide-react";
+import { useState } from "react";
+
+const validateField = (name, value) => {
+  switch (name) {
+    case "job_title":
+    case "company_name":
+    case "location":
+    case "description":
+      if (!value.trim()) {
+        return `${name.replace(/_/g, " ")} is required`;
+      }
+      break;
+    case "start_date":
+    case "end_date":
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return `${name.replace(/_/g, " ")} must be in the format YYYY-MM-DD`;
+      }
+      break;
+    default:
+      return "";
+  }
+  return "";
+};
 
 const ExperienceForm = ({
   currentIndex,
   experience,
+  status,
   handleInputChange,
   handleAddExperience,
 }) => {
+  const [errors, setErrors] = useState({});
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAddExperience(e);
+    const newErrors = {};
+    let isValid = true;
+
+    for (const field of [
+      "job_title",
+      "company_name",
+      "location",
+      "start_date",
+      "end_date",
+      "description",
+    ]) {
+      const error = validateField(
+        field,
+        experience[currentIndex]?.[field] || "",
+      );
+      if (error) {
+        newErrors[field] = error;
+        isValid = false;
+      }
+    }
+
+    setErrors(newErrors);
+
+    if (isValid) {
+      handleAddExperience(e);
+    }
   };
+
+  const handleChange = (name, value) => {
+    handleInputChange(name, value);
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: validateField(name, value) }));
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
       className="mt-4 grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6"
     >
-      <div className="sm:col-span-3">
-        <label htmlFor={`job_title-${currentIndex}`} className="label-primary">
-          Job title
-        </label>
-        <input
-          type="text"
-          required
-          value={experience[currentIndex]?.job_title || ""}
-          onChange={(e) => handleInputChange("job_title", e.target.value)}
-          name={`job_title-${currentIndex}`}
-          id={`job_title-${currentIndex}`}
-          placeholder="Job title"
-          className="input-primary"
-        />
-      </div>
-      <div className="sm:col-span-3">
-        <label
-          htmlFor={`company_name-${currentIndex}`}
-          className="label-primary"
-        >
-          Company Name
-        </label>
-        <input
-          type="text"
-          required
-          value={experience[currentIndex]?.company_name || ""}
-          onChange={(e) => handleInputChange("company_name", e.target.value)}
-          name={`company_name-${currentIndex}`}
-          id={`company_name-${currentIndex}`}
-          placeholder="Company Name"
-          className="input-primary"
-        />
-      </div>
-      <div className="sm:col-span-3">
-        <label htmlFor={`location-${currentIndex}`} className="label-primary">
-          Company Location
-        </label>
-        <input
-          type="text"
-          required
-          value={experience[currentIndex]?.location || ""}
-          onChange={(e) => handleInputChange("location", e.target.value)}
-          name={`location-${currentIndex}`}
-          id={`location-${currentIndex}`}
-          placeholder="Location"
-          className="input-primary"
-        />
-      </div>
-      <div className="sm:col-span-3">
-        <label htmlFor="start_date" className="label-primary">
-          Start Date
-        </label>
-        <input
-          type="year"
-          required
-          value={experience[currentIndex]?.start_date || ""}
-          onChange={(e) => handleInputChange("start_date", e.target.value)}
-          name={`start_date-${currentIndex}`}
-          id={`start_date-${currentIndex}`}
-          placeholder="Start Date"
-          className="input-primary"
-        />
-      </div>
-      <div className="sm:col-span-3">
-        <label htmlFor="end_date" className="label-primary">
-          End Date
-        </label>
-        <input
-          type="year"
-          required
-          value={experience[currentIndex]?.end_date || ""}
-          onChange={(e) => handleInputChange("end_date", e.target.value)}
-          name={`end_date-${currentIndex}`}
-          id={`end_date-${currentIndex}`}
-          placeholder="End Date"
-          className="input-primary"
-        />
-      </div>
+      {["job_title", "company_name", "location"].map((field) => (
+        <div className="sm:col-span-3" key={field}>
+          <label htmlFor={`${field}-${currentIndex}`} className="label-primary">
+            {field.replace(/_/g, " ")}
+          </label>
+          <input
+            type="text"
+            required
+            value={experience[currentIndex]?.[field] || ""}
+            onChange={(e) => handleChange(field, e.target.value)}
+            name={`${field}-${currentIndex}`}
+            id={`${field}-${currentIndex}`}
+            placeholder={field.replace(/_/g, " ")}
+            className="input-primary"
+          />
+          {errors[field] && (
+            <p className="text-red-500 text-xs mt-1">{errors[field]}</p>
+          )}
+        </div>
+      ))}
+      {["start_date", "end_date"].map((field) => (
+        <div className="sm:col-span-3" key={field}>
+          <label htmlFor={`${field}-${currentIndex}`} className="label-primary">
+            {field.replace(/_/g, " ")}
+          </label>
+          <input
+            type="text"
+            required
+            value={experience[currentIndex]?.[field] || ""}
+            onChange={(e) => handleChange(field, e.target.value)}
+            name={`${field}-${currentIndex}`}
+            id={`${field}-${currentIndex}`}
+            placeholder={field.replace(/_/g, " ")}
+            className="input-primary"
+          />
+          {errors[field] && (
+            <p className="text-red-500 text-xs mt-1">{errors[field]}</p>
+          )}
+        </div>
+      ))}
       <div className="col-span-full">
         <label
           htmlFor={`description-${currentIndex}`}
@@ -106,17 +128,23 @@ const ExperienceForm = ({
             name={`description-${currentIndex}`}
             required
             value={experience[currentIndex]?.description || ""}
-            onChange={(e) => handleInputChange("description", e.target.value)}
+            onChange={(e) => handleChange("description", e.target.value)}
             rows={3}
-            placeholder="A brief description of your education"
+            placeholder="A brief description of your experience"
             className="input-primary"
           />
-          <button
-            type="submit"
-            className="p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
-          >
-            <Plus />
-          </button>
+          {errors.description && (
+            <p className="text-red-500 text-xs mt-1">{errors.description}</p>
+          )}
+          <ReactiveButton
+            className={
+              "p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
+            }
+            disabled={status === "succeeded"}
+            icon={<Plus size={"1.2rem"} />}
+            status={status}
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </form>

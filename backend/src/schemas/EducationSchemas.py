@@ -9,6 +9,7 @@ class EducationCreateSchema(BaseModel):
     start_date: str = Field(..., example="2020-09-01")
     end_date: Optional[str] = Field(None, example="2024-05-31")
     description: Optional[str] = Field(None, example="Studied advanced algorithms and data structures.")
+    location: Optional[str] = Field(None, example="Boston, MA")
 
 class EducationUpdateSchema(BaseModel):
     id: int = Field(..., example=1)
@@ -18,6 +19,7 @@ class EducationUpdateSchema(BaseModel):
     start_date: Optional[str] = Field(None, example="2020-09-01")
     end_date: Optional[str] = Field(None, example="2024-05-31")
     description: Optional[str] = Field(None, example="Studied advanced algorithms and data structures.")
+    location: Optional[str] = Field(None, example="Boston, MA")
 
 class EducationSchema(BaseModel):
     id: int
@@ -27,6 +29,7 @@ class EducationSchema(BaseModel):
     start_date: Optional[date]
     end_date: Optional[date]
     description: Optional[str]
+    location: Optional[str]
 
     class Config:
         from_attributes = True

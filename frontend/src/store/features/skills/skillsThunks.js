@@ -13,18 +13,6 @@ export const postSkills = createAsyncThunk(
   },
 );
 
-export const getSkills = createAsyncThunk(
-  "skills/getSkills",
-  async ({ cvId }, thunkAPI) => {
-    try {
-      const response = await axiosInstance.get(`/skills/${cvId}`);
-      return response.data;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data.detail);
-    }
-  },
-);
-
 export const deleteSkill = createAsyncThunk(
   "skills/deleteSkill",
   async ({ skillId, cvId }, thunkAPI) => {

@@ -1,5 +1,3 @@
-import React from "react";
-
 const AveryTemp = ({ img, personal, education, experience }) => {
   const {
     first_name,

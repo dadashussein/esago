@@ -13,6 +13,7 @@ import Inner from "@/pages/inner";
 import Templates from "@/components/cv/Templates";
 import CreateCv from "@/components/cv/CreateCv";
 import Four04page from "@/pages/Four04page";
+import ReDirect from "@/pages/ReDirect";
 const getAccessToken = () => Cookies.get("accessToken");
 const isAuthenticated = () => !!getAccessToken();
 
@@ -90,6 +91,7 @@ const routes = createBrowserRouter([
     ),
   },
   { path: "/authenticate_google", element: <GoogleCallback /> },
+  { path: "/redirect", element: <ReDirect /> },
   { path: "/activate", element: <ActivateUser /> },
   {
     path: "/app",

@@ -1,6 +1,6 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 
-const Template7 = ({ img, personal, education, experience, skills }) => {
+const Template1 = ({ img, personal, education, experience, skills }) => {
   const {
     first_name,
     last_name,
@@ -127,4 +127,4 @@ const Template7 = ({ img, personal, education, experience, skills }) => {
   );
 };
 
-export default Template7;
+export default Template1;

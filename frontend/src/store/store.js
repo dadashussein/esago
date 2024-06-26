@@ -6,7 +6,6 @@ import experienceReducer from "./features/experience/experienceSlice";
 import skillReducer from "./features/skills/skillSlice";
 import resumeReducer from "./features/resume/resumeSlice";
 import templateReducer from "./features/templates/templateSlice";
-//import compileHtmlReducer from "./features/compileHtmlSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +16,5 @@ export const store = configureStore({
     skills: skillReducer,
     resumes: resumeReducer,
     templates: templateReducer,
-    //compileHtml: compileHtmlReducer,
   },
 });

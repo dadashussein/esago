@@ -12,14 +12,12 @@ import {
 
 const useEducation = ({ cvId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const dispatch = useDispatch();
   const education = useSelector((state) => state.education.education);
+  const status = useSelector((state) => state.education.status);
 
   const handleAddEducation = (e) => {
     e.preventDefault();
-    dispatch(addEducation());
-    setCurrentIndex(education.length);
     dispatch(postEducation({ cvId, education: education[currentIndex] }));
   };
 
@@ -27,8 +25,16 @@ const useEducation = ({ cvId }) => {
     dispatch(setEducationField({ index: currentIndex, field, value }));
   };
 
+  const addNewItem = () => {
+    dispatch(addEducation());
+    setCurrentIndex(education.length);
+  };
+
   const handleRemoveEducation = () => {
-    dispatch(deleteEducation({ cvId, id: education[currentIndex].id }));
+    const currentEducation = education[currentIndex];
+    if (currentEducation.id) {
+      dispatch(deleteEducation({ cvId, id: currentEducation.id }));
+    }
     dispatch(removeEducation(currentIndex));
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
@@ -37,8 +43,10 @@ const useEducation = ({ cvId }) => {
 
   return {
     education,
+    status,
     currentIndex,
     handleAddEducation,
+    addNewItem,
     handleRemoveEducation,
     handleInputChange,
     setCurrentIndex,
