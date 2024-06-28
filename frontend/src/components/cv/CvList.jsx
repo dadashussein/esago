@@ -7,10 +7,8 @@ const CvList = ({
   darkMode,
 }) => {
   return (
-    <div className="flex flex-col gap-2 flex-wrap">
-      <h3
-        className={`text-lg md:text-[25px] dark:text-darkColor-text py-2 px-1`}
-      >
+    <div className="flex flex-col bg-white p-6 rounded-lg gap-2 flex-wrap mr-8 shadow-shadowOne ">
+      <h3 className={` dark:text-darkColor-text text-center px-1`}>
         History of your CVs
       </h3>
       <div className="flex gap-3 flex-wrap">
@@ -29,7 +27,7 @@ const CvList = ({
             >
               <div
                 onClick={() => handlePreview(item.id)}
-                className="w-[152px] h-[222px] rounded flex items-center justify-center cursor-pointer"
+                className="w-[152px] h-[222px] flex items-center justify-center cursor-pointer"
               >
                 <img src={exampleCv[index % exampleCv.length]} alt="cv" />
                 <div className="view-label bg-blue-500 p-1 rounded text-white">

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import LoginForm from "./LoginForm";
 
 export default function Login() {
-  const { error, handleLogin } = useUserAuth();
+  const { error, handleLogin, isLoading } = useUserAuth();
   const onSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -84,7 +84,7 @@ export default function Login() {
             </p>
           </div>
         </div>
-        <LoginForm onSubmit={onSubmit} error={error} />
+        <LoginForm onSubmit={onSubmit} error={error} isLoading={isLoading} />
       </div>
     </section>
   );

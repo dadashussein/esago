@@ -7,7 +7,7 @@ const Landing = () => {
   return (
     <div className="bg-[#EFF2F9] bg-landing-texture bg-no-repeat relative dark:bg-[#1C1C1E] dark:text-white">
       <div className="md:h-screen flex flex-col gap-10 items-center justify-center   ">
-        <div className="h-screen flex bg-landing-texture bg-no-repeat flex-col gap-10 items-center justify-center ">
+        <div className="h-screen flex  bg-no-repeat flex-col gap-10 items-center justify-center ">
           <div className="max-w-[1013px] ">
             <h1 className="text-[40px] font-bold	px-12 mt-8  text-center  ">
               Only 2% of resumes make it pas the first round. Be in the top 2%

@@ -1,8 +1,8 @@
 import { LockKeyhole, Mail } from "lucide-react";
 import { baseUrl } from "@/utils/api";
 import googleIcon from "@/assets/svgs/google.svg";
-
-export default function LoginForm({ onSubmit, error }) {
+import spinner from "@/assets/animated/loading-spinner.svg";
+export default function LoginForm({ onSubmit, error, isLoading }) {
   return (
     <form
       className="flex flex-col w-[80%] ml-auto mr-auto "
@@ -61,7 +61,13 @@ export default function LoginForm({ onSubmit, error }) {
         )}
       </div>
       <div className="flex mt-4 flex-col gap-4">
-        <button className="btnPrimary py-2 px-4  mt-4 ">Sign In</button>
+        <button className="btnPrimary flex items-center justify-center py-2 px-4  mt-4 ">
+          {isLoading ? (
+            <img className="w-6 animate-spin " src={spinner} alt="loading" />
+          ) : (
+            "Login"
+          )}
+        </button>
         <a
           className="flex items-center justify-center"
           href={`${baseUrl}/google/login`}

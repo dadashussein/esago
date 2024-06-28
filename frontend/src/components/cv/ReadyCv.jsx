@@ -9,7 +9,6 @@ import DarkBlue from "./templates/DarkBlue";
 
 const ReadyCv = ({ cvId }) => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(fetchAllCv({ cvId }));
   }, [dispatch, cvId]);
@@ -37,12 +36,12 @@ const ReadyCv = ({ cvId }) => {
     job_title,
     phone_number,
     skill,
+    language,
     template_id,
     picture,
   } = allCv;
   let imgURl = `${baseUrl}/static/cv_pictures/${picture}`;
 
-  console.log(template_id);
   return (
     <>
       <BarLoading isLoading={loading} />
@@ -100,6 +99,7 @@ const ReadyCv = ({ cvId }) => {
               education={education}
               experience={experience}
               skill={skill}
+              languages={language}
             />
           )}
         </div>

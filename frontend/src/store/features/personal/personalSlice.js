@@ -6,7 +6,7 @@ export const postInfo = createAsyncThunk(
   "personal/postInfo",
   async ({ info, cvId }, thunkAPI) => {
     try {
-      await delay(1000);
+      await delay(500);
       const response = await axiosInstance.put("/cvs", { ...info, id: cvId });
       return response.data;
     } catch (err) {
@@ -34,6 +34,7 @@ export const patchPhoto = createAsyncThunk(
     formData.append("file", file);
 
     try {
+      await delay(500);
       const response = await axiosInstance.patch(`/cvs/${cvId}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -46,8 +47,22 @@ export const patchPhoto = createAsyncThunk(
   },
 );
 
+export const deletePhoto = createAsyncThunk(
+  "personal/deletePhoto",
+  async (cvId, thunkAPI) => {
+    try {
+      const response = await axiosInstance.patch(`/cvs/${cvId}/deletepicture`);
+      console.log(response.data);
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message || "Something went wrong");
+    }
+  },
+);
+
 const initialState = {
   status: "idle",
+  avatar_status: "idle",
   error: null,
   personal: {
     title: "",
@@ -95,6 +110,21 @@ const personalSlice = createSlice({
       .addCase(postInfo.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(patchPhoto.fulfilled, (state, action) => {
+        state.personal = { ...state.personal, ...action.payload };
+        state.avatar_status = "succeeded";
+      })
+      .addCase(patchPhoto.pending, (state) => {
+        state.avatar_status = "loading";
+      })
+      .addCase(patchPhoto.rejected, (state, action) => {
+        state.error = action.payload;
+        state.avatar_status = "failed";
+      })
+      .addCase(deletePhoto.fulfilled, (state, action) => {
+        state.personal = { ...state.personal, ...action.payload };
+        state.avatar_status = "succeeded";
       });
   },
 });

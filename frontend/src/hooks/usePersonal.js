@@ -5,6 +5,7 @@ import {
   fetchInfo,
   patchPhoto,
   postInfo,
+  deletePhoto,
   setPersonalField,
 } from "@/store/features/personal/personalSlice";
 import { baseUrl } from "@/utils/api";
@@ -13,6 +14,8 @@ const usePersonal = (cvId, activeTemplate) => {
   const dispatch = useDispatch();
   const personal = useSelector((state) => state.personal.personal);
   const status = useSelector((state) => state.personal.status);
+  const avatar_status = useSelector((state) => state.personal.avatar_status);
+
   const [avatar, setAvatar] = useState({
     file: null,
     url: "",
@@ -25,6 +28,15 @@ const usePersonal = (cvId, activeTemplate) => {
   useEffect(() => {
     dispatch(setPersonalField({ field: "template_id", value: activeTemplate }));
   }, [activeTemplate, dispatch]);
+
+  useEffect(() => {
+    if (personal.picture) {
+      setAvatar({
+        file: null,
+        url: `${baseUrl}/static/cv_pictures/${personal.picture}`,
+      });
+    }
+  }, [personal.picture]);
 
   const handleInputChange = (field, value) => {
     dispatch(setPersonalField({ field, value }));
@@ -46,8 +58,16 @@ const usePersonal = (cvId, activeTemplate) => {
         file: file,
         url: URL.createObjectURL(file),
       });
-
       dispatch(patchPhoto({ cvId, file }));
+    }
+  };
+
+  const removePhoto = async () => {
+    try {
+      dispatch(deletePhoto(cvId));
+      setAvatar({ file: null, url: "" });
+    } catch (error) {
+      console.error("Failed to remove photo: ", error);
     }
   };
 
@@ -57,10 +77,12 @@ const usePersonal = (cvId, activeTemplate) => {
     personal,
     avatar,
     status,
+    avatar_status,
     imgUrl,
     handleInputChange,
     handleSendAndNext,
     handleAvatar,
+    removePhoto,
   };
 };
 

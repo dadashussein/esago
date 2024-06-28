@@ -127,7 +127,7 @@ const ExperienceForm = ({
             id={`description-${currentIndex}`}
             name={`description-${currentIndex}`}
             required
-            value={experience[currentIndex]?.description || ""}
+            value={experience[currentIndex].description}
             onChange={(e) => handleChange("description", e.target.value)}
             rows={3}
             placeholder="A brief description of your experience"
