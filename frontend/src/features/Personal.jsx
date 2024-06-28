@@ -147,6 +147,32 @@ const Personal = ({ cvId, activeTemplate }) => {
                 name="email"
               />
             </div>
+            <div className="sm:col-span-3">
+              <label className="label-primary" htmlFor="git_username">
+                Version Control Username
+              </label>
+              <input
+                className="input-primary"
+                onChange={(e) =>
+                  handleInputChange("git_username", e.target.value)
+                }
+                type="text"
+                value={personal?.git_username || ""}
+                name="git_username"
+              />
+            </div>
+            <div className="sm:col-span-3">
+              <label className="label-primary" htmlFor="git_link">
+                Link to Version Control Username
+              </label>
+              <input
+                className="input-primary"
+                onChange={(e) => handleInputChange("git_link", e.target.value)}
+                type="text"
+                value={personal?.git_link || ""}
+                name="git_link"
+              />
+            </div>
             <div className="col-span-full">
               <label className="label-primary" htmlFor="bio">
                 Bio
