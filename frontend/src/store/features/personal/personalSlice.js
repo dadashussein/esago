@@ -72,6 +72,8 @@ const initialState = {
     address: "",
     phone_number: "",
     email: "",
+    git_username: "",
+    git_link: "",
     bio: "",
     template_id: 1,
   },
