@@ -1,20 +1,22 @@
 import { Trash } from "lucide-react";
 import { FileSliders } from "lucide-react";
-import { ArrowDownToLine } from "lucide-react";
 import { X } from "lucide-react";
+import ReactiveButton from "../common/ReactiveButton";
+import { Download } from "lucide-react";
+import Alert from "../common/Alert";
 
 export default function CvModal({
   open,
   onClose,
+  status,
   children,
   selectedCv,
   handleEdit,
   handleDelete,
-  handleDownload,
+  handleGenerate,
 }) {
   return (
     <div
-      onClick={onClose}
       className={`  fixed inset-0 flex justify-center items-center
          transition-colors ${open ? "visible bg-black/30" : "invisible"}`}
     >
@@ -35,19 +37,31 @@ export default function CvModal({
         {children}
       </div>
       <div
-        className="flex p-2 rounded-full border
-       shadow-shadowOne 
-      justify-center bottom-20 gap-4 absolute"
+        className="flex border
+       shadow-shadowOne   text-white bg-primary-500
+      justify-center  rounded-md bottom-20 absolute"
       >
-        <button onClick={() => handleEdit(selectedCv)}>
+        <button
+          className=" p-2 hover:bg-blue-500  rounded-l-md"
+          onClick={() => handleEdit(selectedCv)}
+        >
           <FileSliders />
         </button>
-        <button onClick={() => handleDownload(selectedCv)}>
-          <ArrowDownToLine />
-        </button>
-        <button onClick={() => handleDelete(selectedCv)}>
-          <Trash />
-        </button>
+
+        <ReactiveButton
+          className={"hover:bg-yellow-400  p-2"}
+          onClick={handleGenerate}
+          icon={<Download size={"1.5rem"} />}
+          status={status}
+        />
+
+        {/* <button
+          className="hover:bg-red-600  p-2 rounded-r-md"
+          onClick={() => handleDelete(selectedCv)}
+        > */}
+
+        <Alert handleDelete={handleDelete} icon={<Trash />} />
+        {/* </button> */}
       </div>
     </div>
   );

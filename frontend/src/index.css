@@ -32,6 +32,7 @@ ul,
   border-top-right-radius: 0;
   background-color: #e7e7e7;
 }
+
 #scrollbar1::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   background-clip: content-box;
@@ -44,30 +45,26 @@ ul,
   }
 
   .input-primary {
-    @apply block w-full  focus:outline focus:outline-primary-500
-     bg-[#FAFAFA] dark:bg-[#31363F] rounded-md border md:px-3 md:py-2 
-     text-gray-900 shadow-sm sm:text-sm dark:text-[#b2b7c1]
-      dark:border-[#686D76] dark:focus:outline-none
-      px-2 py-1;
+    @apply block w-full focus:outline focus:outline-primary-500 bg-[#FAFAFA] dark:bg-[#31363F] rounded-md border md:px-3 md:py-2 text-gray-900 shadow-sm sm:text-sm dark:text-[#b2b7c1] dark:border-[#686D76] dark:focus:outline-none px-2 py-1;
   }
 
   .section-title {
     @apply font-semibold lg:text-[30px] flex items-center gap-4 text-[20px] text-gray-900 dark:text-[#D4D4D4];
   }
+
   .section-description {
     @apply text-sm mb-4 dark:text-[#D4D4D4] text-gray-950;
   }
 
   .label-primary {
-    @apply block text-[12px]  text-gray-900 dark:text-[#D4D4D4];
+    @apply block text-[12px] text-gray-900 dark:text-[#D4D4D4];
   }
 
   .btnPrimary {
-    @apply bg-primary-500 font-bold 
-     rounded-[6px] text-white
-    hover:bg-white hover:text-primary-500 border-2 
-    transition duration-300 ease-in-out
-    border-primary-500 dark:bg-primary-400;
+    @apply bg-primary-500 font-bold rounded-[6px] text-white 
+     hover:bg-primary-300
+  border-2 transition duration-300 ease-in-out
+      dark:bg-primary-400;
   }
 
   .landing-container {

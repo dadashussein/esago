@@ -17,6 +17,9 @@ import Languages from "@/features/Languages";
 import { Download } from "lucide-react";
 import ReactiveButton from "../common/ReactiveButton";
 
+import PageLoader from "@/ania/PageLoader";
+// import Custom from "@/features/Custom/Custom";
+
 const CreateCv = () => {
   const activeTemplate = useSelector((state) => state.templates.activeTemplate);
   const [expanded, setExpanded] = useState(true);
@@ -24,7 +27,6 @@ const CreateCv = () => {
   const navigate = useNavigate();
   const { cvId } = useParams();
   const { compileToHtml, status } = useCompileHtml({ cvId });
-  console.log(status);
 
   useEffect(() => {
     dispatch(fetchAllCv({ cvId }));
@@ -59,6 +61,8 @@ const CreateCv = () => {
           <Skill cvId={cvId} />
           <hr />
           <Languages cvId={cvId} />
+          <hr />
+          {/* <Custom cvId={cvId} /> */}
         </div>
       </div>
       {/* center*/}
@@ -72,11 +76,16 @@ const CreateCv = () => {
           maxScale={3}
           translationBounds={{ xMax: 700, yMax: 700 }}
         >
-          <div className="border ">
-            <A4Component activeTemplate={activeTemplate} cvId={cvId} />
-          </div>
+          <PageLoader status={status}>
+            <div className="border ">
+              <A4Component activeTemplate={activeTemplate} cvId={cvId} />
+            </div>
+          </PageLoader>
         </MapInteractionCSS>
-        <div className="border text-white rounded-md bg-primary-500 px-4   absolute left-[40%] items-center bottom-4 flex justify-center">
+        <div
+          className="border text-white rounded-md bg-primary-500 px-4  
+         absolute left-[40%] items-center bottom-4 flex justify-center"
+        >
           <ReactiveButton
             className={"px-3 py-2 rounded-md"}
             onClick={handleGenerate}

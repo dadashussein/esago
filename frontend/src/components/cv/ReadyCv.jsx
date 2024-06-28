@@ -9,7 +9,6 @@ import DarkBlue from "./templates/DarkBlue";
 
 const ReadyCv = ({ cvId }) => {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(fetchAllCv({ cvId }));
   }, [dispatch, cvId]);

@@ -1,7 +1,14 @@
-import { MapPin } from "lucide-react";
-import { Mail } from "lucide-react";
-import { Smartphone } from "lucide-react";
-const DarkBlue = ({ education, experience, personal, img, skills, languages }) => {
+import { formatDescriptionAsList } from "@/utils/dangerouslySetInnerHTML";
+import { MapPin, Mail, Smartphone } from "lucide-react";
+
+const DarkBlue = ({
+  education,
+  experience,
+  personal,
+  img,
+  skills,
+  languages,
+}) => {
   const {
     first_name,
     last_name,
@@ -15,10 +22,10 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
   return (
     <div className="flex w-full h-[70.2rem] bg-slate-50">
       {/* leftbar */}
-      <div className="basis-2/6 bg-cyan-700 ">
+      <div className="basis-2/6 bg-cyan-700">
         {/* leftbar - head */}
         <div
-          className={`bg-neutral-800 px-8  h-32 ${img && !img.endsWith("/null") ? "block" : "hidden"}`}
+          className={`bg-neutral-800 px-8 h-32 ${img && !img.endsWith("/null") ? "block" : "hidden"}`}
         >
           <img
             className="relative top-8 border-2 border-cyan-700 w-full"
@@ -28,7 +35,7 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
         </div>
         {/* leftbar-body */}
         <div
-          className={`px-8 text-cyan-100 ${img && img.endsWith("/null") ? "mt-20" : "mt-32"}  text-xs`}
+          className={`px-8 text-cyan-100 ${img && img.endsWith("/null") ? "mt-20" : "mt-32"} text-xs`}
         >
           {/* Address */}
           <div className="pb-6 mb-2 border-solid border-b-2 border-b-cyan-100">
@@ -46,8 +53,8 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
             </div>
           </div>
           {/* Summary */}
-          <div className="pb-6 mb-2 border-solid max-w-[14rem] break-words text-wrap  border-b-2 border-b-cyan-100">
-            <h3 className="uppercase font-bold text-base mb-1  tracking-wide">
+          <div className="pb-6 mb-2 border-solid max-w-[14rem] break-words text-wrap border-b-2 border-b-cyan-100">
+            <h3 className="uppercase font-bold text-base mb-1 tracking-wide">
               Summary
             </h3>
             <p className="text-wrap">{bio}</p>
@@ -57,22 +64,19 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
             <h3 className="uppercase font-bold text-base mb-1 tracking-wide">
               Skills
             </h3>
-            <ul className="list-disc list-inside w-full" >
+            <ul className="list-disc list-inside w-full">
               {skills &&
-                skills.map((skill) => (
-                  <li key={skill.id}>{skill.name}</li>
-                ))}
+                skills.map((skill, index) => <li key={index}>{skill.name}</li>)}
             </ul>
           </div>
         </div>
       </div>
       {/* rightbar */}
-      <div className="px-8 pt-10 w-4/6  text-xs">
+      <div className="px-8 pt-10 w-4/6 text-xs">
         <div className="mb-14">
           <h1 className="text-5xl font-bold text-cyan-600">
             {first_name} {last_name}
           </h1>
-
           <h2 className="text-2xl mt-8 font-semibold text-cyan-600">
             {job_title}
           </h2>
@@ -84,7 +88,6 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
               Experience
             </h3>
             {/* experience body */}
-
             {experience.map((exp, index) => (
               <div className="mb-5" key={index}>
                 <div>
@@ -94,9 +97,11 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
                   <span className="font-medium">{exp.job_title}</span> |{" "}
                   <span>{exp.company_name}</span>
                 </div>
-                <ul className="list-disc pl-4">
-                  <li>{exp.description}</li>
-                </ul>
+                {exp.description && (
+                  <ul className="list-disc pl-4 w-full">
+                    {formatDescriptionAsList(exp.description)}
+                  </ul>
+                )}
               </div>
             ))}
           </div>
@@ -120,6 +125,11 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
                   <span className="capitalize">{edu.degree}</span> of{" "}
                   <span className="capitalize">{edu.field_of_study}</span>
                 </div>
+                {edu.description && (
+                  <ul className="list-disc pl-4 w-full">
+                    {formatDescriptionAsList(edu.description)}
+                  </ul>
+                )}
               </div>
             ))}
           </div>
@@ -131,11 +141,13 @@ const DarkBlue = ({ education, experience, personal, img, skills, languages }) =
               Languages
             </h3>
             <div>
-              {languages && languages.map((language, index) => (
-                <div key={index} className="mb-2">
-                  <span>{language.name}</span> - <span>{language.proficiency}</span>
-                </div>
-              ))}
+              {languages &&
+                languages.map((language, index) => (
+                  <div key={index} className="mb-2">
+                    <span>{language?.name}</span> -{" "}
+                    <span>{language?.proficiency}</span>
+                  </div>
+                ))}
             </div>
           </div>
         )}

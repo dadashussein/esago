@@ -6,7 +6,6 @@ import ReactDOMServer from "react-dom/server";
 
 const pdfUrl = import.meta.env.VITE_PDF_URL;
 const useCompileHtml = () => {
-
   const [error, setError] = useState(null);
   const [status, setStatus] = useState("idle");
 
@@ -32,7 +31,6 @@ const useCompileHtml = () => {
     } finally {
       setStatus("idle");
     }
-    console.log(component);
   };
 
   return { compileToHtml, status, error };

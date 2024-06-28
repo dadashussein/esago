@@ -14,6 +14,8 @@ const usePersonal = (cvId, activeTemplate) => {
   const dispatch = useDispatch();
   const personal = useSelector((state) => state.personal.personal);
   const status = useSelector((state) => state.personal.status);
+  const avatar_status = useSelector((state) => state.personal.avatar_status);
+
   const [avatar, setAvatar] = useState({
     file: null,
     url: "",
@@ -75,6 +77,7 @@ const usePersonal = (cvId, activeTemplate) => {
     personal,
     avatar,
     status,
+    avatar_status,
     imgUrl,
     handleInputChange,
     handleSendAndNext,

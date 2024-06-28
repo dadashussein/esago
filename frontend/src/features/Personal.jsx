@@ -3,16 +3,17 @@ import ReactiveButton from "@/components/common/ReactiveButton";
 import usePersonal from "@/hooks/usePersonal";
 import avata from "@/assets/avata.png";
 import { X } from "lucide-react";
-
+import spinner from "@/assets/animated/loading-spinner.svg";
 const Personal = ({ cvId, activeTemplate }) => {
   const {
     personal,
     avatar,
     status,
+    avatar_status,
     handleInputChange,
     handleSendAndNext,
     handleAvatar,
-    removePhoto
+    removePhoto,
   } = usePersonal(cvId, activeTemplate);
 
   return (
@@ -32,10 +33,23 @@ const Personal = ({ cvId, activeTemplate }) => {
           <div className="relative inline-flex">
             <label htmlFor="avatar" className="flex label-primary items-center">
               <img
-                className="w-20 h-20 object-contain cursor-pointer rounded-full -xl hover:opacity-80 duration-200 ease-linear"
+                className="w-20 h-20 object-contain cursor-pointer rounded-full 
+                -xl hover:opacity-80 duration-200 ease-linear"
                 src={avatar.url || avata}
                 alt="avatar"
               />
+              {avatar_status === "loading" && (
+                <div
+                  className="absolute inset-0 flex items-center
+                 justify-center bg-gray-900/50 rounded-full"
+                >
+                  <img
+                    className="animate-spin fill-red-100 text-white"
+                    src={spinner}
+                    alt="spinner"
+                  />
+                </div>
+              )}
             </label>
 
             {avatar.url ? (
@@ -45,14 +59,15 @@ const Personal = ({ cvId, activeTemplate }) => {
               >
                 <X size={"1rem"} />
               </button>
-            ) : (<input
-              id="avatar"
-              type="file"
-              style={{ display: "none" }}
-              name="avatar"
-
-              onChange={handleAvatar}
-            />)}
+            ) : (
+              <input
+                id="avatar"
+                type="file"
+                style={{ display: "none" }}
+                name="avatar"
+                onChange={handleAvatar}
+              />
+            )}
           </div>
           <div className="mt-4 relative grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-6">
             <div className="sm:col-span-3">
@@ -142,7 +157,7 @@ const Personal = ({ cvId, activeTemplate }) => {
                   onChange={(e) => handleInputChange("bio", e.target.value)}
                   name="bio"
                   id="bio"
-                  rows={3}
+                  rows={7}
                   value={personal?.bio || ""}
                   placeholder="Write down your bio"
                 />
