@@ -9,6 +9,8 @@ import resumeReducer from "./features/resume/resumeSlice";
 import templateReducer from "./features/templates/templateSlice";
 import otherReducer from "./features/other/otherSlice";
 
+const test = "test";
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,
