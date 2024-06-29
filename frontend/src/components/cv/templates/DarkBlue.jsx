@@ -1,5 +1,6 @@
 import { formatDescriptionAsList } from "@/utils/dangerouslySetInnerHTML";
-import { MapPin, Mail, Smartphone, GitGraph } from "lucide-react";
+import { Github } from "lucide-react";
+import { MapPin, Mail, Smartphone } from "lucide-react";
 
 const DarkBlue = ({
   education,
@@ -42,19 +43,19 @@ const DarkBlue = ({
           {/* Address */}
           <div className="pb-6 mb-2 border-solid border-b-2 border-b-cyan-100">
             <div className="flex items-center gap-3 mb-1.5">
-              <MapPin className="size-3" />
+              <MapPin size={".9rem"}/>
               <span>{address}</span>
             </div>
             <div className="flex items-center gap-3 mb-1.5">
-              <Smartphone className="size-3" />
+              <Smartphone size={".9rem"}/>
               <span>{phone_number}</span>
             </div>
             <div className="flex items-end gap-3 mb-1.5">
-              <Mail className="size-3" />
+              <Mail size={".9rem"} />
               <span>{email}</span>
             </div>
             <div className="flex items-center gap-3">
-              <GitGraph className="size-3" />
+              <Github size={".9rem"} />
               <a href={git_link} target="_blank">
                 <span>{git_username || ""}</span>
               </a>
