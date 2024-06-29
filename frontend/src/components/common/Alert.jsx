@@ -3,9 +3,7 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 const Alert = ({ icon, handleDelete }) => (
   <AlertDialog.Root>
     <AlertDialog.Trigger asChild>
-      <button className="hover:bg-red-600  p-2 rounded-r-md">
-        {icon}
-      </button>
+      <button className="hover:bg-red-600  p-2 rounded-r-md">{icon}</button>
     </AlertDialog.Trigger>
     <AlertDialog.Portal>
       <AlertDialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
@@ -26,7 +24,8 @@ const Alert = ({ icon, handleDelete }) => (
           <AlertDialog.Action asChild>
             <button
               onClick={handleDelete}
-              className="text-red11 bg-red4 hover:bg-red5 focus:shadow-red7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]">
+              className="text-red11 bg-red4 hover:bg-red5 focus:shadow-red7 inline-flex h-[35px] items-center justify-center rounded-[4px] px-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
+            >
               Yes, delete account
             </button>
           </AlertDialog.Action>

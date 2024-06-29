@@ -1,25 +1,13 @@
-FROM node:18-alpine
-
-# Install pnpm globally
-RUN npm install -g pnpm
-
+FROM node:18 AS builder
 WORKDIR /app
-
-# Copy package.json and pnpm-lock.yaml
-COPY package*.json .
-COPY pnpm-lock.yaml .
-
-# Install dependencies using pnpm
-RUN pnpm install
-
-# Copy the rest of the application code
+COPY package.json pnpm-lock.yaml ./
+RUN npm install -g pnpm
+RUN pnpm install --frozen-lockfile
 COPY . .
-
-# Build the application
 RUN pnpm run build
 
-# Expose the port
+FROM nginx:stable-alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 5173
-
-# Start the application
-CMD [ "pnpm", "run", "preview" ]
+CMD ["nginx", "-g", "daemon off;"]
