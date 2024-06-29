@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const { mauve, violet, red, blackA } = require('@radix-ui/colors');
 export default {
   content: [
     "./index.html",
@@ -14,6 +15,10 @@ export default {
         darkColor: { "bg": "#181818", "menu": "#212121", "hover": "#3D3D3D", "text": "#FFFFFF", "border": "#AAAAAA" },
         neytral: { 500: "#FAFAFA" },
         "bg-primary": "#F9FBFA",
+        ...mauve,
+        ...violet,
+        ...red,
+        ...blackA,
       },
       screens: {
         'sm': '414px',
@@ -28,9 +33,10 @@ export default {
       boxShadow: {
         shadowOne: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
         shadowTwo: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
+        alertBoxShadow: 'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px'
       },
       backgroundImage: {
-        'footer-texture': 'url("@/assets/svgs/footerBg.svg")',
+        'footer-texture': 'url("@/assets/svgs/footerSvg.svg")',
         'landing-texture': 'url("@/assets/svgs/landingBg.svg")',
         "dash": 'url("@/assets/dash.jpg")',
       },
@@ -48,6 +54,7 @@ export default {
         overlayShow: 'overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
         contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
       },
+
     },
   },
 };

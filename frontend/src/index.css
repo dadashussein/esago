@@ -74,4 +74,7 @@ ul,
   .landing-title {
     @apply text-4xl font-bold text-gray-900;
   }
+  .sideBarShowAnime {
+    @apply transition-all  duration-200 ease-linear;
+  }
 }

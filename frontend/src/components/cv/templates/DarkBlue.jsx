@@ -43,11 +43,11 @@ const DarkBlue = ({
           {/* Address */}
           <div className="pb-6 mb-2 border-solid border-b-2 border-b-cyan-100">
             <div className="flex items-center gap-3 mb-1.5">
-              <MapPin size={".9rem"}/>
+              <MapPin size={".9rem"} />
               <span>{address}</span>
             </div>
             <div className="flex items-center gap-3 mb-1.5">
-              <Smartphone size={".9rem"}/>
+              <Smartphone size={".9rem"} />
               <span>{phone_number}</span>
             </div>
             <div className="flex items-end gap-3 mb-1.5">

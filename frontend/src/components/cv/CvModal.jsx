@@ -54,14 +54,7 @@ export default function CvModal({
           icon={<Download size={"1.5rem"} />}
           status={status}
         />
-
-        {/* <button
-          className="hover:bg-red-600  p-2 rounded-r-md"
-          onClick={() => handleDelete(selectedCv)}
-        > */}
-
-        <Alert handleDelete={handleDelete} icon={<Trash />} />
-        {/* </button> */}
+        <Alert handleDelete={() => handleDelete(selectedCv)} icon={<Trash />} />
       </div>
     </div>
   );

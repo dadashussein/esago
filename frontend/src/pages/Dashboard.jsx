@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import useCv from "@/hooks/useCv";
 import CvModal from "@/components/cv/CvModal";
 import ReadyCv from "@/components/cv/ReadyCv";
@@ -11,10 +10,8 @@ import useCompileHtml from "@/hooks/useCompileHtml";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import { Tailwind } from "@fileforge/react-print";
-import Alert from "@/components/common/Alert";
 
 const Dashboard = () => {
-  const currentUser = useSelector((state) => state.auth.currentUser);
   const {
     cv,
     cvTitle,
@@ -49,14 +46,6 @@ const Dashboard = () => {
     <main>
       <div>
         <div className="">
-          <h3
-            className="  text-lg 
-        dark:text-darkColor-text dark:bg-darkColor-menu
-        py-3 px-2 md:text-[30px]"
-          >
-            Hi, {currentUser?.username}
-          </h3>
-
           <h3
             className="text-lg 
         dark:text-darkColor-text

@@ -14,6 +14,7 @@
   "dependencies": {
     "@fileforge/react-print": "^0.1.141",
     "@formkit/auto-animate": "^0.8.2",
+    "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-avatar": "^1.1.0",

@@ -13,7 +13,6 @@ export default function Custom({ cvId }) {
   const { custom, status, error } = useSelector((state) => state.other);
   const [customName, setCustomName] = useState("");
 
-
   useEffect(() => {
     dispatch(fetchCustom(cvId));
   }, [cvId, dispatch]);

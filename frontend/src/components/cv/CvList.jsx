@@ -7,7 +7,7 @@ const CvList = ({
   darkMode,
 }) => {
   return (
-    <div className="flex flex-col bg-white p-6 rounded-lg gap-2 flex-wrap mr-8 shadow-shadowOne ">
+    <div className="flex flex-col bg-white/20 backdrop-blur-lg p-6 rounded-lg gap-2 flex-wrap mr-8 shadow-shadowOne ">
       <h3 className={` dark:text-darkColor-text text-center px-1`}>
         History of your CVs
       </h3>
