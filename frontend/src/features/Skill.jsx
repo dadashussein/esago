@@ -43,9 +43,9 @@ export default function Skill({ cvId }) {
         </div>
         <div className="flex flex-wrap mt-4 gap-2 mb-16">
           {skills &&
-            skills.map((skill, index) => (
+            skills.map((skill) => (
               <span
-                key={index}
+                key={skill.id}
                 className="bg-gray-200 border relative border-darkColor-menu text-gray-500  px-4 py-3 rounded"
               >
                 {skill.name}
@@ -62,3 +62,4 @@ export default function Skill({ cvId }) {
     </div>
   );
 }
+  

@@ -23,7 +23,6 @@ export const login = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await axiosInstance.post("/users/login", userData);
-      //Cookies.set("accessToken", response.data.accessToken);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
@@ -46,6 +45,25 @@ export const getCurrentUser = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async () => {
   Cookies.remove("accessToken");
 });
+
+export const changhePicture = createAsyncThunk(
+  "auth/changePicture",
+  async (file, thunkAPI) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await axiosInstance.patch("/users/changepicture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  },
+);
+
 
 const authSlice = createSlice({
   name: "auth",

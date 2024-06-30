@@ -42,6 +42,7 @@ export default function MainLayout() {
   const handleLogout = () => {
     dispatch(logout());
     navigate("/");
+    window.location.reload();
   };
 
   return (

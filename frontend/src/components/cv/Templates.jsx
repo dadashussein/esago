@@ -48,13 +48,13 @@ const Templates = ({ cvId }) => {
   }, [template_id, dispatch]);
 
   return (
-    <div className="p-2 ">
+    <div className="p-2  sideBarShowAnime">
       <h1 className="section-title ">
         <span>{<Paintbrush />}</span>
         Templates
       </h1>
 
-      <div className="grid grid-cols-2 gap-4 mt-4	">
+      <div className="grid grid-cols-2 gap-4 mt-4 	">
         {templates &&
           templates.map((template) => (
             <div key={template.id} onClick={() => handleTemplate(template.id)}>

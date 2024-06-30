@@ -17,6 +17,7 @@ export default function Languages({ cvId }) {
   const languages = useSelector((state) => state.languages.languages);
 
   const handleAdd = () => {
+    if (!currentLanguage.name) return;
     dispatch(postLanguages({ language: currentLanguage, cvId }));
   };
 

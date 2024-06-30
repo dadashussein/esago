@@ -33,6 +33,7 @@ const EducationForm = ({
 }) => {
   const [errors, setErrors] = useState({});
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
@@ -102,9 +103,9 @@ const EducationForm = ({
             {field.replace(/_/g, " ")}
           </label>
           <input
-            type="text"
+            type="date"
             required
-            value={education[currentIndex].field}
+            value={education[currentIndex]?.[field] || ""}
             onChange={(e) => handleChange(field, e.target.value)}
             name={`${field}-${currentIndex}`}
             id={`${field}-${currentIndex}`}
@@ -123,16 +124,20 @@ const EducationForm = ({
         >
           Description
         </label>
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 relative items-center">
           <textarea
             id={`description-${currentIndex}`}
             name={`description-${currentIndex}`}
             value={education[currentIndex]?.description || ""}
             onChange={(e) => handleChange("description", e.target.value)}
-            rows={3}
+            rows={7}
+            maxLength={250}
             placeholder="A brief description of your education"
-            className="input-primary"
+            className="input-primary min-h-[100px] resize-none w-full"
           />
+          <span className="text-[10px] text-slate-800 absolute bottom-0 right-16">
+            {250 - (education[currentIndex]?.description?.length || 0)} characters left
+          </span>
           <ReactiveButton
             className={
               "p-2 bg-primary-500 cursor-pointer  text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"

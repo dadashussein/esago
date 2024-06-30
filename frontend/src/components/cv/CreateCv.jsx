@@ -16,9 +16,8 @@ import { fetchAllCv } from "@/store/features/resume/resumeSlice";
 import Languages from "@/features/Languages";
 import { Download } from "lucide-react";
 import ReactiveButton from "../common/ReactiveButton";
-
 import PageLoader from "@/ania/PageLoader";
-// import Custom from "@/features/Custom/Custom";
+
 
 const CreateCv = () => {
   const activeTemplate = useSelector((state) => state.templates.activeTemplate);
@@ -27,6 +26,12 @@ const CreateCv = () => {
   const navigate = useNavigate();
   const { cvId } = useParams();
   const { compileToHtml, status } = useCompileHtml({ cvId });
+
+  const handleMainMenu = () => {
+    navigate('/app');
+    window.location.reload(); 
+  };
+
 
   useEffect(() => {
     dispatch(fetchAllCv({ cvId }));
@@ -43,14 +48,14 @@ const CreateCv = () => {
   };
 
   return (
-    <div className="flex h-screen bg-white flex-col md:flex-row  ">
+    <div className="flex h-screen backdrop-blur-lg bg-white/75  flex-col md:flex-row  ">
       {/* Left Side */}
       <div
-        className={`relative sm:w-full  dark:bg-[#232429] ${expanded ? "lg:w-2/5" : "lg:w-1/2"}  `}
+        className={`relative sm:w-full  dark:bg-[#232429] sideBarShowAnime ${expanded ? "lg:w-2/5" : "lg:w-1/2"}  `}
       >
         <div
           id="scrollbar1"
-          className="p-4  flex flex-col gap-6 h-full overflow-y-scroll scroll-smooth"
+          className="p-4 flex flex-col border-2  border-bg-gray-400 gap-6 h-full overflow-y-scroll scroll-smooth"
         >
           <Personal cvId={cvId} activeTemplate={activeTemplate} />
           <hr />
@@ -95,7 +100,7 @@ const CreateCv = () => {
 
           <button
             className="  px-3 py-2 rounded-md"
-            onClick={() => navigate(-1)}
+            onClick={handleMainMenu}
           >
             <Home size={"1.5rem"} />
           </button>
@@ -116,7 +121,7 @@ const CreateCv = () => {
       {/* Right Side */}
       <div
         className={`
-          border-2  ${expanded ? "w-1/5 " : "hidden"}
+          border-2 sideBarShowAnime bg-white/70   ${expanded ? "w-1/5 " : "hidden"}
         `}
       >
         <Templates cvId={cvId} />

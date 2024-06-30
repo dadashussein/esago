@@ -102,7 +102,6 @@ const routes = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Inner /> },
-      { path: "template", element: <Templates /> },
       { path: ":cvId", element: <CreateCv /> },
     ],
   },

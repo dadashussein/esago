@@ -177,16 +177,20 @@ const Personal = ({ cvId, activeTemplate }) => {
               <label className="label-primary" htmlFor="bio">
                 Bio
               </label>
-              <div className="flex gap-4 items-center">
+              <div className="flex relative gap-4 items-center">
                 <textarea
-                  className="input-primary"
+                  className="input-primary min-h-[100px] resize-none w-full"
                   onChange={(e) => handleInputChange("bio", e.target.value)}
                   name="bio"
                   id="bio"
                   rows={7}
                   value={personal?.bio || ""}
+                  maxLength={250}
                   placeholder="Write down your bio"
                 />
+                <span className="text-[10px] text-slate-800 absolute bottom-0 right-16">
+                  {250 - (personal?.bio?.length || 0)} characters left
+                </span>
                 <ReactiveButton
                   disabled={status === "succeeded"}
                   status={status}
