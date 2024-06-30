@@ -2,6 +2,7 @@ import { login, register } from "@/store/features/auth/authSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +10,7 @@ const useUserAuth = () => {
   const [error, setError] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoading } = useSelector((state) => state.auth);
 
   const handleRegister = async (formData) => {
     const { username, email, password } = formData;
@@ -55,7 +57,7 @@ const useUserAuth = () => {
     }, 4000);
   };
 
-  return { error, handleRegister, handleLogin };
+  return { error, isLoading, handleRegister, handleLogin };
 };
 
 export default useUserAuth;

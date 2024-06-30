@@ -1,3 +1,4 @@
+import ReactiveButton from "@/components/common/ReactiveButton";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
@@ -7,7 +8,6 @@ const validateField = (name, value) => {
     case "location":
     case "degree":
     case "field_of_study":
-    case "description":
       if (!value.trim()) {
         return `${name.replace(/_/g, " ")} is required`;
       }
@@ -27,6 +27,7 @@ const validateField = (name, value) => {
 const EducationForm = ({
   currentIndex,
   education,
+  status,
   handleInputChange,
   handleAddEducation,
 }) => {
@@ -103,7 +104,7 @@ const EducationForm = ({
           <input
             type="text"
             required
-            value={education[currentIndex]?.[field] || ""}
+            value={education[currentIndex].field}
             onChange={(e) => handleChange(field, e.target.value)}
             name={`${field}-${currentIndex}`}
             id={`${field}-${currentIndex}`}
@@ -126,22 +127,21 @@ const EducationForm = ({
           <textarea
             id={`description-${currentIndex}`}
             name={`description-${currentIndex}`}
-            required
             value={education[currentIndex]?.description || ""}
             onChange={(e) => handleChange("description", e.target.value)}
             rows={3}
             placeholder="A brief description of your education"
             className="input-primary"
           />
-          {errors.description && (
-            <p className="text-red-500 text-xs mt-1">{errors.description}</p>
-          )}
-          <button
-            type="submit"
-            className="p-2 bg-primary-500 text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
-          >
-            <Plus />
-          </button>
+          <ReactiveButton
+            className={
+              "p-2 bg-primary-500 cursor-pointer  text-white hover:bg-primary-600 duration-200 ease-linear rounded-md"
+            }
+            disabled={status === "succeeded"}
+            icon={<Plus size={"1.2rem"} />}
+            status={status}
+            onClick={handleSubmit}
+          />
         </div>
       </div>
     </form>

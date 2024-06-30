@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 

@@ -27,16 +27,16 @@ export default function Sidebar({ children, auth, logOut }) {
 }
 
 export function SidebarItem({ icon, text, active, to }) {
-
   return (
     <li
       className={`
         relative flex items-center py-2 px-1 md:px-3 my-1
         font-medium rounded-md cursor-pointer
         transition-opacity group z-50
-        ${active
-          ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-gray-800 "
-          : "hover:bg-green-50 text-gray-600 dark:text-gray-400 dark:hover:bg-darkColor-1"
+        ${
+          active
+            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-gray-800 "
+            : "hover:bg-green-50 text-gray-600 dark:text-gray-400 dark:hover:bg-darkColor-1"
         }
     `}
     >

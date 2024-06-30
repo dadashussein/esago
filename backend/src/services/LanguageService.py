@@ -29,7 +29,8 @@ class LanguageService:
         language_data_dict['cv_id'] = cv_id
         language = Language(**language_data_dict)
         self.languageRepo.create(language)
-        return { "message": "Language created successfully" }
+        return { "message": "Language created successfully",
+        "data": language_data_dict}
     
     def update_language_cv(self, language_data: LanguageUpdateSchema, cv_id: int, user_id: UUID) -> dict:
         cv = self.cvService.get_cv_by_id(cv_id, user_id)

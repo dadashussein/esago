@@ -31,8 +31,8 @@ export default function MainLayout() {
         </Sidebar>
 
         <main
-          className="flex-1 
-         absolute left-10 md:static  dark:bg-darkColor-bg "
+          className="flex-1 bg-landing-texture 
+          dark:bg-darkColor-bg "
         >
           <Outlet />
         </main>
