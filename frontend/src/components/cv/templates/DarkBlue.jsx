@@ -154,7 +154,7 @@ const DarkBlue = ({
                 languages.map((language, index) => (
                   <div key={index} className="mb-2">
                     <span>{language?.name}</span> -{" "}
-                    <span>{language?.proficiency}</span>
+                    <span>{language?.profiency}</span>
                   </div>
                 ))}
             </div>

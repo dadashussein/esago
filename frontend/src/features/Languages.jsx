@@ -16,9 +16,11 @@ export default function Languages({ cvId }) {
   });
   const languages = useSelector((state) => state.languages.languages);
 
+
   const handleAdd = () => {
     if (!currentLanguage.name) return;
     dispatch(postLanguages({ language: currentLanguage, cvId }));
+    setCurrentLanguage({ name: "", proficiency: "beginner" });
   };
 
   const handleDelete = (languageId) => {
@@ -75,7 +77,7 @@ export default function Languages({ cvId }) {
             >
               <p>
                 {language.name}
-                <span className="text-gray-500"> - {language.proficiency}</span>
+                <span className="text-gray-500"> - {language.profiency}</span>
                 <button
                   onClick={() => handleDelete(language.id)}
                   className="absolute right-2 top-2"
