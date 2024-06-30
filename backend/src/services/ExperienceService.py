@@ -22,14 +22,14 @@ class ExperienceService:
         return ExperienceSchema.model_validate(experience)
 
     def create_experience_cv(self, experience_data: ExperienceCreateSchema, cv_id: int, user_id: UUID) -> dict:
-        experience_data_dict = experience_data
+        experience_data_dict = experience_data.model_dump()
         cv = self.cvService.get_cv_by_id(cv_id, user_id)
         if cv is None:
             raise HTTPException(status_code=404, detail="CV not found")
         experience_data_dict['cv_id'] = cv_id
         experience = Experience(**experience_data_dict)
         self.experienceRepo.create(experience)
-        return {"message": "Experience created successfully"}
+        return {"message": "Experience created successfully", "id": experience.id}
 
     
     def update_experience_cv(self, experience_data: ExperienceUpdateSchema, cv_id: int, user_id: UUID) -> dict:
@@ -38,11 +38,13 @@ class ExperienceService:
             raise HTTPException(status_code=404, detail="CV not found")
         experience = self.experienceRepo.get_experience_by_id(experience_data.id, cv_id, user_id)
         if experience is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Experience not found")
+            experience_create_schema = ExperienceCreateSchema(**experience_data.model_dump(exclude_unset=True))
+            return self.create_experience_cv(experience_create_schema, cv_id, user_id)
         experience_data_dict = experience_data.model_dump()
         experience_data_dict['cv_id'] = cv_id
         self.experienceRepo.update(experience_data.id, experience_data_dict)
         return {"message": "Experience updated successfully"}
+
     
     def delete_experience_cv(self, experience_id: int, cv_id: int, user_id: UUID) -> dict:
         cv = self.cvService.get_cv_by_id(cv_id, user_id)

@@ -28,7 +28,7 @@ class EducationService:
         education_data_dict['cv_id'] = cv_id
         education = Education(**education_data_dict)
         self.education_repo.create(education)
-        return {"message": "Education created successfully"}
+        return {"message": "Education created successfully", "id": education.id}
     
     def update_education_cv(self, education_data: EducationUpdateSchema, cv_id: int, user_id: UUID) -> dict:
         cv = self.cvService.get_cv_by_id(cv_id, user_id)
@@ -36,8 +36,9 @@ class EducationService:
             raise HTTPException(status_code=404, detail="CV not found")
         education = self.education_repo.get_education_by_id(education_data.id, cv_id, user_id)
         if education is None:
-            raise HTTPException(status_code=404, detail="Education not found")
-        education_data_dict = education_data.dict(exclude_unset=True)
+            education_create_schema = EducationCreateSchema(**education_data.model_dump(exclude_unset=True))
+            return self.create_education_cv(education_create_schema, cv_id, user_id)
+        education_data_dict = education_data.model_dump(exclude_unset=True)
         self.education_repo.update(education_data.id, education_data_dict)
         return {"message": "Education updated successfully"}
     
