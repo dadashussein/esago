@@ -23,6 +23,9 @@ class ExperienceCreateSchema(BaseModel):
     start_date: Optional[date] = Field(..., example="2020-01-01")
     end_date: Optional[date] = Field(..., example="2021-01-01")
 
+    class Config:
+        from_attributes=True
+
 class ExperienceUpdateSchema(BaseModel):
     id: int = Field(..., example=1)
     job_title: Optional[str] = Field(..., example="Software Developer")
