@@ -45,7 +45,7 @@ export default function MainLayout() {
       <div className="flex h-screen bg-landing-texture  w-full">
         {/* sidebar */}
         <div
-          className={` bg-primary-500/20 border-2  border-bg-gray-400 relative flex flex-col sideBarShowAnime
+          className={` bg-[#F9FAFB] border   border-bg-[#E5E6EB] relative flex flex-col sideBarShowAnime
              py-5 ${isSidebarOpen ? "w-[15rem] px-3 " : " w-[5rem] px-1"}`}
         >
           {/* sidebar headaer */}

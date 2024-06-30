@@ -55,7 +55,7 @@ const AveryTemp = ({ img, personal, education, experience, skills, languages }) 
               </div>
             </div>
             {/* Education */}
-            <div className="mb-14">
+            {/* <div className="mb-14">
               <h3 className="tracking-wide font-medium uppercase text-base mb-2 pb-2 leading-none border-b border-stone-400">
                 Education and training
               </h3>
@@ -76,7 +76,7 @@ const AveryTemp = ({ img, personal, education, experience, skills, languages }) 
                   </div>
                 </div>
               ))}
-            </div>
+            </div> */}
           </div>
         </div>
         {/* rightbar */}
@@ -104,7 +104,7 @@ const AveryTemp = ({ img, personal, education, experience, skills, languages }) 
                 </div>)
             }
             {/* Skills */}
-            {
+            {/* {
               skills && (
                 <div className="mb-2">
                   <h3 className="uppercase font-medium text-base tracking-wide leading-none pb-1.5 mb-2 border-b border-stone-400">
@@ -121,7 +121,7 @@ const AveryTemp = ({ img, personal, education, experience, skills, languages }) 
                   </div>
                 </div>
               )
-            }
+            } */}
             {/* Experience */}
             {
               experience.length > 0 && (

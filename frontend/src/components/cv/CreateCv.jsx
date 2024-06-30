@@ -48,14 +48,14 @@ const CreateCv = () => {
   };
 
   return (
-    <div className="flex h-screen backdrop-blur-lg bg-white/75  flex-col md:flex-row  ">
+    <div className="flex h-screen  bg-white/85  flex-col md:flex-row  ">
       {/* Left Side */}
       <div
         className={`relative sm:w-full  dark:bg-[#232429] sideBarShowAnime ${expanded ? "lg:w-2/5" : "lg:w-1/2"}  `}
       >
         <div
           id="scrollbar1"
-          className="p-4 flex flex-col border-2  border-bg-gray-400 gap-6 h-full overflow-y-scroll scroll-smooth"
+          className="p-4 flex flex-col border  border-bg-gray-400 gap-6 h-full overflow-y-scroll scroll-smooth"
         >
           <Personal cvId={cvId} activeTemplate={activeTemplate} />
           <hr />
@@ -72,7 +72,7 @@ const CreateCv = () => {
       </div>
       {/* center*/}
       <div
-        className={`relative  transition duration-150  hidden md:block  ${expanded ? "w-2/5" : "w-1/2"} `}
+        className={`relative  transition duration-150 bg-green-100  hidden md:block  ${expanded ? "w-2/5" : "w-1/2"} `}
       >
         <MapInteractionCSS
           showControls
@@ -121,7 +121,7 @@ const CreateCv = () => {
       {/* Right Side */}
       <div
         className={`
-          border-2 sideBarShowAnime bg-white/70   ${expanded ? "w-1/5 " : "hidden"}
+          border sideBarShowAnime bg-white/70   ${expanded ? "w-1/5 " : "hidden"}
         `}
       >
         <Templates cvId={cvId} />
