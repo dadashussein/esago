@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import BarLoading from "@/components/common/BarLoading";
 import { LayoutDashboard } from "lucide-react";
-import { BookTemplate } from "lucide-react";
 import { Settings2 } from "lucide-react";
 import { LogOut } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
+import EditProfile from "@/components/common/EditProfile";
+import { baseUrl } from "@/utils/api";
+
+
 
 export default function MainLayout() {
   const dispatch = useDispatch();
@@ -18,22 +21,13 @@ export default function MainLayout() {
   const auth = useSelector((state) => state.auth.currentUser);
   const isLoading = useSelector((state) => state.auth.isLoading);
 
+  const baseImgUrl = baseUrl + "/static/profiles/" + auth?.profile_picture;
+
   const handleSidebar = () => {
-    //handle with local storage
     setIsSidebarOpen(!isSidebarOpen);
-    if (!isSidebarOpen) {
-      localStorage.setItem("isSidebarOpen", "true");
-    } else {
-      localStorage.setItem("isSidebarOpen", "false");
-    }
   };
 
-  useEffect(() => {
-    const isSidebar = localStorage.getItem("isSidebarOpen");
-    if (isSidebar === "false") {
-      setIsSidebarOpen(false);
-    }
-  }, []);
+
 
   useEffect(() => {
     dispatch(getCurrentUser());
@@ -51,14 +45,16 @@ export default function MainLayout() {
       <div className="flex h-screen bg-landing-texture  w-full">
         {/* sidebar */}
         <div
-          className={` bg-primary-500/20 rounded-lg border relative flex flex-col sideBarShowAnime
-           m-1 px-3 py-5 ${isSidebarOpen ? "w-[15rem] " : " w-[5rem]"}`}
+          className={` bg-primary-500/20 border-2  border-bg-gray-400 relative flex flex-col sideBarShowAnime
+             py-5 ${isSidebarOpen ? "w-[15rem] px-3 " : " w-[5rem] px-1"}`}
         >
           {/* sidebar headaer */}
           <div className="flex items-center gap-2">
             <img
-              className={`w-16 border-2 border-white rounded-full h-16 object-cover sideBarShowAnime	${!isSidebarOpen && "w-11 h-11"}`}
-              src="https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg"
+              className={`w-14 border-2 border-white rounded-full h-14 object-cover sideBarShowAnime	
+                
+                ${!isSidebarOpen && "w-11 h-11"}`}
+              src={baseImgUrl}
               alt=""
             />
             {isSidebarOpen && (
@@ -86,14 +82,11 @@ export default function MainLayout() {
                   <LayoutDashboard />
                   {isSidebarOpen && <span>Dashboard</span>}
                 </li>
-                <li className=" p-2 transition-all hover:duration-150 ease-in hover:bg-white/50 cursor-pointer rounded-xl flex text-gray-500  items-center gap-2">
-                  <BookTemplate />
-                  {isSidebarOpen && <span>Templates</span>}
-                </li>
-                <li className="p-2 transition-all hover:duration-150 ease-in hover:bg-white/50 cursor-pointer rounded-xl flex text-gray-500  items-center gap-2">
+
+                <EditProfile buttonTag={<button className="p-2 transition-all hover:duration-150 ease-in hover:bg-white/50 cursor-pointer rounded-xl flex text-gray-500  items-center gap-2">
                   <Settings2 />
                   {isSidebarOpen && <span>Settings</span>}
-                </li>
+                </button>} />
                 <li className=" p-2 transition-all hover:duration-150 ease-in hover:bg-white/50 cursor-pointer rounded-xl flex text-gray-500  items-center gap-2">
                   <LogOut />
                   {isSidebarOpen && <span onClick={handleLogout}>Logout</span>}
