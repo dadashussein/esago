@@ -29,6 +29,12 @@ class LanguageService:
         language_data_dict['cv_id'] = cv_id
         language = Language(**language_data_dict)
         self.languageRepo.create(language)
+        language_data_dict = {
+            "id": language.id,
+            "name": language.name,
+            "profiency": language.proficiency,
+            "cv_id": language.cv_id
+        }
         return { "message": "Language created successfully",
         "data": language_data_dict}
     
