@@ -13,7 +13,7 @@ import { Paintbrush } from "lucide-react";
 const templates = [
   {
     id: 1,
-    name: "Template 1",
+    name: "White Sky",
     image: temp1,
   },
   {

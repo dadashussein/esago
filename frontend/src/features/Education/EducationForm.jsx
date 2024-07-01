@@ -33,7 +33,6 @@ const EducationForm = ({
 }) => {
   const [errors, setErrors] = useState({});
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
@@ -136,7 +135,8 @@ const EducationForm = ({
             className="input-primary min-h-[100px] resize-none w-full"
           />
           <span className="text-[10px] text-slate-800 absolute bottom-0 right-16">
-            {250 - (education[currentIndex]?.description?.length || 0)} characters left
+            {250 - (education[currentIndex]?.description?.length || 0)}{" "}
+            characters left
           </span>
           <ReactiveButton
             className={

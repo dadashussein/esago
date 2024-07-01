@@ -11,6 +11,7 @@ const Preview = () => {
   const experience = useSelector((state) => state.experience.experience);
   const personal = useSelector((state) => state.personal.personal);
   const status = useSelector((state) => state.templates.status);
+  const { text_size } = useSelector((state) => state.personal);
 
   const languages = useSelector((state) => state.languages.languages);
   const { template_id } = personal;
@@ -38,6 +39,7 @@ const Preview = () => {
               experience={experience}
               skills={skills}
               languages={languages}
+              text_size={text_size}
             />
           )}
 
@@ -49,6 +51,7 @@ const Preview = () => {
               experience={experience}
               skills={skills}
               languages={languages}
+              text_size={text_size}
             />
           )}
           {template_id === 3 && (
@@ -59,6 +62,7 @@ const Preview = () => {
               experience={experience}
               skills={skills}
               languages={languages}
+              text_size={text_size}
             />
           )}
         </div>

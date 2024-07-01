@@ -1,6 +1,6 @@
 import { formatDescriptionAsList } from "@/utils/dangerouslySetInnerHTML";
-import { Github } from "lucide-react";
 import { MapPin, Mail, Smartphone } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const DarkBlue = ({
   education,
@@ -10,6 +10,7 @@ const DarkBlue = ({
   skills,
   languages,
 }) => {
+  const text_size = useSelector((state) => state.personal.text_size);
   const {
     first_name,
     last_name,
@@ -17,8 +18,6 @@ const DarkBlue = ({
     address,
     phone_number,
     email,
-    git_username,
-    git_link,
     bio,
   } = personal;
 
@@ -28,17 +27,25 @@ const DarkBlue = ({
       <div className="basis-2/6 bg-cyan-700">
         {/* leftbar - head */}
         <div
-          className={`bg-neutral-800 px-8 h-32 ${img && !img.endsWith("/null") ? "block" : "hidden"}`}
+          className={`bg-neutral-800 px-8 h-32 ${
+            img && !img.endsWith("/null") ? "block" : "hidden"
+          }`}
         >
           <img
-            className="relative top-8 border-2 border-cyan-700 w-full"
+            className={`
+              relative top-8 border-2 border-cyan-700 w-full
+              w-${text_size > 16 ? "1/2" : "1/3"}
+              `}
             src={img}
             alt=""
           />
         </div>
         {/* leftbar-body */}
         <div
-          className={`px-8 text-cyan-100 ${img && img.endsWith("/null") ? "mt-20" : "mt-32"} text-xs`}
+          className={`px-8 text-cyan-100 ${
+            img && img.endsWith("/null") ? "mt-20" : "mt-[12rem] pt-1"
+          } ${text_size > 16 ? `text-lg` : "text-base"}`}
+          style={{ fontSize: `${text_size}px` }}
         >
           {/* Address */}
           <div className="pb-6 mb-2 border-solid border-b-2 border-b-cyan-100">
@@ -53,12 +60,6 @@ const DarkBlue = ({
             <div className="flex items-end gap-3 mb-1.5">
               <Mail size={".9rem"} />
               <span>{email}</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Github size={".9rem"} />
-              <a href={git_link} target="_blank">
-                <span>{git_username || ""}</span>
-              </a>
             </div>
           </div>
           {/* Summary */}
@@ -75,13 +76,13 @@ const DarkBlue = ({
             </h3>
             <ul className="list-disc list-inside w-full">
               {skills &&
-                skills.map((skill, index) => <li key={index}>{skill.name}</li>)}
+                skills.map((skill) => <li key={skill.id}>{skill.name}</li>)}
             </ul>
           </div>
         </div>
       </div>
       {/* rightbar */}
-      <div className="px-8 pt-10 w-4/6 text-xs">
+      <div className="px-8 pt-10 w-4/6" style={{ fontSize: `${text_size}px` }}>
         <div className="mb-14">
           <h1 className="text-5xl font-bold text-cyan-600">
             {first_name} {last_name}
@@ -154,7 +155,7 @@ const DarkBlue = ({
                 languages.map((language, index) => (
                   <div key={index} className="mb-2">
                     <span>{language?.name}</span> -{" "}
-                    <span>{language?.profiency}</span>
+                    <span>{language?.proficiency}</span>
                   </div>
                 ))}
             </div>

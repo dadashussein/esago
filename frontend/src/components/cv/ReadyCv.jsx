@@ -17,6 +17,8 @@ const ReadyCv = ({ cvId }) => {
   const loading = useSelector((state) => state.resumes.loading);
   const error = useSelector((state) => state.resumes.error);
 
+  const { text_size } = useSelector((state) => state.personal);
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -41,7 +43,6 @@ const ReadyCv = ({ cvId }) => {
     picture,
   } = allCv;
   let imgURl = `${baseUrl}/static/cv_pictures/${picture}`;
-
   return (
     <>
       <BarLoading isLoading={loading} />
@@ -62,7 +63,9 @@ const ReadyCv = ({ cvId }) => {
               }}
               education={education}
               experience={experience}
-              skill={skill}
+              languages={language}
+              skills={skill}
+              text_size={text_size}
             />
           )}
           {template_id === 2 && (
@@ -81,6 +84,8 @@ const ReadyCv = ({ cvId }) => {
               education={education}
               experience={experience}
               skill={skill}
+              languages={language}
+              text_size={text_size}
             />
           )}
           {template_id === 3 && (
@@ -100,6 +105,7 @@ const ReadyCv = ({ cvId }) => {
               experience={experience}
               skill={skill}
               languages={language}
+              text_size={text_size}
             />
           )}
         </div>

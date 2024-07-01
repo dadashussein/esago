@@ -134,7 +134,8 @@ const ExperienceForm = ({
             className="input-primary min-h-[100px] resize-none w-full"
           />
           <span className="text-[10px] text-slate-800 absolute bottom-0 right-16">
-            {250 - (experience[currentIndex]?.description?.length || 0)} characters left
+            {250 - (experience[currentIndex]?.description?.length || 0)}{" "}
+            characters left
           </span>
           <ReactiveButton
             className={

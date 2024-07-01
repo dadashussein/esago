@@ -55,21 +55,21 @@ const Dashboard = () => {
           </h3>
         </div>
 
-        <div className="flex w-full py-3 px-4 justify-between  items-center">
-          <CreateCvButton
-            cvTitle={cvTitle}
-            handleInputChange={(e) => setCvTitle(e.target.value)}
-            handleCreate={handleCreate}
-          />
-          {cv.length > 0 && (
-            <CvList
-              cv={cv}
-              lightColors={lightColors}
-              darkColors={darkColors}
-              exampleCv={exampleCv}
-              handlePreview={handlePreview}
+        <div className="flex py-3 px-4 flex-col gap-4">
+          <div className="flex gap-4">
+            <CreateCvButton
+              cvTitle={cvTitle}
+              handleInputChange={(e) => setCvTitle(e.target.value)}
+              handleCreate={handleCreate}
             />
-          )}
+          </div>
+          <CvList
+            cv={cv}
+            lightColors={lightColors}
+            darkColors={darkColors}
+            exampleCv={exampleCv}
+            handlePreview={handlePreview}
+          />
         </div>
 
         <CvModal

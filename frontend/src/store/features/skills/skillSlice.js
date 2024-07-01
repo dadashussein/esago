@@ -29,16 +29,14 @@ const skillSlice = createSlice({
       .addCase(postSkills.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(postSkills.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(postSkills.rejected, (state) => {
         state.status = "failed";
       })
       .addCase(fetchAllCv.fulfilled, (state, action) => {
         state.skills = action.payload.skill;
         state.status = "success";
       })
-      .addCase(fetchAllCv.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(fetchAllCv.rejected, (state) => {
         state.status = "failed";
       })
       .addCase(deleteSkill.fulfilled, (state, action) => {
@@ -50,8 +48,7 @@ const skillSlice = createSlice({
       .addCase(deleteSkill.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(deleteSkill.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(deleteSkill.rejected, (state) => {
         state.status = "failed";
       });
   },

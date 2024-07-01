@@ -12,8 +12,6 @@ import { ChevronRight } from "lucide-react";
 import EditProfile from "@/components/common/EditProfile";
 import { baseUrl } from "@/utils/api";
 
-
-
 export default function MainLayout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -26,8 +24,6 @@ export default function MainLayout() {
   const handleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-
 
   useEffect(() => {
     dispatch(getCurrentUser());
@@ -46,7 +42,7 @@ export default function MainLayout() {
         {/* sidebar */}
         <div
           className={` bg-[#F9FAFB] border   border-bg-[#E5E6EB] relative flex flex-col sideBarShowAnime
-             py-5 ${isSidebarOpen ? "w-[15rem] px-3 " : " w-[5rem] px-1"}`}
+             py-5 ${isSidebarOpen ? "w-[15rem] px-3" : " w-[5rem] px-1"}`}
         >
           {/* sidebar headaer */}
           <div className="flex items-center gap-2">
@@ -60,7 +56,7 @@ export default function MainLayout() {
             {isSidebarOpen && (
               <div className="flex flex-col">
                 <span className="text-[10px]">Good Day</span>
-                <span className="font-bold">{auth?.username}</span>
+                <span className="font-bold text-[12px]">{auth?.username}</span>
               </div>
             )}
             <button className="h-[2.7rem] w-[1.2rem ] absolute right-0 top-20 text-gray-500 rounded-l-xl bg-white">
@@ -83,10 +79,14 @@ export default function MainLayout() {
                   {isSidebarOpen && <span>Dashboard</span>}
                 </li>
 
-                <EditProfile buttonTag={<button className="p-2 transition-all hover:duration-150 ease-in hover:bg-white/50 cursor-pointer rounded-xl flex text-gray-500  items-center gap-2">
-                  <Settings2 />
-                  {isSidebarOpen && <span>Settings</span>}
-                </button>} />
+                <EditProfile
+                  buttonTag={
+                    <button className="p-2 transition-all hover:duration-150 ease-in hover:bg-white/50 cursor-pointer rounded-xl flex text-gray-500  items-center gap-2">
+                      <Settings2 />
+                      {isSidebarOpen && <span>Settings</span>}
+                    </button>
+                  }
+                />
                 <li className=" p-2 transition-all hover:duration-150 ease-in hover:bg-white/50 cursor-pointer rounded-xl flex text-gray-500  items-center gap-2">
                   <LogOut />
                   {isSidebarOpen && <span onClick={handleLogout}>Logout</span>}
@@ -99,7 +99,7 @@ export default function MainLayout() {
         </div>
         <main
           className="flex-1 
-          dark:bg-darkColor-bg "
+          dark:bg-darkColor-bg bg-white/70 "
         >
           <Outlet />
         </main>

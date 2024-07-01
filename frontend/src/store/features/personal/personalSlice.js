@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "@/utils/api";
+import {
+  getTextSizeFromLocalStorage,
+  saveTextSizeToLocalStorage,
+} from "@/utils/localStorageUtils";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const postInfo = createAsyncThunk(
@@ -52,7 +56,6 @@ export const deletePhoto = createAsyncThunk(
   async (cvId, thunkAPI) => {
     try {
       const response = await axiosInstance.patch(`/cvs/${cvId}/deletepicture`);
-      console.log(response.data);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message || "Something went wrong");
@@ -72,11 +75,10 @@ const initialState = {
     address: "",
     phone_number: "",
     email: "",
-    git_username: "",
-    git_link: "",
     bio: "",
     template_id: 1,
   },
+  text_size: getTextSizeFromLocalStorage(),
 };
 
 const personalSlice = createSlice({
@@ -87,6 +89,22 @@ const personalSlice = createSlice({
       const { field, value } = action.payload;
       state.personal[field] = value;
       state.status = "idle";
+    },
+    setTextSize: (state, action) => {
+      state.text_size = action.payload;
+      saveTextSizeToLocalStorage(state.text_size);
+    },
+    increaseTextSize: (state) => {
+      if (state.text_size < 20) {
+        state.text_size += 1;
+        saveTextSizeToLocalStorage(state.text_size);
+      }
+    },
+    decreaseTextSize: (state) => {
+      if (state.text_size > 12) {
+        state.text_size -= 1;
+        saveTextSizeToLocalStorage(state.text_size);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -131,6 +149,11 @@ const personalSlice = createSlice({
   },
 });
 
-export const { setPersonalField } = personalSlice.actions;
+export const {
+  setPersonalField,
+  setTextSize,
+  increaseTextSize,
+  decreaseTextSize,
+} = personalSlice.actions;
 
 export default personalSlice.reducer;

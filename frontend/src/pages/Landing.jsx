@@ -1,4 +1,3 @@
-import Footer from "@/components/common/Footer";
 import landingPhoto from "../assets/landing.avif";
 import Tilt from "react-next-tilt";
 import { useNavigate } from "react-router-dom";

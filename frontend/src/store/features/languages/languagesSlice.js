@@ -28,16 +28,14 @@ const languagesSlice = createSlice({
       .addCase(postLanguages.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(postLanguages.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(postLanguages.rejected, (state) => {
         state.status = "failed";
       })
       .addCase(fetchAllCv.fulfilled, (state, action) => {
         state.languages = action.payload.language;
         state.status = "success";
       })
-      .addCase(fetchAllCv.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(fetchAllCv.rejected, (state) => {
         state.status = "failed";
       })
       .addCase(deleteLanguage.fulfilled, (state, action) => {
@@ -49,8 +47,7 @@ const languagesSlice = createSlice({
       .addCase(deleteLanguage.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(deleteLanguage.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(deleteLanguage.rejected, (state) => {
         state.status = "failed";
       });
   },
