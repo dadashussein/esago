@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 const { mauve, violet, red, blackA } = require('@radix-ui/colors');
 export default {
@@ -5,7 +6,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'media',
+  darkMode: 'selector',
   theme: {
     extend: {
       colors: {
@@ -22,13 +23,8 @@ export default {
       },
       screens: {
         'sm': '414px',
-        // => @media (min-width: 640px) { ... }
-
         'md': '995px',
-        // => @media (min-width: 1024px) { ... }
-
         'lg': '1042px',
-        // => @media (min-width: 1280px) { ... }
       },
       boxShadow: {
         shadowOne: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',

@@ -11,6 +11,7 @@ import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import EditProfile from "@/components/common/EditProfile";
 import { baseUrl } from "@/utils/api";
+import avatar from "@/assets/avata.png";
 
 export default function MainLayout() {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ export default function MainLayout() {
               className={`w-14 border-2 border-white rounded-full h-14 object-cover sideBarShowAnime	
                 
                 ${!isSidebarOpen && "w-11 h-11"}`}
-              src={baseImgUrl}
+              src={baseImgUrl.includes("null") ? avatar : baseImgUrl}
               alt=""
             />
             {isSidebarOpen && (
