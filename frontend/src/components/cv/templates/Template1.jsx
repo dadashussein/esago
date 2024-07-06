@@ -25,7 +25,7 @@ const Template1 = ({
   return (
     <div
       style={{ fontSize: `${safeTextSize}px` }}
-      className={`w-full border h-[70.2rem] 
+      className={`w-full  h-[70.2rem] 
     ${text_size > 16 ? "text-lg" : "text-base"}
     
     `}

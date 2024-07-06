@@ -29,7 +29,7 @@ const AveryTemp = ({
   return (
     <div
       style={{ fontSize: `${safeTextSize}px` }}
-      className="overflow-hidden bg-slate-50 h-[70.2rem]"
+      className=" h-[70.2rem]"
     >
       <div className="flex w-full   text-stone-700 pb-8">
         {/* leftbar */}

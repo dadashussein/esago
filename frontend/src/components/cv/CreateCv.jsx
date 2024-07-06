@@ -32,7 +32,6 @@ const CreateCv = () => {
   const { compileToHtml, status } = useCompileHtml({ cvId });
   const handleMainMenu = () => {
     navigate("/app");
-    window.location.reload();
   };
 
   useEffect(() => {
@@ -87,9 +86,7 @@ const CreateCv = () => {
           translationBounds={{ xMax: 700, yMax: 700 }}
         >
           <PageLoader status={status}>
-            <div className="border">
               <A4Component activeTemplate={activeTemplate} cvId={cvId} />
-            </div>
           </PageLoader>
         </MapInteractionCSS>
         <div

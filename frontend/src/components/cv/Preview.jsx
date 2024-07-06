@@ -30,7 +30,7 @@ const Preview = () => {
           />
         </div>
       ) : (
-        <div className="overflow-hidden">
+        <div className="">
           {template_id === 1 && (
             <Template1
               img={imgURl}
