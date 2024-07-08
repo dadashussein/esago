@@ -22,6 +22,8 @@ export default function MainLayout() {
 
   const baseImgUrl = baseUrl + "/static/profiles/" + auth?.profile_picture;
 
+  console.log(baseImgUrl);
+
   const handleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -51,7 +53,7 @@ export default function MainLayout() {
               className={`w-14 border-2 border-white rounded-full h-14 object-cover sideBarShowAnime	
                 
                 ${!isSidebarOpen && "w-11 h-11"}`}
-              src={baseImgUrl.includes("null") ? avatar : baseImgUrl}
+              src={baseImgUrl.includes(null) || baseImgUrl.includes(undefined) ? avatar : baseImgUrl}
               alt=""
             />
             {isSidebarOpen && (
