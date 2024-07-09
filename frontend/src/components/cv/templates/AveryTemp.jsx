@@ -27,10 +27,7 @@ const AveryTemp = ({
   const headerSize = safeTextSize + 2;
 
   return (
-    <div
-      style={{ fontSize: `${safeTextSize}px` }}
-      className=" h-[70.2rem]"
-    >
+    <div style={{ fontSize: `${safeTextSize}px` }} className=" h-[70.2rem]">
       <div className="flex w-full   text-stone-700 pb-8">
         {/* leftbar */}
         <div className="basis-2/6 pt-8 pl-10 pr-1">

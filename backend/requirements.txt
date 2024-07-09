@@ -64,3 +64,4 @@ ujson==5.10.0
 uvicorn==0.29.0
 watchfiles==0.21.0
 fastapi-sso==0.15.0
+sentry-sdk[fastapi]==1.18.0

@@ -86,7 +86,7 @@ const CreateCv = () => {
           translationBounds={{ xMax: 700, yMax: 700 }}
         >
           <PageLoader status={status}>
-              <A4Component activeTemplate={activeTemplate} cvId={cvId} />
+            <A4Component activeTemplate={activeTemplate} cvId={cvId} />
           </PageLoader>
         </MapInteractionCSS>
         <div

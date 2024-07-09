@@ -1,7 +1,7 @@
 import { getCurrentUser, logout } from "@/store/features/auth/authSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import BarLoading from "@/components/common/BarLoading";
 import { LayoutDashboard } from "lucide-react";
 import { Settings2 } from "lucide-react";
@@ -15,14 +15,11 @@ import avatar from "@/assets/avata.png";
 
 export default function MainLayout() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const auth = useSelector((state) => state.auth.currentUser);
   const isLoading = useSelector((state) => state.auth.isLoading);
 
   const baseImgUrl = baseUrl + "/static/profiles/" + auth?.profile_picture;
-
-  console.log(baseImgUrl);
 
   const handleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -34,7 +31,6 @@ export default function MainLayout() {
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/");
     window.location.reload();
   };
 
@@ -53,7 +49,11 @@ export default function MainLayout() {
               className={`w-14 border-2 border-white rounded-full h-14 object-cover sideBarShowAnime	
                 
                 ${!isSidebarOpen && "w-11 h-11"}`}
-              src={baseImgUrl.includes(null) || baseImgUrl.includes(undefined) ? avatar : baseImgUrl}
+              src={
+                baseImgUrl.includes(null) || baseImgUrl.includes(undefined)
+                  ? avatar
+                  : baseImgUrl
+              }
               alt=""
             />
             {isSidebarOpen && (
