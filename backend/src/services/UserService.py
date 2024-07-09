@@ -31,16 +31,17 @@ class UserService:
 
     def login(self, user: UserLoginSchema):
         db_user = self._get_user_by_username_or_email(user.username_or_email)
+        print(db_user.password)
         self._validate_password(user.password, db_user.password)
         if not db_user.is_active:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is not activated")
-        if db_user.is_google and user.password is None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google or set a password")
+        if db_user.is_google:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google")
         delattr(db_user, "password")
         payload = Payload(sub=str(db_user.id), email=db_user.email).model_dump()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(payload, token_lifespan)
-        return {"token": access_token}
+        return {"access_token": access_token}
 
     async def register(self, user: UserRegisterSchema, background_tasks: BackgroundTasks):
         if self.userRepo.get_where(username=user.username) or self.userRepo.get_where(email=user.email):

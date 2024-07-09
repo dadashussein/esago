@@ -32,7 +32,7 @@ class LanguageService:
         language_data_dict = {
             "id": language.id,
             "name": language.name,
-            "profiency": language.proficiency,
+            "proficiency": language.proficiency,
             "cv_id": language.cv_id
         }
         return { "message": "Language created successfully",

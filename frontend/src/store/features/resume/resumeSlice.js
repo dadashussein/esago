@@ -123,7 +123,6 @@ const resumeSlice = createSlice({
       .addCase(fetchAllCv.fulfilled, (state, action) => {
         state.loading = false;
         state.allCv = action.payload;
-        //console.log(action.payload);
         state.education = action.payload.education;
         state.experience = action.payload.experience;
       })

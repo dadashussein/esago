@@ -19,9 +19,24 @@ from fastapi import FastAPI
 from config.config import configs
 from starlette.config import Config
 from starlette.middleware.sessions import SessionMiddleware
+import sentry_sdk
 
-
+sentry_sdk.init(
+    dsn="https://9172fadef5922b4a1c64eeae4b6b3aba@o4507573150416896.ingest.de.sentry.io/4507573157691472",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
 app = FastAPI()
+
+@app.get("/sentry-debug")
+async def trigger_error():
+    division_by_zero = 1 / 0
+
 Base.metadata.create_all(bind=Engine)
 origins = [
     configs.FRONTEND_URI,

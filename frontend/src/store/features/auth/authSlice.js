@@ -52,18 +52,21 @@ export const changhePicture = createAsyncThunk(
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const response = await axiosInstance.patch("/users/changepicture", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await axiosInstance.patch(
+        "/users/changepicture",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.message);
     }
   },
 );
-
 
 const authSlice = createSlice({
   name: "auth",

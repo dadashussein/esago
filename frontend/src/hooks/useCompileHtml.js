@@ -24,7 +24,13 @@ const useCompileHtml = () => {
       const pdfBlob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(pdfBlob);
       setStatus("succeeded");
-      window.open(url, "_blank");
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "file.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
     } catch (err) {
       setError(err);
       setStatus("failed");

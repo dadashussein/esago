@@ -1,6 +1,5 @@
 import { login, register } from "@/store/features/auth/authSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -46,8 +45,7 @@ const useUserAuth = () => {
     try {
       const response = await dispatch(login(user));
       const data = unwrapResult(response);
-      Cookies.set("accessToken", data.token);
-      navigate("/app");
+      navigate("/redirect", { state: { data } });
     } catch (err) {
       setError(err);
     }

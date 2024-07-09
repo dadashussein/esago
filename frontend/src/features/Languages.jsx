@@ -19,10 +19,10 @@ export default function Languages({ cvId }) {
   const handleAdd = () => {
     if (!currentLanguage.name) return;
     dispatch(postLanguages({ language: currentLanguage, cvId }));
+    setCurrentLanguage({ name: "", proficiency: "beginner" });
   };
 
   const handleDelete = (languageId) => {
-    console.log(languageId);
     dispatch(deleteLanguage({ languageId, cvId }));
   };
   return (
