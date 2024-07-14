@@ -3,6 +3,7 @@
   min-height: 29.7cm;
   max-height: 29.7cm;
   background: white;
+  overflow-y: scroll;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 

@@ -1,4 +1,5 @@
 from fastapi import Depends, HTTPException, status
+from services.CVService import CVService
 from models.models import Experience
 from repositories.ExperienceRepository import ExperienceRepository
 from uuid import UUID
@@ -6,8 +7,9 @@ from schemas.ExperienceSchemas import ExperienceCreateSchema, ExperienceUpdateSc
 
 class ExperienceService:
 
-    def __init__(self, experienceRepository: ExperienceRepository = Depends()):
+    def __init__(self, experienceRepository: ExperienceRepository = Depends(), cvService: CVService = Depends()):
         self.experienceRepo = experienceRepository
+        self.cvService = cvService
 
     def get_all_experiences_cv(self, cv_id: int, user_id: UUID) -> list[ExperienceSchema]:
         experiences = self.experienceRepo.get_all_experiences_cv(cv_id, user_id)
@@ -21,6 +23,9 @@ class ExperienceService:
 
     def create_experience_cv(self, experience_data: ExperienceCreateSchema, cv_id: int, user_id: UUID) -> dict:
         experience_data_dict = experience_data
+        cv = self.cvService.get_cv_by_id(cv_id, user_id)
+        if cv is None:
+            raise HTTPException(status_code=404, detail="CV not found")
         experience_data_dict['cv_id'] = cv_id
         experience = Experience(**experience_data_dict)
         self.experienceRepo.create(experience)
@@ -28,6 +33,9 @@ class ExperienceService:
 
     
     def update_experience_cv(self, experience_data: ExperienceUpdateSchema, cv_id: int, user_id: UUID) -> dict:
+        cv = self.cvService.get_cv_by_id(cv_id, user_id)
+        if cv is None:
+            raise HTTPException(status_code=404, detail="CV not found")
         experience = self.experienceRepo.get_experience_by_id(experience_data.id, cv_id, user_id)
         if experience is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Experience not found")
@@ -37,6 +45,9 @@ class ExperienceService:
         return {"message": "Experience updated successfully"}
     
     def delete_experience_cv(self, experience_id: int, cv_id: int, user_id: UUID) -> dict:
+        cv = self.cvService.get_cv_by_id(cv_id, user_id)
+        if cv is None:
+            raise HTTPException(status_code=404, detail="CV not found")
         experience = self.experienceRepo.get_experience_by_id(experience_id, cv_id, user_id)
         if experience is None:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Experience not found")

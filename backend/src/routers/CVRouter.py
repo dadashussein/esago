@@ -12,7 +12,7 @@ router = APIRouter(dependencies=[Depends(JWTBearer())])
     "/{cv_id}",
     response_model=CVSchema,
     status_code=status.HTTP_200_OK,
-    summary="Get details of a CV by its ID",
+    summary="Get details of a CV by its ID"
 )
 def get_cv_by_id(
     cv_id: int,
@@ -135,8 +135,7 @@ async def upload_picture(
     "/{cv_id}/template/{template_id}",
     response_model=dict,
     status_code=status.HTTP_200_OK,
-    summary="Update the template ID of a CV",
-
+    summary="Update the template ID of a CV"
 )
 async def update_template_id(
     cv_id: int,
@@ -154,8 +153,7 @@ async def update_template_id(
     "/{cv_id}",
     response_model=dict,
     status_code=status.HTTP_200_OK,
-    summary="Delete a CV by its ID",
-
+    summary="Delete a CV by its ID"
 )
 def delete_cv(
     cv_id: int,
@@ -166,3 +164,20 @@ def delete_cv(
     Delete a CV by its ID.
     """
     return cv_service.delete_cv(cv_id, user_id)
+
+
+@router.patch(
+    "/{cv_id}/deletepicture",
+    response_model=dict,
+    status_code=status.HTTP_200_OK,
+    summary="Delete the picture of a CV"
+)
+async def delete_picture(
+    cv_id: int,
+    user_id: int = Depends(get_current_user_id),
+    cv_service: CVService = Depends(),
+):
+    """
+    Delete the picture of a CV.
+    """
+    return await cv_service.delete_picture(cv_id, user_id)

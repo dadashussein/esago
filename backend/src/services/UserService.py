@@ -1,4 +1,5 @@
 import uuid
+import random
 from datetime import timedelta, datetime
 from fastapi import Depends, File, HTTPException, UploadFile, status, BackgroundTasks
 from fastapi.templating import Jinja2Templates
@@ -30,22 +31,23 @@ class UserService:
 
     def login(self, user: UserLoginSchema):
         db_user = self._get_user_by_username_or_email(user.username_or_email)
+        print(db_user.password)
         self._validate_password(user.password, db_user.password)
         if not db_user.is_active:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is not activated")
-        if db_user.is_google and user.password is None:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google or set a password")
+        if db_user.is_google:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google")
         delattr(db_user, "password")
         payload = Payload(sub=str(db_user.id), email=db_user.email).model_dump()
         token_lifespan = timedelta(minutes=configs.ACCESS_TOKEN_EXPIRE_MINUTES)
         access_token = create_access_token(payload, token_lifespan)
-        return {"token": access_token}
+        return {"access_token": access_token}
 
     async def register(self, user: UserRegisterSchema, background_tasks: BackgroundTasks):
         if self.userRepo.get_where(username=user.username) or self.userRepo.get_where(email=user.email):
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username or email already exists")
         
-        activation_code = str(uuid.uuid4())[:6]
+        activation_code = ''.join(random.choices('0123456789', k=6))
         new_user = User(
             **user.model_dump(exclude_none=True),
             is_active=False,

@@ -18,41 +18,24 @@ services:
   webapi:
     build: ./backend
     restart: no
-    environment:
-      - DB=postgresql
-      - DB_USER=admin
-      - DB_PASSWORD=Password!$2
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_DATABASE=esagodb
-      - ALGORITHM="HS256"
-      - FRONTEND_URI=http://localhost:5173
-      - BACKEND_URI=https://13.49.156.148:8000
-      - EMAIL_PORT=587
-      - EMAIL_USERNAME=rufetalliyev2@gmail.com
-      - EMAIL_FROM=rufetalliyev2@gmail.com
-      - EMAIL_TLS=True
-      - EMAIL_HOST=smtp.gmail.com
     ports:
       - "8000:8000"
     depends_on:
       - postgres
     networks:
       - esago-network
-    volumes:
-      - ./src:/app
-
-  client:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: frontend
-    ports:
-      - "5173:5173"
-    networks:
-      - esago-network
+  # client:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: frontend
+  #   ports:
+  #     - "5173:5173"
+  #   networks:
+  #     - esago-network
 volumes:
   pgdata:
+
 
 networks:
   esago-network:

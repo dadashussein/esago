@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteSkill, getSkills, postSkills } from "./skillsThunks";
+import { deleteSkill, postSkills } from "./skillsThunks";
+import { fetchAllCv } from "../resume/resumeSlice";
 
 const skillSlice = createSlice({
   name: "skills",
   initialState: {
     skills: [],
+    status: "idle",
+    error: null,
   },
   reducers: {
     addSkill: (state, action) => {
@@ -21,23 +24,32 @@ const skillSlice = createSlice({
     builder
       .addCase(postSkills.fulfilled, (state, action) => {
         state.skills.push(action.payload);
+        state.status = "success";
       })
-      .addCase(postSkills.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(postSkills.pending, (state) => {
+        state.status = "loading";
       })
-      .addCase(getSkills.fulfilled, (state, action) => {
-        state.skills = action.payload;
+      .addCase(postSkills.rejected, (state) => {
+        state.status = "failed";
       })
-      .addCase(getSkills.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(fetchAllCv.fulfilled, (state, action) => {
+        state.skills = action.payload.skill;
+        state.status = "success";
+      })
+      .addCase(fetchAllCv.rejected, (state) => {
+        state.status = "failed";
       })
       .addCase(deleteSkill.fulfilled, (state, action) => {
         state.skills = state.skills.filter(
           (skill) => skill.id !== action.payload,
         );
+        state.status = "success";
       })
-      .addCase(deleteSkill.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(deleteSkill.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deleteSkill.rejected, (state) => {
+        state.status = "failed";
       });
   },
 });

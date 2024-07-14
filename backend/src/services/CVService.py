@@ -79,7 +79,9 @@ class CVService:
             raise HTTPException(status_code=404, detail="CV not found")
         filename = await FileService.upload(file, configs.CV_PICTURE_FOLDER)
         self.cv_repo.update(cv_id, {"picture": filename})
-        return {"message": "Picture uploaded successfully"}
+        return {"message": "Picture uploaded successfully",
+                "picture": filename}
+        
 
     def update_template_id(self, cv_id: int, template_id: int, user_id: UUID) -> bool:
         cv = self.get_cv_by_id(cv_id, user_id)
@@ -88,3 +90,11 @@ class CVService:
         self.cv_repo.update(cv_id, {"template_id": template_id})
         return {"message": "Template updated successfully"}
 
+    async def delete_picture(self, cv_id: int, user_id: UUID) -> bool:
+        cv = self.get_cv_by_id(cv_id, user_id)
+        if cv is None:
+            raise HTTPException(status_code=404, detail="CV not found")
+        await FileService.delete(cv.picture)
+        self.cv_repo.update(cv_id, {"picture": None})
+        return {"message": "Picture deleted successfully",
+                "picture": None}

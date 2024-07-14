@@ -1,5 +1,5 @@
 import uuid
-
+from config.config import configs
 import aiofiles
 
 
@@ -19,3 +19,15 @@ class FileService:
             data = await file.read()
             await buffer.write(data)
         return str(file.filename)
+    
+    @staticmethod
+    async def delete(file_path):
+        if file_path is None:
+            return {"message": "File not found"}
+        try:
+            path = configs.UPLOAD_PROFILE_DIR / file_path
+            if path.exists():
+                path.unlink()
+            return {"message": "File deleted successfully"}
+        except Exception as e:
+            return {"message": "File not found"}

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteEducation,
-  fetchEducation,
   postEducation,
   updateEducation,
 } from "./educationThunks";
+import { fetchAllCv } from "../resume/resumeSlice";
+
 const educationSlice = createSlice({
   name: "education",
   initialState: {
@@ -27,6 +28,7 @@ const educationSlice = createSlice({
     setEducationField: (state, action) => {
       const { index, field, value } = action.payload;
       state.education[index][field] = value;
+      state.status = "idle";
     },
     removeEducation: (state, action) => {
       state.education.splice(action.payload, 1);
@@ -44,35 +46,8 @@ const educationSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchEducation.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchEducation.fulfilled, (state, action) => {
-        state.education = action.payload;
-        if (action.payload.length === 0) {
-          state.education.push({
-            school_name: "",
-            location: "",
-            degree: "",
-            field_of_study: "",
-            start_date: "",
-            end_date: "",
-            description: "",
-          });
-        }
-      })
-      .addCase(fetchEducation.rejected, (state, action) => {
-        state.error = action.error.message;
-        state.status = "failed";
-        state.education.push({
-          school_name: "",
-          location: "",
-          degree: "",
-          field_of_study: "",
-          start_date: "",
-          end_date: "",
-          description: "",
-        });
+      .addCase(fetchAllCv.fulfilled, (state, action) => {
+        state.education = action.payload.education;
       })
       .addCase(deleteEducation.fulfilled, (state, action) => {
         state.education = state.education.filter(

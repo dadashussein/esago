@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axiosInstance from "~/utils/api";
+import axiosInstance from "@/utils/api";
 
 export const createCv = createAsyncThunk(
   "cv/cvCreate",
@@ -64,6 +64,8 @@ export const deleteCv = createAsyncThunk(
 const initialState = {
   cv: [],
   allCv: [],
+  education: [],
+  experience: [],
   status: "idle",
   loading: false,
   error: null,
@@ -121,6 +123,8 @@ const resumeSlice = createSlice({
       .addCase(fetchAllCv.fulfilled, (state, action) => {
         state.loading = false;
         state.allCv = action.payload;
+        state.education = action.payload.education;
+        state.experience = action.payload.experience;
       })
       .addCase(fetchAllCv.rejected, (state, action) => {
         state.loading = false;

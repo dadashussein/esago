@@ -1,69 +1,48 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createBrowserRouter, useLocation } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Inner from "../pages/inner";
-import HomePage from "../pages/home/HomePage";
-import Register from "../components/Register";
-import MainLayout from "~/components/layouts/main";
-import Templates from "~/components/Templates";
-import CreateCv from "~/components/CreateCv";
-import GoogleCallback from "~/pages/GoogleCallback";
-import ActivateUser from "~/pages/ActivateUser";
+import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import Loading from "~/components/Loading";
-import Login from "~/components/Login";
-import Four04page from "~/components/Four04page";
+import HomePage from "@/pages/home/HomePage";
+import Register from "@/components/auth/Register";
+import Login from "@/components/auth/Login";
+import GoogleCallback from "@/pages/GoogleCallback";
+import ActivateUser from "@/pages/ActivateUser";
+import MainLayout from "@/layouts/MainLayout";
+import Inner from "@/pages/inner";
+import CreateCv from "@/components/cv/CreateCv";
+import Four04page from "@/pages/Four04page";
+import ReDirect from "@/pages/ReDirect";
 
 const getAccessToken = () => Cookies.get("accessToken");
 const isAuthenticated = () => !!getAccessToken();
 
-const ProtectedRoute = ({ children }) => {
-  const [loading, setLoading] = useState(true);
+const AuthRoute = ({ children, redirectPath, checkAuth }) => {
   const [authenticated, setAuthenticated] = useState(false);
-  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuth = () => {
-      const auth = isAuthenticated();
-      setAuthenticated(auth);
-      setLoading(false);
-      if (!auth) {
-        window.location.href = "/";
-      }
-    };
-    checkAuth();
-  }, [location]);
+    const auth = isAuthenticated();
+    setAuthenticated(auth);
+    if (checkAuth(auth)) {
+      navigate(redirectPath);
+    }
+  }, [navigate]);
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  return authenticated ? children : null;
+  return authenticated === checkAuth(true) ? null : children;
 };
 
-const AuthenticatedRoute = ({ children }) => {
-  const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
-  const location = useLocation();
+const ProtectedRoute = ({ children }) => (
+  <AuthRoute checkAuth={(auth) => !auth} redirectPath="/">
+    {children}
+  </AuthRoute>
+);
 
-  useEffect(() => {
-    const checkAuth = () => {
-      const auth = isAuthenticated();
-      setAuthenticated(auth);
-      setLoading(false);
-      if (auth) {
-        window.location.href = "/app";
-      }
-    };
-    checkAuth();
-  }, [location]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
-  return authenticated ? null : children;
-};
+const AuthenticatedRoute = ({ children }) => (
+  <AuthRoute checkAuth={(auth) => auth} redirectPath="/app">
+    {children}
+  </AuthRoute>
+);
 
 const routes = createBrowserRouter([
   {
@@ -91,6 +70,7 @@ const routes = createBrowserRouter([
     ),
   },
   { path: "/authenticate_google", element: <GoogleCallback /> },
+  { path: "/redirect", element: <ReDirect /> },
   { path: "/activate", element: <ActivateUser /> },
   {
     path: "/app",
@@ -101,7 +81,6 @@ const routes = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Inner /> },
-      { path: "template", element: <Templates /> },
       { path: ":cvId", element: <CreateCv /> },
     ],
   },

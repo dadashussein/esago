@@ -1,10 +1,8 @@
-import Landing from "~/components/Landing";
-import Header from "~/components/Header";
+import Landing from "../Landing";
 
 const HomePage = () => {
   return (
     <div>
-      <Header />
       <Landing />
     </div>
   );

@@ -1,8 +1,8 @@
-import Preview from "./Preview";
-import "./a4.css"
+import "./a4.css";
+import Preview from "./cv/Preview";
 const A4Component = () => {
   return (
-    <div className="page overflow-hidden">
+    <div id="scrollbar2" className="page">
       <Preview />
     </div>
   );

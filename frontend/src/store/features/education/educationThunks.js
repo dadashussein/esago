@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axiosInstance from "~/utils/api";
+import axiosInstance from "@/utils/api";
 
 export const postEducation = createAsyncThunk(
   "education/addEducation",
@@ -9,18 +9,6 @@ export const postEducation = createAsyncThunk(
         `/educations/${cvId}`,
         education,
       );
-      return response.data;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data.detail);
-    }
-  },
-);
-
-export const fetchEducation = createAsyncThunk(
-  "education/fetchEducation",
-  async ({ cvId }, thunkAPI) => {
-    try {
-      const response = await axiosInstance.get(`/educations/${cvId}`);
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.detail);

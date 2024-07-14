@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteExperience,
-  fetchExperience,
   postExperience,
   updateExperience,
 } from "./experienceThunks";
+import { fetchAllCv } from "../resume/resumeSlice";
 
 const experienceSlice = createSlice({
   name: "experience",
@@ -27,6 +27,7 @@ const experienceSlice = createSlice({
     setExperienceField: (state, action) => {
       const { index, field, value } = action.payload;
       state.experience[index][field] = value;
+      state.status = "idle";
     },
     removeExperience: (state, action) => {
       state.experience.splice(action.payload, 1);
@@ -44,33 +45,8 @@ const experienceSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchExperience.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(fetchExperience.fulfilled, (state, action) => {
-        state.experience = action.payload;
-        if (action.payload.length === 0) {
-          state.experience.push({
-            job_title: "",
-            company_name: "",
-            location: "",
-            start_date: "",
-            end_date: "",
-            description: "",
-          });
-        }
-      })
-      .addCase(fetchExperience.rejected, (state, action) => {
-        state.error = action.error.message;
-        state.status = "failed";
-        state.experience.push({
-          job_title: "",
-          company_name: "",
-          location: "",
-          start_date: "",
-          end_date: "",
-          description: "",
-        });
+      .addCase(fetchAllCv.fulfilled, (state, action) => {
+        state.experience = action.payload.experience;
       })
       .addCase(deleteExperience.fulfilled, (state, action) => {
         state.experience = state.experience.filter(

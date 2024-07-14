@@ -1,34 +1,45 @@
 import { useState } from "react";
 import axios from "axios";
 import { compile } from "@fileforge/react-print";
-import ReactDOMServer from 'react-dom/server';
+// eslint-disable-next-line no-unused-vars
+import ReactDOMServer from "react-dom/server";
 
-
+const pdfUrl = import.meta.env.VITE_PDF_URL;
 const useCompileHtml = () => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [status, setStatus] = useState("idle");
 
-  const compileToHtml = async (component, options = {}) => {
-    setLoading(true);
+  const compileToHtml = async (component) => {
+    setStatus("loading");
     setError(null);
     try {
       const html = await compile(component);
-      const response = await axios.post("http://localhost:3001/generate-pdf", { html }, {
-        responseType: 'blob',
-      });
-      const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+      const response = await axios.post(
+        pdfUrl,
+        { html },
+        {
+          responseType: "blob",
+        },
+      );
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(pdfBlob);
-      window.open(url, "_blank");
+      setStatus("succeeded");
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "file.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
     } catch (err) {
       setError(err);
-      console.log(err);
+      setStatus("failed");
     } finally {
-      setLoading(false);
+      setStatus("idle");
     }
-    console.log(component);
   };
 
-  return { compileToHtml, loading, error };
+  return { compileToHtml, status, error };
 };
 
 export default useCompileHtml;
