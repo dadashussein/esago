@@ -1,3 +1,4 @@
+import { showToast } from "@/components/common/Toastify";
 import { login, register } from "@/store/features/auth/authSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useState } from "react";
@@ -21,6 +22,7 @@ const useUserAuth = () => {
     const newUser = { username, email, password };
     try {
       await dispatch(register(newUser));
+      showToast("Account created successfully", "success");
       navigate('/login');
     } catch (err) {
       setError(err);
@@ -43,6 +45,7 @@ const useUserAuth = () => {
     try {
       const response = await dispatch(login(user));
       const data = unwrapResult(response);
+      showToast("Login successful", "success");
       navigate("/redirect", { state: { data } });
     } catch (err) {
       setError(err);
