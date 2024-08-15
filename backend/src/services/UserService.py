@@ -33,8 +33,8 @@ class UserService:
         db_user = self._get_user_by_username_or_email(user.username_or_email)
         print(db_user.password)
         self._validate_password(user.password, db_user.password)
-        if not db_user.is_active:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is not activated")
+        # if not db_user.is_active:
+        #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Account is not activated")
         if db_user.is_google:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please login with Google")
         delattr(db_user, "password")
@@ -50,7 +50,7 @@ class UserService:
         activation_code = ''.join(random.choices('0123456789', k=6))
         new_user = User(
             **user.model_dump(exclude_none=True),
-            is_active=False,
+            is_active=True,
             activation_code=activation_code,
             activation_expire=datetime.now() + timedelta(minutes=5)
         )
@@ -63,7 +63,7 @@ class UserService:
             activation_link=activation_link
         )
         
-        background_tasks.add_task(self.emailService.send_email, user.email, "Activate your account", email_content)
+        # background_tasks.add_task(self.emailService.send_email, user.email, "Activate your account", email_content)
         
         return {"message": "User created successfully", "data": new_user.id}
 

@@ -20,10 +20,8 @@ const useUserAuth = () => {
     }
     const newUser = { username, email, password };
     try {
-      const action = await dispatch(register(newUser));
-      const resultAction = unwrapResult(action);
-      const data = resultAction;
-      navigate("/activate", { state: { data } });
+      await dispatch(register(newUser));
+      navigate('/login');
     } catch (err) {
       setError(err);
     }

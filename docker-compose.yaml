@@ -24,15 +24,15 @@ services:
       - postgres
     networks:
       - esago-network
-  # client:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: frontend
-  #   ports:
-  #     - "5173:5173"
-  #   networks:
-  #     - esago-network
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - esago-network
 volumes:
   pgdata:
 

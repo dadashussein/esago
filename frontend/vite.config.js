@@ -26,5 +26,8 @@ export default defineConfig(() => {
       globals: true,
       testTimeout: 10000,
     },
+    serve: {
+      port: 5143,
+    }
   };
 });
